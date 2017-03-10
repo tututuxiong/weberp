@@ -4,41 +4,27 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent }  from './app.component';
-import { OrdersComponent } from './orders.component';
-import { InventoryComponent } from './inventory.component';
-import { DashboardComponent } from './dashboard.component';
+import { AppRoutingModule } from './app-routing.module';
+
+import { OrdersModule } from './orders/orders.module';
+import { InventoryComponent } from './inventory/inventory.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   imports:      [ 
     BrowserModule,
     FormsModule,
-    RouterModule.forRoot([
-      {
-        path: 'dashboard',
-        component: DashboardComponent
-      },
-      {
-        path: '',
-        redirectTo: '/dashboard',
-        pathMatch: 'full'
-      },
-      {
-        path: 'orders',
-        component: OrdersComponent
-      },
-      {
-        path: 'inventory',
-        component: InventoryComponent
-      }
-    ]) ],
+    OrdersModule,
+    AppRoutingModule
+  ],
 
   declarations: [ 
     AppComponent,
     DashboardComponent,
-    OrdersComponent,
     InventoryComponent
   ],
 
   bootstrap:    [ AppComponent ]
 })
+
 export class AppModule { }

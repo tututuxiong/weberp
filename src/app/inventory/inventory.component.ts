@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'inventory',
+    //selector: 'inventory',
     template: `
     <h3>All Inventory</h3>
     <ul>
