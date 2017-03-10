@@ -1,0 +1,7 @@
+    <h3>{{title}}</h3>
+    <ul class="orders">
+        <li *ngFor="let order of orderList"
+            (click)="onSelect(order)">
+            <span class="badge">{{order.id}}</span> - {{order.name}}
+        </li>
+    </ul>
