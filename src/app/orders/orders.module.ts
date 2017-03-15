@@ -9,6 +9,8 @@ import { OrderService } from "./order.service";
 
 import { OrderRoutingModule } from "./orders-routing.module";
 
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 @NgModule({
     imports: [
         CommonModule,

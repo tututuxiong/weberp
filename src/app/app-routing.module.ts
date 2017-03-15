@@ -7,7 +7,7 @@ import {InventoryComponent} from "./inventory/inventory.component";
 const appRoutes : Routes = [
     {
         path: 'dashboard',
-        component: DashboardComponent
+        component: DashboardComponent,
     }, {
         path: '',
         redirectTo: '/dashboard',

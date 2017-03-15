@@ -10,8 +10,11 @@ import { OrdersModule } from './orders/orders.module';
 import { InventoryComponent } from './inventory/inventory.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 @NgModule({
   imports:      [ 
+    NgbModule.forRoot(),
     BrowserModule,
     FormsModule,
     OrdersModule,
