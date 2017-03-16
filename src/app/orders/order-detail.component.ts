@@ -1,11 +1,11 @@
-import { Component, Input } from "@angular/core";
+import { Component } from "@angular/core";
 import { OnInit } from "@angular/core";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 
 import { Order, OrderStatus } from './order';
 import { OrderService } from "./order.service";
-import { Product } from './product';
-import { ProductService } from './product.service';
+import { Product } from './products/product';
+import { ProductService } from './products/product.service';
 
 import 'rxjs/add/operator/switchMap';
 
@@ -25,9 +25,11 @@ export class OrderDetailComponent implements OnInit {
     ) {}
 
     title: string; //Initialization must be put in ngOnInit; otherwise there is no effect. Don't know why.
-    //@Input()
+
     orderDetail: Order;
     productList: Product[];
+    productListBeforeEdit: Product[];
+    productListEditable: Boolean;
 
     ngOnInit() : void {
         this.route.params
@@ -37,6 +39,27 @@ export class OrderDetailComponent implements OnInit {
         this.product_service.getProducts().then(products => this.productList = products);
 
         this.title = 'Order Detail';    //Initialize title attribute here!!!
+        this.productListEditable = false;
+        this.productListBeforeEdit = [];
     }
 
+    private editProducts() : void {
+  
+        if (!this.productListEditable) {
+        this.productListBeforeEdit = this.copyProductList(this.productList);
+        }
+        
+        this.productListEditable = !this.productListEditable;
+    }
+
+    private cancelEdit() : void {
+        this.productList = this.copyProductList(this.productListBeforeEdit);
+        this.productListEditable = !this.productListEditable;
+    }
+
+    private copyProductList(arraySrc: Product[]) : Product[] {
+        var arrayDest : Product[] = [];
+        arraySrc.forEach((product) => arrayDest.push(Object.assign({}, product)));
+        return arrayDest;
+    }
 }
