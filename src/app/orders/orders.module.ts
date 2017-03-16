@@ -4,9 +4,11 @@ import { FormsModule } from "@angular/forms";
 
 import { OrdersComponent } from "./orders.component";
 import { OrderDetailComponent } from "./order-detail.component";
+import { ProductsComponent } from './products/products.component';
+import { ProductsEditableComponent } from './products/products-editable.component';
 
 import { OrderService } from "./order.service";
-import { ProductService } from "./product.service";
+import { ProductService } from "./products/product.service";
 
 import { OrderRoutingModule } from "./orders-routing.module";
 
@@ -16,12 +18,14 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     imports: [
         CommonModule,
         FormsModule,
-        OrderRoutingModule
+        OrderRoutingModule,
     ],
 
     declarations: [
         OrdersComponent,
-        OrderDetailComponent
+        OrderDetailComponent,
+        ProductsComponent,
+        ProductsEditableComponent
     ],
     providers: [
         OrderService,

@@ -41,30 +41,21 @@
     <div class="col-sm-3">
       <h4>产品清单</h4>
     </div>
+
+    <div class="col-sm-3" *ngIf="productListEditable">
+      <button class="btn btn-primary" (click)="editProducts()">完成</button>
+      <button class="btn btn-primary" (click)="cancelEdit()">撤销</button>
+    </div>
+    <div class="col-sm-3" *ngIf="!productListEditable">
+      <button class="btn btn-primary" (click)="editProducts()">编辑</button>
+    </div>
   </div>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th>序号</th>
-        <th>名称</th>
-        <th>数量</th>
-        <th>单位</th>
-        <th>单价</th>
-        <th>小计</th>
-        <th>备注</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let product of productList">
-        <th>{{product.id}}</th>
-        <td>{{product.name}}</td>
-        <td>{{product.count}}</td>
-        <td>{{product.unit}}</td>
-        <td>{{product.price}}</td>
-        <td>{{product.total}}</td>
-        <td>{{product.comment}}</td>
-      </tr>
-    </tbody>
-  </table>
+  <ng-container *ngIf="productListEditable">
+    <products-editable [productList]="productList"></products-editable>
+  </ng-container>
+  <ng-container *ngIf="!productListEditable">
+    <products [productList]="productList"></products>
+  </ng-container>
+
 </div>
