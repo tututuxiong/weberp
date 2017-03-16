@@ -4,6 +4,9 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 
 import { Order, OrderStatus } from './order';
 import { OrderService } from "./order.service";
+import { Product } from './product';
+import { ProductService } from './product.service';
+
 import 'rxjs/add/operator/switchMap';
 
 @Component({
@@ -17,17 +20,21 @@ export class OrderDetailComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,  //Inject ActivatedRoute to pull params from routing
         private router: Router,
-        private service: OrderService
+        private order_service: OrderService,
+        private product_service: ProductService
     ) {}
 
     title: string; //Initialization must be put in ngOnInit; otherwise there is no effect. Don't know why.
     //@Input()
     orderDetail: Order;
+    productList: Product[];
 
     ngOnInit() : void {
         this.route.params
-        .switchMap((params: Params) => this.service.getOrder(+params['id']))
+        .switchMap((params: Params) => this.order_service.getOrder(+params['id']))
         .subscribe((order: Order) => this.orderDetail = order);
+
+        this.product_service.getProducts().then(products => this.productList = products);
 
         this.title = 'Order Detail';    //Initialize title attribute here!!!
     }

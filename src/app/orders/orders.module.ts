@@ -6,6 +6,7 @@ import { OrdersComponent } from "./orders.component";
 import { OrderDetailComponent } from "./order-detail.component";
 
 import { OrderService } from "./order.service";
+import { ProductService } from "./product.service";
 
 import { OrderRoutingModule } from "./orders-routing.module";
 
@@ -23,7 +24,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
         OrderDetailComponent
     ],
     providers: [
-        OrderService
+        OrderService,
+        ProductService
     ]
 
 })
