@@ -4,4 +4,4 @@ from django.template import loader
 
 # Create your views here.
 def index(request):
-    return render(request, 'index_dj.html')
+    return render(request, 'erp/index.html')
