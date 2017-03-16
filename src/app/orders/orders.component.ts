@@ -26,7 +26,7 @@ export class OrdersComponent implements OnInit {
         this.getOrders();
     }
 
-    title = 'My Order List';
+    // title = '所有订单';
     orderList: Order[];
     selected_order: Order;
 
