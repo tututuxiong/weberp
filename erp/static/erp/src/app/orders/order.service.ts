@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 
 import { Order } from "./order";
-import { ORDERLIST } from "./mock-orders"
 import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 

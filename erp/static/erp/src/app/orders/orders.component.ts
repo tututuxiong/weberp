@@ -3,8 +3,6 @@ import { Router } from "@angular/router";
 import { OnInit } from "@angular/core";
 
 import { Order } from './order';
-import { ORDERLIST } from './mock-orders';
-
 import { OrderService } from './order.service';
 
 // Component definition
