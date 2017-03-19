@@ -1,4 +1,14 @@
 # Weberp
+Requirment:
+npm && Python3 && Django
+
+How to develpment:
+cd erp/static/erp/
+npm run build
+cd ../../../
+python3 manage.py runserver 0.0.0.0:8000
+
+   
    Below is the requiment for the first version.
    
 1. 用户新订单录入，订单类型：如比芙蓉小学校服100件；
