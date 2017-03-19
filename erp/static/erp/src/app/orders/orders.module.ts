@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { HttpModule }    from '@angular/http';
+import { HttpModule, JsonpModule }    from '@angular/http';
 
 import { OrdersComponent } from "./orders.component";
 import { OrderDetailComponent } from "./order-detail.component";
@@ -23,7 +23,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
         CommonModule,
         FormsModule,
         HttpModule,
-        InMemoryWebApiModule.forRoot(InMemoryDataService),
+        JsonpModule,
+        //InMemoryWebApiModule.forRoot(InMemoryDataService),
         OrderRoutingModule,
     ],
 

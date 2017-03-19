@@ -1,50 +1,56 @@
 import { Injectable } from "@angular/core";
 
 import { Order } from "./order";
-import { Headers, Http } from '@angular/http';
-import 'rxjs/add/operator/toPromise';
+import { Headers, Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+
 
 @Injectable()
 export class OrderService {
-    private ordersUrl = 'api/Orders';  // URL to web api
+//    private ordersUrl = 'api/Orders';  // URL to web api
+    private ordersUrl = 'app/Orders';  // URL to web api
     private headers = new Headers({'Content-Type': 'application/json'});
 
     constructor(private http: Http) {}
 
-    private handleError(error: any): Promise<any> {
-      console.error('An error occurred', error); // for demo purposes only
-      return Promise.reject(error.message || error);
+  private handleError (error: Response | any) {
+    // In a real world app, we might use a remote logging infrastructure
+    let errMsg: string;
+    if (error instanceof Response) {
+      const body = error.json() || '';
+      const err = body.error || JSON.stringify(body);
+      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    } else {
+      errMsg = error.message ? error.message : error.toString();
     }
-    getOrders() : Promise<Order[]> {
-        return this.http.get(this.ordersUrl)
-               .toPromise()
-               .then(response => response.json().data as Order[])
-               .catch(this.handleError);
+    console.error(errMsg);
+    return Observable.throw(errMsg);
+  }
+
+    private extractOrderListInfoData(res: Response) {
+             let body = res.json();
+             return body.orderInfoList || { };
     }
 
-    getOrder(id: number | string) : Promise<Order> {
+    private extractOrderInfoData(res: Response) {
+             let body = res.json();
+             return body;
+    }
+
+
+    getOrders() : Observable<Order[]> {
+        return this.http.get(this.ordersUrl)
+                        .map(this.extractOrderListInfoData)
+                        .catch(this.handleError);
+    }
+
+    getOrder(id: number | string) : Observable<Order> {
         const url = `${this.ordersUrl}/${id}`;
 
         return this.http.get(url)
-               .toPromise()
-               .then(response => response.json().data as Order)
-               .catch(this.handleError);
-    };
-
-    delete(id: number): Promise<void> {
-        const url = `${this.ordersUrl}/${id}`;
-        return this.http.delete(url, {headers: this.headers})
-        .toPromise()
-        .then(() => null)
-        .catch(this.handleError);
-    } ;
-
-    update(order: Order): Promise<Order> {
-      const url = `${this.ordersUrl}/${order.id}`;
-      return this.http
-            .put(url, JSON.stringify(order), {headers: this.headers})
-            .toPromise()
-            .then(() => order)
-            .catch(this.handleError);
+                        .map(this.extractOrderInfoData)
+                        .catch(this.handleError);
     };
 }

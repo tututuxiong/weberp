@@ -30,13 +30,16 @@ export class OrderDetailComponent implements OnInit {
     productList: Product[];
     productListBeforeEdit: Product[];
     productListEditable: Boolean;
+    errorMessage: string;
 
     ngOnInit() : void {
         this.route.params
         .switchMap((params: Params) => this.order_service.getOrder(+params['id']))
         .subscribe((order: Order) => this.orderDetail = order);
 
-        this.product_service.getProducts().then(products => this.productList = products);
+        this.product_service.getProducts()
+            .subscribe(products => this.productList = products,
+                      error => this.errorMessage = <any>error);
 
         this.title = 'Order Detail';    //Initialize title attribute here!!!
         this.productListEditable = false;
