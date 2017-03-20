@@ -36,7 +36,7 @@ export class OrderDetailComponent implements OnInit {
         .switchMap((params: Params) => this.order_service.getOrder(+params['id']))
         .subscribe((order: Order) => this.orderDetail = order);
 
-        this.product_service.getProducts().then(products => this.productList = products);
+        this.product_service.getProducts().then(products => this.productList = this.copyProductList(products));
 
         this.title = 'Order Detail';    //Initialize title attribute here!!!
         this.productListEditable = false;
