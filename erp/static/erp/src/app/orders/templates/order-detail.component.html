@@ -43,16 +43,16 @@
     </div>
 
     <div class="col-sm-6" *ngIf="productListEditable">
-      <button class="btn btn-primary" (click)="editProducts()">完成</button>
-      <button class="btn btn-primary" (click)="cancelEdit()">撤销</button>
+      <button class="btn btn-primary" (click)="onSubmitEdit()">完成</button>
+      <button class="btn btn-primary" (click)="onCancelEdit()">撤销</button>
     </div>
     <div class="col-sm-3" *ngIf="!productListEditable">
-      <button class="btn btn-primary" (click)="editProducts()">编辑</button>
+      <button class="btn btn-primary" (click)="onEditProducts()">编辑</button>
     </div>
   </div>
 
   <ng-container *ngIf="productListEditable">
-    <products-editable [productList]="productList"></products-editable>
+    <products-editable [productList]="productList" [addedProductList]="addedProductList" [deletedProductList]="deletedProductList"></products-editable>
   </ng-container>
   <ng-container *ngIf="!productListEditable">
     <products [productList]="productList"></products>
