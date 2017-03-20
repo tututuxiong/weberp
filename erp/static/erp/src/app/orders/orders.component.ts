@@ -3,8 +3,6 @@ import { Router } from "@angular/router";
 import { OnInit } from "@angular/core";
 
 import { Order } from './order';
-import { ORDERLIST } from './mock-orders';
-
 import { OrderService } from './order.service';
 
 // Component definition
@@ -29,13 +27,22 @@ export class OrdersComponent implements OnInit {
     // title = '所有订单';
     orderList: Order[];
     selected_order: Order;
+    errorMessage: string;
 
     onSelect(order: Order): void {
         this.selected_order = order;
         this.router.navigate(['/order', order.id]);
     }
-
+/*
     getOrders(): void {
         this.orderservice.getOrders().then(orders => this.orderList = orders);
+    }
+*/
+
+    getOrders(): void {
+        this.orderservice.getOrders()
+                         .subscribe(
+                           orders => this.orderList = orders,
+                           error => this.errorMessage = <any>error);
     }
 }
