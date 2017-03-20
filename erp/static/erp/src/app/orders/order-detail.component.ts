@@ -40,11 +40,12 @@ export class OrderDetailComponent implements OnInit {
     ngOnInit() : void {
         this.route.params
         .switchMap((params: Params) => this.order_service.getOrder(+params['id']))
-        .subscribe((order: Order) => this.orderDetail = order);
-
-        this.product_service.getProducts()
-            .subscribe(products => this.productList = this.copyProductList(products),
-                      error => this.errorMessage = <any>error);
+        .subscribe((order: Order) => {
+            this.orderDetail = order;
+            this.product_service.getProducts(this.orderDetail.id)
+                .subscribe(products => this.productList = this.copyProductList(products),
+                          error => this.errorMessage = <any>error);
+        });
 
         this.title = 'Order Detail';    //Initialize title attribute here!!!
         this.productListEditable = false;

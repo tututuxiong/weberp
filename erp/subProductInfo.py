@@ -1,3 +1,5 @@
+import json
+
 class SubProductInfo:
     def __init__(self, pid, orderId, name, count, unit, price, comment):
         self.id = pid
