@@ -12,9 +12,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let product of productList">
+      <tr *ngFor="let product of productList; let i = index">
         <th ><button type="button" class="btn btn-danger btn-sm" (click)="onDeleteProduct(product)"><i class="fa fa-minus"></i></button></th>
-        <th >{{product.id}}</th>
+        <th >{{i+1}}</th>
         <td ><input class="form-control user-input" [(ngModel)]="product.name"></td>
         <td ><input class="form-control user-input" [(ngModel)]="product.count"></td>
         <td ><input class="form-control user-input" [(ngModel)]="product.unit"></td>
@@ -24,7 +24,7 @@
       </tr>
       <tr>
         <th></th>
-        <th ><input class="form-control user-input" placeholder="id" disabled></th>
+        <th >{{productList.length + 1}}</th>
         <td ><input class="form-control user-input" [(ngModel)]="newProduct.name"></td>
         <td ><input class="form-control user-input" [(ngModel)]="newProduct.count"></td>
         <td ><input class="form-control user-input" [(ngModel)]="newProduct.unit"></td>

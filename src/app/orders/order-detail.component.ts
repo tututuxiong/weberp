@@ -27,8 +27,13 @@ export class OrderDetailComponent implements OnInit {
     title: string; //Initialization must be put in ngOnInit; otherwise there is no effect. Don't know why.
 
     orderDetail: Order;
+
     productList: Product[];
     productListBeforeEdit: Product[];
+
+    addedProductList: Product[];
+    deletedProductList: Product[];
+
     productListEditable: Boolean;
 
     ngOnInit() : void {
@@ -41,19 +46,32 @@ export class OrderDetailComponent implements OnInit {
         this.title = 'Order Detail';    //Initialize title attribute here!!!
         this.productListEditable = false;
         this.productListBeforeEdit = [];
+        this.addedProductList = [];
+        this.deletedProductList = [];
     }
 
-    private editProducts() : void {
+    private onEditProducts() : void {
   
         if (!this.productListEditable) {
-        this.productListBeforeEdit = this.copyProductList(this.productList);
+            this.productListBeforeEdit = this.copyProductList(this.productList);
         }
         
         this.productListEditable = !this.productListEditable;
     }
 
-    private cancelEdit() : void {
+    private onSubmitEdit() : void {
+
+        this.productListEditable = !this.productListEditable;
+
+        console.log(this.addedProductList);
+        console.log(this.deletedProductList);
+        console.log(this.getUpdatedProducts());
+    }
+
+    private onCancelEdit() : void {
         this.productList = this.copyProductList(this.productListBeforeEdit);
+        this.addedProductList = [];
+        this.deletedProductList = [];
         this.productListEditable = !this.productListEditable;
     }
 
@@ -61,5 +79,22 @@ export class OrderDetailComponent implements OnInit {
         var arrayDest : Product[] = [];
         arraySrc.forEach((product) => arrayDest.push(Object.assign({}, product)));
         return arrayDest;
+    }
+
+    private getUpdatedProducts() : Product[] {
+        let updatedProductList: Product[] = [];
+
+
+        this.productListBeforeEdit.forEach(product_b => {
+            this.productList.forEach(product_a => {
+                if (product_a.id == product_b.id) {
+                    if (product_a != product_b) {
+                        updatedProductList.push(product_a);
+                    }
+                }
+            })
+        })
+
+        return updatedProductList;
     }
 }

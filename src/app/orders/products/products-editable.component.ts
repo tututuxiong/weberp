@@ -24,14 +24,22 @@ export class ProductsEditableComponent {
     @Input()
     productList: Product[];
 
+    @Input()
+    addedProductList: Product[];
+
+    @Input()
+    deletedProductList: Product[];
+
     newProduct: Product = new Product(NEWPRODUCT);
 
     onAddProduct(): void {
         this.productList.push(this.newProduct);
         this.newProduct = new Product(NEWPRODUCT);
+        this.addedProductList.push(this.newProduct);
     }
 
     onDeleteProduct(product: Product): void {
+        this.deletedProductList.push(product);
         let index = this.productList.indexOf(product);
         this.productList.splice(index, 1);
     }
