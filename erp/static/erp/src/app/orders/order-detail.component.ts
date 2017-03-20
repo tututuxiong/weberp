@@ -38,7 +38,7 @@ export class OrderDetailComponent implements OnInit {
         .subscribe((order: Order) => this.orderDetail = order);
 
         this.product_service.getProducts()
-            .subscribe(products => this.productList = this..copyProductList(products),
+            .subscribe(products => this.productList = this.copyProductList(products),
                       error => this.errorMessage = <any>error);
 
         this.title = 'Order Detail';    //Initialize title attribute here!!!
