@@ -1,24 +1,38 @@
-  <table class="table">
-    <thead>
+  <table class="table" id="product-editable-table">
+    <thead class="thead-inverse">
       <tr>
-        <th>序号</th>
-        <th>名称</th>
-        <th>数量</th>
-        <th>单位</th>
-        <th>单价</th>
-        <th>小计</th>
-        <th>备注</th>
+        <th scope="col"></th>
+        <th scope="col">序号</th>
+        <th scope="col">名称</th>
+        <th scope="col">数量</th>
+        <th scope="col">单位</th>
+        <th scope="col">单价</th>
+        <th scope="col">小计</th>
+        <th scope="col">备注</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let product of productList">
-        <th>{{product.id}}</th>
-        <td>{{product.name}}</td>
-        <td><input [(ngModel)]="product.count"></td>
-        <td>{{product.unit}}</td>
-        <td>{{product.price}}</td>
-        <td>{{product.total}}</td>
-        <td>{{product.comment}}</td>
+        <th ><button type="button" class="btn btn-danger btn-sm" (click)="onDeleteProduct(product)"><i class="fa fa-minus"></i></button></th>
+        <th >{{product.id}}</th>
+        <td ><input class="form-control user-input" [(ngModel)]="product.name"></td>
+        <td ><input class="form-control user-input" [(ngModel)]="product.count"></td>
+        <td ><input class="form-control user-input" [(ngModel)]="product.unit"></td>
+        <td ><input class="form-control user-input" [(ngModel)]="product.price"></td>
+        <td ><input class="form-control user-input" [(ngModel)]="product.total"></td>
+        <td ><input class="form-control user-input" [(ngModel)]="product.comment"></td>
       </tr>
+      <tr>
+        <th></th>
+        <th ><input class="form-control user-input" placeholder="id" disabled></th>
+        <td ><input class="form-control user-input" [(ngModel)]="newProduct.name"></td>
+        <td ><input class="form-control user-input" [(ngModel)]="newProduct.count"></td>
+        <td ><input class="form-control user-input" [(ngModel)]="newProduct.unit"></td>
+        <td ><input class="form-control user-input" [(ngModel)]="newProduct.price"></td>
+        <td ><input class="form-control user-input" [(ngModel)]="newProduct.total"></td>
+        <td ><input class="form-control user-input" [(ngModel)]="newProduct.comment"></td>
+        <td ><button type="button" class="btn btn-success btn-sm" (click)="onAddProduct()"><i class="fa fa-plus"></i></button></td>
+      </tr>
+
     </tbody>
   </table>
