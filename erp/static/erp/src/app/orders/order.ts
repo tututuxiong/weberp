@@ -9,4 +9,7 @@ export class Order {
     sales: string;
     comment: string;
     status: OrderStatus;
+    deliveryStatus: string;
+    intenalId: number;
+    materialStatus: string;
 }

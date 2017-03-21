@@ -6,6 +6,7 @@ import { Product } from './product';
 
 let NEWPRODUCT: Product = {
     id: -1,
+    orderId: -1,
     name: 'My Product',
     count: 0,
     unit: '',
