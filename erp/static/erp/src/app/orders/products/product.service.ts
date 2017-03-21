@@ -26,6 +26,10 @@ export class ProductService {
              return body.subProductInfoList || { };
     }
 
+    private extractDelSubProductInfoListData(res: Response) {
+             let body = res.json();
+             return body;
+    }
 
     getProducts(id: number): Observable<Product[]> {
       const url = `${this.productsUrl_part1}/${id}/${this.productsUrl_part2}`;
@@ -43,18 +47,34 @@ export class ProductService {
  
     }
 
-    updateProducts(productList: Product[]){
+    updateProducts(product: Product): Observable<Product>{
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
+      const url = `${this.productsUrl_part1}/${product.orderId}/${this.productsUrl_part2}/${product.id}`;
+      var product = product;
+      return  this.http.post(url, { product }, options)
+                       .map(this.extractsubProductInfoData)
+                       .catch(this.handleError);
+    }
+    
+    delProducts(product: Product): Observable<Product>{
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      const url = `${this.productsUrl_part1}/${product.orderId}/${this.productsUrl_part2}/${product.id}`;
+      var product = product;
+      return  this.http.delete(url, options)
+                       .map(this.extractDelSubProductInfoData)
+                       .catch(this.handleError);
+    }
 
-      for (var tmp in productList)
-      {
-          const url = `${this.productsUrl_part1}/${productList[tmp].orderId}/${this.productsUrl_part2}/${productList[tmp].id}`;
-          var product = productList[tmp];
-          this.http.post(url, { product }, options)
-                   .map(this.extractsubProductInfoData)
-                   .catch(this.handleError);
-      }
+    addProducts(product: Product): Observable<Product>{
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      const url = `${this.productsUrl_part1}/${product.orderId}/${this.productsUrl_part2}/${product.id}`;
+      var product = product;
+      return  this.http.put(url, { product }, options)
+                       .map(this.extractsubProductInfoData)
+                       .catch(this.handleError);
     }
 
   private handleError (error: Response | any) {
