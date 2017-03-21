@@ -63,7 +63,7 @@ export class ProductService {
       const url = `${this.productsUrl_part1}/${product.orderId}/${this.productsUrl_part2}/${product.id}`;
       var product = product;
       return  this.http.delete(url, options)
-                       .map(this.extractDelSubProductInfoData)
+                       .map(this.extractDelSubProductInfoListData)
                        .catch(this.handleError);
     }
 
