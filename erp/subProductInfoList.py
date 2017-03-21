@@ -20,9 +20,9 @@ class SubProductInfoList:
 
     def updateSubProductInfo(self, subProductInfo):
         isFind = False
-        for index in range(len(subProductInfoList)):
-            if subProductInfoList[index].id == subProductInfo.id:
-                subProductInfoList[index] = subProductInfo
+        for index in range(len(self.subProductInfoList)):
+            if self.subProductInfoList[index].id == subProductInfo.id:
+                self.subProductInfoList[index] = subProductInfo
                 isFind = True
         return isFind
 
@@ -30,7 +30,7 @@ class SubProductInfoList:
         isFind = False
         for subProduct_iter in self.subProductInfoList:
             if subProduct_iter.id == id:
-                subProductInfoList.remove(subProduct_iter)
+                self.subProductInfoList.remove(subProduct_iter)
                 self.subProductCount = self.subProductCount - 1
                 isFind = True
         return isFind

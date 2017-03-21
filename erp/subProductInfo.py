@@ -13,7 +13,6 @@ class SubProductInfo:
         self.comment = ''
 
     def setFormalId(self, orderId):
-        print(orderId)
         if self.id == 0:
             self.id = SubProductInfo.count + 1
             SubProductInfo.count = SubProductInfo.count + 1
@@ -34,13 +33,7 @@ class SubProductInfo:
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
     
     def setJson2Class(self,jsonData):
-        dict_data = json.loads(jsonData)
-        for name,value in vars(jsonData).items():
+        dict_data = json.loads(jsonData.decode())
+        for name,value in dict_data.items():
             if hasattr(self, name):
                 setattr(self,name,value)
-            
-
-        
-        
-    
-

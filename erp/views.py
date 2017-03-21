@@ -32,8 +32,11 @@ def subProduct(request, order_id, product_id):
 
     if request.method == 'POST':
         subProductI.setJson2Class(request.body)
-        if sub_product_list.updateSubProductInfo(subProductI):
-            return HttpResponse(subProductI.toJson())
+        if subProductI.id == int(product_id):
+            if sub_product_list.updateSubProductInfo(subProductI):
+                return HttpResponse(subProductI.toJson())
+            else:
+                return HttpResponse(errorMessage)
         else:
             return HttpResponse(errorMessage)
 
