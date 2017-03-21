@@ -43,7 +43,7 @@ def subProduct(request, order_id, product_id):
     elif request.method == 'PUT':
         subProductI.setJson2Class(request.body)
         if subProductI.id == 0:
-            subProductI.setFormalId()
+            subProductI.setFormalId(int(order_id))
             if sub_product_list.addSubProductInfo(subProductI):
                 return HttpResponse(subProductI.toJson())
             else:

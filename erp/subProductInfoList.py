@@ -36,12 +36,14 @@ class SubProductInfoList:
         return isFind
     
     def getSubProductInfo(self, id):
+        isFind = False
         for subProduct_iter in self.subProductInfoList:
+            print('list id', subProduct_iter.id)
             if subProduct_iter.id == id:
+                isFind = True
                 return subProduct_iter
-            else:
-                return None
-
+        if isFind != True:
+            return None
 
     def __repr__(self):
         return repr((self.subProductInfoList, self.subProductTitle))
