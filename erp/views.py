@@ -9,13 +9,14 @@ from .subProductInfoList import SubProductInfoList
 from .subProductInfo import SubProductInfo
 
 from .materialOrderInfo import MaterialOrderInfo, MaterialSubOrderInfo
-from .materialOrderInfoList import MaterialOrderInfoList 
-
-import json
+from .materialOrderInfoList import MaterialOrderInfoList
 
 # Create your views here.
+
+
 def index(request):
     return render(request, 'erp/index.html')
+
 
 def order(request, order_id):
     return HttpResponse(order_info_1.toJson())
@@ -24,39 +25,95 @@ def order(request, order_id):
 def orderList(request):
     return HttpResponse(order_list_info.toJson())
 
-def subProduct(request,order_id,product_id):
-    if request.method == 'POST':
-        print(order_id,product_id)
-        received_json_data = json.loads(request.body)
-        if received_json_data.id == '-1':
-            new_sub_product = SubProductInfo(subProductId + 1, received_json_data.orderId, received_json_data.name, received_json_data.count,received_json_data.unit , received_json_data.price, received_json_data.comment)
-            sub_product_list.addSubProductInfo(new_sub_product)
-        return HttpResponse("get post request")
-    else:
-        return HttpResponse(sub_product_1.toJson())
+def subProduct(request, order_id, product_id):
+    errorMessage = '"value":"ERROR"'
+    scuessfullMessage = '"value":"OK"'
+    subProductI = SubProductInfo()
 
-def subProductList(request,order_id):
-    return HttpResponse(sub_product_list.toJson())
+    if request.method == 'POST':
+        subProductI.setJson2Class(request.body)
+        if subProductI.id == int(product_id):
+            if sub_product_list.updateSubProductInfo(subProductI):
+                return HttpResponse(subProductI.toJson())
+            else:
+                return HttpResponse(errorMessage)
+        else:
+            return HttpResponse(errorMessage)
+
+    elif request.method == 'PUT':
+        subProductI.setJson2Class(request.body)
+        if subProductI.id == 0:
+            subProductI.setFormalId(int(order_id))
+            if sub_product_list.addSubProductInfo(subProductI):
+                return HttpResponse(subProductI.toJson())
+            else:
+                return HttpResponse(errorMessage)
+
+    elif request.method == 'DEL':
+        if sub_product_list.removeSubProductInfo(int(product_id)):
+            return HttpResponse(scuessfullMessage)
+        else:
+            return HttpResponse(errorMessage)
+
+    elif request.method == 'GET':
+        subProductI = sub_product_list.getSubProductInfo(int(product_id))
+        if None == subProductI:
+            return HttpResponse(errorMessage)
+        else:
+            return HttpResponse(subProductI.toJson())
+
+
+def subProductList(request, order_id):
+    if request.method == 'GET':
+        return HttpResponse(sub_product_list.toJson())
+
 
 def materialOrderList(request):
-    return HttpResponse(material_order_list.toJson()) 
+    return HttpResponse(material_order_list.toJson())
 
-sub_product_1 = SubProductInfo(1, 1, "上衣", 100, '件', 100, 'xxx')
-subProductId = 1
-sub_product_list = SubProductInfoList()
-sub_product_list.addSubProductTitle('xxx')
-sub_product_list.addSubProductInfo(sub_product_1)
 
-material_order_list = MaterialOrderInfoList()
-material_sub_order = MaterialSubOrderInfo(1,'拉链',100,'条',10,1000,'xxx')
-material_order = MaterialOrderInfo(1,'原材料订单1', '2017-3-10', '10000', 'xxxxxxx', 'Open')
-material_order.addMaterialSubOrder(material_sub_order)
-material_order_list.addMaterialOrderInfo(material_order)
+# Stub for test
+####################################
+order_info_1 = OrderInfo()
+order_info_1.setFormalId()
+order_info_1.setValue('example order 1', '2017-03-06',
+                      'xxx', 200, 'xxx', 'xxx', 'Open')
+order_info_2 = OrderInfo()
+order_info_2.setFormalId()
+order_info_2.setValue('example order 2', '2017-03-06',
+                      'xxx', 200, 'xxx', 'xxx', 'Open')
+order_info_3 = OrderInfo()
+order_info_3.setFormalId()
+order_info_3.setValue('example order 3', '2017-03-06',
+                      'xxx', 200, 'xxx', 'xxx', 'Open')
 
-order_info_1 = OrderInfo(1, 'example order 1', '2017-03-06', 'xxx', 200, 'xxx', 'xxx', 'Open')
-order_info_2 = OrderInfo(2, 'example order 2', '2017-03-06', 'xxx', 200, 'xxx', 'xxx', 'Open')
-order_info_3 = OrderInfo(3, 'example order 3', '2017-03-06', 'xxx', 200, 'xxx', 'xxx', 'Open')
 order_list_info = OrderListInfo()
 order_list_info.addOrderInfo(order_info_1)
 order_list_info.addOrderInfo(order_info_2)
 order_list_info.addOrderInfo(order_info_3)
+##################################
+sub_product_1_1 = SubProductInfo()
+sub_product_1_1.setFormalId(order_info_1.id)
+sub_product_1_1.setValue("上衣", 100, '件', 100, 'xxx')
+sub_product_1_2 = SubProductInfo()
+sub_product_1_2.setFormalId(order_info_1.id)
+sub_product_1_2.setValue("下衣", 100, '件', 100, 'xxx')
+
+sub_product_list = SubProductInfoList()
+sub_product_list.addSubProductTitle('xxx')
+sub_product_list.addSubProductInfo(sub_product_1_1)
+sub_product_list.addSubProductInfo(sub_product_1_2)
+
+##############################################
+material_order_list = MaterialOrderInfoList()
+material_order = MaterialOrderInfo()
+material_order.setFormalId()
+
+material_sub_order = MaterialSubOrderInfo()
+material_sub_order.setFormalId(material_order.id)
+material_sub_order.setValue('拉链', 100, '条', 10, 'xxx')
+
+material_order.addMaterialSubOrder(material_sub_order)
+material_order_list.addMaterialOrderInfo(material_order)
+
+##############################################

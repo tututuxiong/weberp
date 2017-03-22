@@ -1,9 +1,25 @@
 import json
 
 class OrderInfo:
-    def __init__(self, pid, name, date, desc, price, sales, comment, orderStatus):
-        self.id = pid
-        self.intenalId = ''
+    count = 0
+    def __init__(self):
+        self.id = 0
+        self.name = ''
+        self.date = ''
+        self.desc = ''
+        self.price = 0
+        self.sales = ''
+        self.comment = ''
+        self.status = ''
+        self.materialStatus = '' 
+        self.deliveryStatus = ''
+    
+    def setFormalId(self):
+        if self.id == 0:
+            self.id = OrderInfo.count + 1
+            OrderInfo.count = OrderInfo.count + 1
+
+    def setValue(self, name, date, desc, price, sales, comment, orderStatus):
         self.name = name
         self.date = date
         self.desc = desc
@@ -18,7 +34,7 @@ class OrderInfo:
         return json.dumps(self,default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
     def __repr__(self):
-        return repr((self.id, self.intenalId,self.name,self.date,self.desc,self.price,self.sales,self.comment,self.orderStatus,self.materialStatus,self.deliveryStatus))
+        return repr((self.id,self.name,self.date,self.desc,self.price,self.sales,self.comment,self.status,self.materialStatus,self.deliveryStatus))
 
 
 
