@@ -43,18 +43,15 @@ export class ProductService {
  
     }
 
-    updateProducts(productList: Product[]){
+    updateProducts(product: Product){
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
 
-      for (var tmp in productList)
-      {
-          const url = `${this.productsUrl_part1}/${productList[tmp].orderId}/${this.productsUrl_part2}/${productList[tmp].id}`;
-          var product = productList[tmp];
-          this.http.post(url, { product }, options)
+      const url = `${this.productsUrl_part1}/${product.orderId}/${this.productsUrl_part2}/${product.id}`;
+      var product = product;
+      return    this.http.post(url, { product }, options)
                    .map(this.extractsubProductInfoData)
                    .catch(this.handleError);
-      }
     }
 
   private handleError (error: Response | any) {
