@@ -48,11 +48,13 @@ export class ProductService {
     }
 
     updateProducts(product: Product): Observable<Product>{
+      console.log("update called.");
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
       const url = `${this.productsUrl_part1}/${product.orderId}/${this.productsUrl_part2}/${product.id}`;
-      var product = product;
-      return  this.http.post(url, { product }, options)
+      console.log("xxx", url);
+      let name = "alan";
+      return  this.http.post(url, { name : name }, options)
                        .map(this.extractsubProductInfoData)
                        .catch(this.handleError);
     }
@@ -61,7 +63,6 @@ export class ProductService {
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
       const url = `${this.productsUrl_part1}/${product.orderId}/${this.productsUrl_part2}/${product.id}`;
-      var product = product;
       return  this.http.delete(url, options)
                        .map(this.extractDelSubProductInfoListData)
                        .catch(this.handleError);
@@ -71,7 +72,7 @@ export class ProductService {
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
       const url = `${this.productsUrl_part1}/${product.orderId}/${this.productsUrl_part2}/${product.id}`;
-      var product = product;
+      console.log("Sending PUT http request to Server.");
       return  this.http.put(url, { product }, options)
                        .map(this.extractsubProductInfoData)
                        .catch(this.handleError);
