@@ -8,6 +8,7 @@ import { Product } from './products/product';
 import { ProductService } from './products/product.service';
 
 import 'rxjs/add/operator/switchMap';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     //selector is not needed here because we use routing.
@@ -67,9 +68,33 @@ export class OrderDetailComponent implements OnInit {
 
         this.productListEditable = !this.productListEditable;
 
-        console.log(this.addedProductList);
-        console.log(this.deletedProductList);
-        console.log(this.getUpdatedProducts());
+        this.addedProductList.forEach(newProduct => {
+            console.log("Adding new product.", newProduct);
+            // let result: Product;
+            this.product_service.addProducts(newProduct)
+            .subscribe(product => newProduct = Object.assign({}, product),
+                        error => this.errorMessage = <any>error);
+        })
+
+        this.addedProductList = [];
+
+        this.deletedProductList.forEach(delProduct => {
+            console.log("Deleting product.", delProduct);
+            let result: Product;
+            this.product_service.delProducts(delProduct)
+            .subscribe(product => result = Object.assign({}, product),
+                        error => this.errorMessage = <any>error);
+        })
+
+        this.deletedProductList = [];
+        
+        this.getUpdatedProducts().forEach(chgProduct => {
+            console.log("Updating product", chgProduct);
+            // let result: Product;
+            this.product_service.updateProducts(chgProduct)
+            .subscribe(product => chgProduct = Object.assign({}, product),
+                          error => this.errorMessage = <any>error);
+        })
     }
 
     private onCancelEdit() : void {
@@ -88,11 +113,10 @@ export class OrderDetailComponent implements OnInit {
     private getUpdatedProducts() : Product[] {
         let updatedProductList: Product[] = [];
 
-
         this.productListBeforeEdit.forEach(product_b => {
             this.productList.forEach(product_a => {
                 if (product_a.id == product_b.id) {
-                    if (product_a != product_b) {
+                    if (!this.jsonEqual(product_a, product_b)) {
                         updatedProductList.push(product_a);
                     }
                 }
@@ -100,5 +124,9 @@ export class OrderDetailComponent implements OnInit {
         })
 
         return updatedProductList;
+    }
+    
+    private jsonEqual(product_a: Product, product_b: Product) : Boolean {
+        return JSON.stringify(product_a) == JSON.stringify(product_b);
     }
 }

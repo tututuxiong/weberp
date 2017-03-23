@@ -3,13 +3,12 @@ import { Input } from "@angular/core";
 
 import { Product } from './product';
 
-
-let NEWPRODUCT: Product = {
-    id: -1,
+const NEWPRODUCT: Product = {
+    // id: -1,
     orderId: -1,
     name: 'My Product',
     count: 0,
-    unit: '',
+    unit: 'suite',
     price: 0,
     total: 0,
     comment: ''
@@ -31,12 +30,13 @@ export class ProductsEditableComponent {
     @Input()
     deletedProductList: Product[];
 
-    newProduct: Product = new Product(NEWPRODUCT);
+    newProduct: Product = Object.assign({}, NEWPRODUCT);
 
     onAddProduct(): void {
-        this.productList.push(this.newProduct);
-        this.newProduct = new Product(NEWPRODUCT);
-        this.addedProductList.push(this.newProduct);
+        let addedProduct: Product = Object.assign({}, this.newProduct);
+        this.productList.push(addedProduct);
+        this.addedProductList.push(addedProduct);
+        this.newProduct = Object.assign({}, NEWPRODUCT);
     }
 
     onDeleteProduct(product: Product): void {
