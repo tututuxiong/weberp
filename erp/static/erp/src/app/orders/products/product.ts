@@ -1,5 +1,5 @@
 export class Product {
-    // id: number;
+    id: number;
     orderId: number;
     name: string;
     count: number;
@@ -9,7 +9,7 @@ export class Product {
     comment: string;
 
     constructor(source: Product) {
-        // this.id = source.id;
+        this.id = source.id;
         this.name = source.name;
         this.orderId = source.orderId;
         this.count = source.count;

@@ -4,8 +4,8 @@ import { Input } from "@angular/core";
 import { Product } from './product';
 
 const NEWPRODUCT: Product = {
-    // id: -1,
-    orderId: -1,
+    id: 0,
+    orderId: 0,
     name: 'My Product',
     count: 0,
     unit: 'suite',

@@ -52,14 +52,12 @@ export class ProductService {
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
       const url = `${this.productsUrl_part1}/${product.orderId}/${this.productsUrl_part2}/${product.id}`;
-      console.log("xxx", url);
-      let name = "alan";
-      return  this.http.post(url, { name : name }, options)
+      return  this.http.post(url, { product }, options)
                        .map(this.extractsubProductInfoData)
                        .catch(this.handleError);
     }
     
-    delProducts(product: Product): Observable<Product>{
+    delProducts(product: Product): Observable<string>{
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
       const url = `${this.productsUrl_part1}/${product.orderId}/${this.productsUrl_part2}/${product.id}`;

@@ -10,7 +10,7 @@ from .subProductInfo import SubProductInfo
 
 from .materialOrderInfo import MaterialOrderInfo, MaterialSubOrderInfo
 from .materialOrderInfoList import MaterialOrderInfoList
-
+import json
 # Create your views here.
 
 
@@ -27,12 +27,14 @@ def orderList(request):
 
 
 def subProduct(request, order_id, product_id):
-    errorMessage = '"value":"ERROR"'
-    scuessfullMessage = '"value":"OK"'
+    errorMessage = '{"value":"ERROR"}'
+    scuessfullMessage = '{"value":"OK"}'
     subProductI = SubProductInfo()
+    print(request.method)
 
     if request.method == 'POST':
-        subProductI.setJson2Class(request.body)
+        dict_data = json.loads(request.body.decode())['product']
+        subProductI.setJson2Class(dict_data)
         if subProductI.id == int(product_id):
             if sub_product_list.updateSubProductInfo(subProductI):
                 return HttpResponse(subProductI.toJson())
@@ -42,7 +44,8 @@ def subProduct(request, order_id, product_id):
             return HttpResponse(errorMessage)
 
     elif request.method == 'PUT':
-        subProductI.setJson2Class(request.body)
+        dict_data = json.loads(request.body.decode())['product']
+        subProductI.setJson2Class(dict_data)
         if subProductI.id == 0:
             subProductI.setFormalId(int(order_id))
             if sub_product_list.addSubProductInfo(subProductI):
@@ -50,7 +53,7 @@ def subProduct(request, order_id, product_id):
             else:
                 return HttpResponse(errorMessage)
 
-    elif request.method == 'DEL':
+    elif request.method == 'DELETE':
         if sub_product_list.removeSubProductInfo(int(product_id)):
             return HttpResponse(scuessfullMessage)
         else:

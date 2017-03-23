@@ -80,9 +80,9 @@ export class OrderDetailComponent implements OnInit {
 
         this.deletedProductList.forEach(delProduct => {
             console.log("Deleting product.", delProduct);
-            let result: Product;
+            let result: string;
             this.product_service.delProducts(delProduct)
-            .subscribe(product => result = Object.assign({}, product),
+            .subscribe(message => result = message,
                         error => this.errorMessage = <any>error);
         })
 
