@@ -1,6 +1,7 @@
 import json
 from .subProductInfo import SubProductInfo
 
+
 class SubProductInfoList:
     def __init__(self):
         self.subProductInfoList = []
@@ -34,11 +35,10 @@ class SubProductInfoList:
                 self.subProductCount = self.subProductCount - 1
                 isFind = True
         return isFind
-    
+
     def getSubProductInfo(self, id):
         isFind = False
         for subProduct_iter in self.subProductInfoList:
-            print('list id', subProduct_iter.id)
             if subProduct_iter.id == id:
                 isFind = True
                 return subProduct_iter

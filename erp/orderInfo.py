@@ -1,7 +1,9 @@
 import json
 
+
 class OrderInfo:
     count = 0
+
     def __init__(self):
         self.id = 0
         self.name = ''
@@ -11,9 +13,9 @@ class OrderInfo:
         self.sales = ''
         self.comment = ''
         self.status = ''
-        self.materialStatus = '' 
+        self.materialStatus = ''
         self.deliveryStatus = ''
-    
+
     def setFormalId(self):
         if self.id == 0:
             self.id = OrderInfo.count + 1
@@ -25,16 +27,13 @@ class OrderInfo:
         self.desc = desc
         self.price = price
         self.sales = sales
-        self.comment = comment 
+        self.comment = comment
         self.status = orderStatus
-        self.materialStatus = '' 
+        self.materialStatus = ''
         self.deliveryStatus = ''
 
     def toJson(self):
-        return json.dumps(self,default=lambda o: o.__dict__, sort_keys=True, indent=4)
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
     def __repr__(self):
-        return repr((self.id,self.name,self.date,self.desc,self.price,self.sales,self.comment,self.status,self.materialStatus,self.deliveryStatus))
-
-
-
+        return repr((self.id, self.name, self.date, self.desc, self.price, self.sales, self.comment, self.status, self.materialStatus, self.deliveryStatus))

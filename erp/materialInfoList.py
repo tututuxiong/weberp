@@ -1,6 +1,7 @@
 import json
 from .materialInfo import MaterialInfo
 
+
 class MaterialInfoList:
     def __init__(self):
         self.materialInfoList = []
@@ -30,5 +31,5 @@ class MaterialInfoList:
     def addMaterialTitle(self, in_put):
         self.materialTitle.append(in_put)
 
-    def toJson(self)
-        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4) 
+    def toJson(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)

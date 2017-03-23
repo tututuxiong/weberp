@@ -1,11 +1,12 @@
 import json
-from .orderInfo import OrderInfo 
+from .orderInfo import OrderInfo
+
 
 class OrderListInfo:
     def __init__(self):
         self.orderInfoList = []
         self.orderTitle = []
-        self.orderCount = 0 
+        self.orderCount = 0
 
     def addOrderInfo(self, orderInfo):
         self.orderCount = self.orderCount + 1
@@ -18,4 +19,4 @@ class OrderListInfo:
         return repr((self.orderInfoList, self.orderTitle))
 
     def toJson(self):
-        return json.dumps(self,default=lambda o: o.__dict__, sort_keys=True, indent=4)
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)

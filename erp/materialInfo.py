@@ -1,5 +1,6 @@
 class SubProductMaterialInfo:
     count = 0
+
     def __init__(self):
         self.id = 0
         self.orderId = 0
@@ -17,8 +18,8 @@ class SubProductMaterialInfo:
         self.subProductMaterialId = subProductMaterialId
         self.name = name
 
-    def  __repr__(self):
-         return repr((self.id,self.orderId,self.subProductMaterialId,self.name,self.detailList))
+    def __repr__(self):
+        return repr((self.id, self.orderId, self.subProductMaterialId, self.name, self.detailList))
 
     def addDetailInfo(self, count):
         self.detailList.append(count)

@@ -1,6 +1,7 @@
 import json
 from .materialOrderInfo import MaterialSubOrderInfo, MaterialOrderInfo
 
+
 class MaterialOrderInfoList:
     def __init__(self):
         self.count = 0
@@ -14,4 +15,4 @@ class MaterialOrderInfoList:
         return repr((self.count, self.materialOrderInfoList))
 
     def toJson(self):
-        return json.dumps(self,default=lambda o: o.__dict__, sort_keys=True, indent=4)
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
