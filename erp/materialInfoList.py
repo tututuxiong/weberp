@@ -1,26 +1,28 @@
 import json
-from .materialInfo import MaterialInfo
-
+from .materialInfo import MaterialInfo, SubProductMaterialInfo, MaterialBaseInfo
 
 class MaterialInfoList:
     def __init__(self):
-        self.materialInfoList = []
         self.materialTitle = []
-        addMaterialUnit('单位')
         self.materialUnitInfo = []
+        self.materialInfoList = []
+        self.materialItems = set()
         self.materialInStockInfo = []
-        addMaterialInStock('在库可用')
         self.materialBuyingInfo = []
-        addMaterialBuying('采购中(未到库)')
+
+    def toJson(self):
+        self.materialTitle.clear
+        self.materialUnitInfo.clear
+        self.genTotalData()
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
     def __repr__(self):
-        return repr((self.materialInfoList, self.materialTitle, self.materialUnitInfo, self.materialInStockInfo, self.materialBuyingInfo))
+        return repr((self.materialTitle, self.materialUnitInfo))
 
-    def addMaterialInfo(self, materialInfo):
-        self.materialInfoList.append(materialInfo)
-
-    def addMaterialUnit(self, in_put):
-        self.materialUnitInfo.append(in_put)
+    def addMaterialInfo(self, subProductmaterialInfo):
+        self.materialInfoList.append(subProductmaterialInfo)
+        for tmp_MaterialInfo in subProductmaterialInfo.detailList:
+            self.materialItems.add(tmp_MaterialInfo)
 
     def addMaterialInStock(self, in_put):
         self.materialInStockInfo.append(in_put)
@@ -31,5 +33,9 @@ class MaterialInfoList:
     def addMaterialTitle(self, in_put):
         self.materialTitle.append(in_put)
 
-    def toJson(self):
-        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+    def genTotalData(self):
+        self.materialTitle.append('规格/名称')
+        self.materialUnitInfo.append('单位')
+        for tmp in self.materialItems:
+            self.materialTitle.append(tmp.name)
+            self.materialUnitInfo.append(tmp.unit)
