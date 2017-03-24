@@ -8,7 +8,6 @@
             <th scope="col">单价</th>
             <th scope="col">小计</th>
             <th scope="col">备注</th>
-            <th scope="col">原料需求</th>
         </tr>
     </thead>
     <tbody>
@@ -20,11 +19,27 @@
             <td>{{product.price}}</td>
             <td>{{product.total}}</td>
             <td>{{product.comment}}</td>
-            <td>
-                <span *ngFor="let material of toList(product.materialList)">
-                {{material.text}} ：{{material.value}} &#160;
-            </span>
-            </td>
         </tr>
     </tbody>
 </table>
+<h4>原料清单</h4>
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation"  *ngFor="let product of productList; let i = index">
+        <a href="#{{product.name}}" role="tab" data-toggle="tab">{{product.name}}</a>
+    </li>
+</ul>
+
+<div class="table-content">
+    <div role="tabpanel" class="tab-pane" *ngFor="let product of productList; let i = index" id={{product.name}}>
+        <table class="table">
+            <tr>
+                <th>名称/单位</th>
+                <th>数量</th>
+            </tr>
+            <tr *ngFor="let material of toList(product.materialList)">
+                <td>{{material.text}}</td>
+                <td>{{material.value}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
