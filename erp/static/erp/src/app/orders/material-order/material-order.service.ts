@@ -22,7 +22,6 @@ export class MaterialOrderService {
 
     private extractMaterialOrderListData(res: Response) {
              let body = res.json();
-             console.log(body);
              return body.materialOrderInfoList || { };
     }
 
@@ -32,7 +31,6 @@ export class MaterialOrderService {
     // }
 
     getMaterialOrders(id: number): Observable<MaterialOrder[]> {
-      console.log("Get material orders.");
       const url = `${this.materialOrdersUrl_part1}/${id}/${this.materialOrdersUrl_part2}`;
       return this.http.get(url)
                       .map(this.extractMaterialOrderListData)

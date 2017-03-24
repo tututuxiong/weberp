@@ -52,11 +52,9 @@ export class OrderDetailComponent implements OnInit {
             this.product_service.getProducts(this.orderDetail.id)
                 .subscribe(products => this.productList = this.copyProductList(products),
                           error => this.errorMessage = <any>error);
-            console.log("xxxxxxxxxxxxxxxxxxxx.");
+
             this.material_order_service.getMaterialOrders(this.orderDetail.id)
-                .subscribe(materialOrders => {
-                    this.materialOrderList = this.copyMaterialOrders(materialOrders);
-                    console.log(this.materialOrderList);},
+                .subscribe(materialOrders => this.materialOrderList = this.copyMaterialOrders(materialOrders),
                     error => this.errorMessage = <any>error,
                             );
         });
@@ -82,7 +80,6 @@ export class OrderDetailComponent implements OnInit {
         this.productListEditable = !this.productListEditable;
 
         this.addedProductList.forEach(newProduct => {
-            console.log("Adding new product.", newProduct);
             // let result: Product;
             this.product_service.addProducts(newProduct)
             .subscribe(product => newProduct = Object.assign({}, product),
@@ -92,7 +89,6 @@ export class OrderDetailComponent implements OnInit {
         this.addedProductList = [];
 
         this.deletedProductList.forEach(delProduct => {
-            console.log("Deleting product.", delProduct);
             let result: string;
             this.product_service.delProducts(delProduct)
             .subscribe(message => result = message,
@@ -102,7 +98,6 @@ export class OrderDetailComponent implements OnInit {
         this.deletedProductList = [];
         
         this.getUpdatedProducts().forEach(chgProduct => {
-            console.log("Updating product", chgProduct);
             // let result: Product;
             this.product_service.updateProducts(chgProduct)
             .subscribe(product => chgProduct = Object.assign({}, product),

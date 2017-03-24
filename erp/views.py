@@ -104,8 +104,8 @@ sub_product_1_1.setValue("上衣", 100, '件', 100, 'xxx')
 sub_product_1_2 = SubProductInfo()
 sub_product_1_2.setFormalId(order_info_1.id)
 sub_product_1_2.setValue("下衣", 100, '件', 100, 'xxx')
-sub_product_1_1.addsubProductMaterial('拉链"/条',100)
-sub_product_1_1.addsubProductMaterial('白布"/条',100)
+sub_product_1_1.addsubProductMaterial('拉链/条',100)
+sub_product_1_1.addsubProductMaterial('白布/条',100)
 
 
 sub_product_list = SubProductInfoList()

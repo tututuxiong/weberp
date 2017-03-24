@@ -32,7 +32,6 @@ export class ProductService {
     }
 
     getProducts(id: number): Observable<Product[]> {
-      console.log("Get Products.");
       const url = `${this.productsUrl_part1}/${id}/${this.productsUrl_part2}`;
       return this.http.get(url)
                       .map(this.extractsubProductInfoListData)
@@ -49,7 +48,6 @@ export class ProductService {
     }
 
     updateProducts(product: Product): Observable<Product>{
-      console.log("update called.");
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
       const url = `${this.productsUrl_part1}/${product.orderId}/${this.productsUrl_part2}/${product.id}`;
@@ -71,7 +69,6 @@ export class ProductService {
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
       const url = `${this.productsUrl_part1}/${product.orderId}/${this.productsUrl_part2}/${product.id}`;
-      console.log("Sending PUT http request to Server.");
       return  this.http.put(url, { product }, options)
                        .map(this.extractsubProductInfoData)
                        .catch(this.handleError);
