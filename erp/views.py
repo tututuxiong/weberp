@@ -75,36 +75,15 @@ def subProductList(request, order_id):
 def materialOrderList(request,order_id):
     return HttpResponse(material_order_list.toJson())
 
-def materialOrder(request,order_id,materialOrder_id):
-    return HttpResponse(material_order_list.toJson())
-
-def subProductMaterialList(request,order_id,product_id):
-    if int(product_id) == 1:
-        return HttpResponse(subProductMaterialInfo_1.toJson())
-    else:
-        return HttpResponse(subProductMaterialInfo_2.toJson())
-
-def subProductMaterial(request,order_id,product_id,material_id):
-    errorMessage = '{"value":"ERROR"}'
-    scuessfullMessage = '{"value":"OK"}'
-    tmp_material = MaterialInfo()
-    if request.method == 'POST':
-        dict_data = json.loads(request.body.decode())['material']
-        tmp_material.setJson2Class(dict_data)
-        return httpResponse(scuessfullMessage)
-    elif request.method == 'DELETE':
-        return httpResponse(scuessfullMessage)
-    elif request.method == 'PUT':
-        return httpResponse(scuessfullMessage)
-    elif request.method == 'GET':
-        return httpResponse(materialInfo_1.toJson())
+def materialOrder(request, order_id, materialOrder_id):
+    return HttpResponse(material_order.toJson())
 
 # Stub for test
 ####################################
 order_info_1 = OrderInfo()
 order_info_1.setFormalId()
 order_info_1.setValue('example order 1', '2017-03-06',
-                      'xxx', 200, 'xxx', 'xxx', 'Open')
+                      'xxx', 200, 'xxx', 'xxx', '进行中')
 order_info_2 = OrderInfo()
 order_info_2.setFormalId()
 order_info_2.setValue('example order 2', '2017-03-06',

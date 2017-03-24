@@ -11,6 +11,4 @@ urlpatterns = [
     url(r'app/orders/(?P<order_id>[0-9]+)/subProducts/(?P<product_id>[0-9]+)$', views.subProduct),
     url(r'app/orders/(?P<order_id>[0-9]+)/materialOrders$', views.materialOrderList),
     url(r'app/orders/(?P<order_id>[0-9]+)/materialOrders/(?P<materialOrder_id>[0-9]+)$', views.materialOrder),
-    url(r'app/orders/(?P<order_id>[0-9]+)/subProduct/(?P<product_id>[0-9]+)/materials$', views.subProductMaterialList),
-    url(r'app/orders/(?P<order_id>[0-9]+)/subProduct/(?P<product_id>[0-9]+)/materials/(?P<material_id>[0-9]+)$', views.subProductMaterial),
 ]
