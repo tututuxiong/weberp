@@ -7,6 +7,7 @@ import { OrdersComponent } from "./orders.component";
 import { OrderDetailComponent } from "./order-detail.component";
 import { ProductsComponent } from './products/products.component';
 import { ProductsEditableComponent } from './products/products-editable.component';
+import { MaterialOrderComponent } from './material-order/material-order.component';
 
 import { OrderService } from "./order.service";
 import { ProductService } from "./products/product.service";
@@ -24,6 +25,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
         FormsModule,
         HttpModule,
         JsonpModule,
+        NgbModule,
         //InMemoryWebApiModule.forRoot(InMemoryDataService),
         OrderRoutingModule,
     ],
@@ -32,7 +34,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
         OrdersComponent,
         OrderDetailComponent,
         ProductsComponent,
-        ProductsEditableComponent
+        ProductsEditableComponent,
+        MaterialOrderComponent
     ],
     providers: [
         OrderService,
