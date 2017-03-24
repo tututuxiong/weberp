@@ -34,6 +34,7 @@ class MaterialOrderInfo:
 
     def __init__(self):
         self.id = 0
+        self.orderId = 0
         self.name = ''
         self.date = ''
         self.price = 0
@@ -42,10 +43,11 @@ class MaterialOrderInfo:
         self.subOrderCount = 0
         self.materialSubOrderInfoList = []
 
-    def setFormalId(self):
+    def setFormalId(self,orderId):
         if self.id == 0:
             self.id = MaterialOrderInfo.count + 1
             MaterialOrderInfo.count = MaterialOrderInfo.count + 1
+        self.orderId = orderId
 
     def setValue(self, name, date, comment, orderStatus):
         self.name = name
@@ -58,4 +60,4 @@ class MaterialOrderInfo:
         self.materialSubOrderInfoList.append(materialSubOrderInfo)
 
     def __repr__(self):
-        return repr((self.id, self.name, self.date, self.price, self.comment, self.status, self.subOrderCount, self.materialSubOrderInfoList))
+        return repr((self.id,self.orderId, self.name, self.date, self.price, self.comment, self.status, self.subOrderCount, self.materialSubOrderInfoList))

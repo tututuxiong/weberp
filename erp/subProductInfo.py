@@ -1,7 +1,9 @@
 import json
 
+
 class SubProductInfo:
     count = 0
+
     def __init__(self):
         self.id = 0
         self.orderId = 0
@@ -31,8 +33,8 @@ class SubProductInfo:
 
     def toJson(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
-    
-    def setJson2Class(self,dict_data):
-        for name,value in dict_data.items():
+
+    def setJson2Class(self, dict_data):
+        for name, value in dict_data.items():
             if hasattr(self, name):
-                setattr(self,name,value)
+                setattr(self, name, value)
