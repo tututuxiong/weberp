@@ -32,6 +32,7 @@ export class ProductService {
     }
 
     getProducts(id: number): Observable<Product[]> {
+      console.log("Get Products.");
       const url = `${this.productsUrl_part1}/${id}/${this.productsUrl_part2}`;
       return this.http.get(url)
                       .map(this.extractsubProductInfoListData)

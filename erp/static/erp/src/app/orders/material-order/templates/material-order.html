@@ -1,0 +1,39 @@
+<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+  <ngb-panel *ngFor="let materialOrder of materialOrderList">
+
+
+
+    <template ngbPanelTitle>
+      <h2>原料采购订单</h2>
+      <h3>{{materialOrder.name}}</h3>
+    </template>
+
+    <template ngbPanelContent>
+      <table class="table">
+        <thead class="thead-inverse">
+          <tr>
+            <th scope="col">序号</th>
+            <th scope="col">名称</th>
+            <th scope="col">数量</th>
+            <th scope="col">单位</th>
+            <th scope="col">单价</th>
+            <th scope="col">小计</th>
+            <th scope="col">备注</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let material of materialOrder.materialSubOrderInfoList; let i = index">
+            <th scope="row">{{i+1}}</th>
+            <td>{{material.name}}</td>
+            <td>{{material.num}}</td>
+            <td>{{material.unit}}</td>
+            <td>{{material.unit_price}}</td>
+            <td>{{material.total_price}}</td>
+            <td>{{material.comment}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </template>
+
+  </ngb-panel>
+</ngb-accordion>
