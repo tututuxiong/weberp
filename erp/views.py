@@ -11,8 +11,6 @@ from .subProductInfo import SubProductInfo
 from .materialOrderInfo import MaterialOrderInfo, MaterialSubOrderInfo
 from .materialOrderInfoList import MaterialOrderInfoList
 
-from .subProductMaterialInfo import MaterialInfo, SubProductMaterialInfo
-
 import json
 # Create your views here.
 
@@ -127,6 +125,9 @@ sub_product_1_1.setValue("上衣", 100, '件', 100, 'xxx')
 sub_product_1_2 = SubProductInfo()
 sub_product_1_2.setFormalId(order_info_1.id)
 sub_product_1_2.setValue("下衣", 100, '件', 100, 'xxx')
+sub_product_1_1.addsubProductMaterial('拉链"/条',100)
+sub_product_1_1.addsubProductMaterial('白布"/条',100)
+
 
 sub_product_list = SubProductInfoList()
 sub_product_list.addSubProductTitle('xxx')
@@ -144,23 +145,3 @@ material_sub_order.setValue('拉链', 100, '条', 10, 'xxx')
 
 material_order.addMaterialSubOrder(material_sub_order)
 material_order_list.addMaterialOrderInfo(material_order)
-
-##############################################
-materialInfo_1 = MaterialInfo()
-materialInfo_1.setValue('拉链',100,'条')
-materialInfo_2 = MaterialInfo()
-materialInfo_2.setValue('红布',50,'米')
-materialInfo_3 = MaterialInfo()
-materialInfo_3.setValue('裤头',50,'米')
-
-subProductMaterialInfo_1 = SubProductMaterialInfo()
-subProductMaterialInfo_1.setFormalId(order_info_1.id, sub_product_1_1.id)
-subProductMaterialInfo_1.addDetailInfo(materialInfo_1)
-subProductMaterialInfo_1.addDetailInfo(materialInfo_2)
-
-subProductMaterialInfo_2 = SubProductMaterialInfo()
-subProductMaterialInfo_2.setFormalId(order_info_1.id, sub_product_1_2.id)
-subProductMaterialInfo_2.addDetailInfo(materialInfo_3)
-subProductMaterialInfo_2.addDetailInfo(materialInfo_2)
-
-

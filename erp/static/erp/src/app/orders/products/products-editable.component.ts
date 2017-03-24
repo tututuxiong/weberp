@@ -11,7 +11,8 @@ const NEWPRODUCT: Product = {
     unit: 'suite',
     price: 0,
     total: 0,
-    comment: ''
+    comment: '',
+    materialList: {}
 };
 
 @Component({
