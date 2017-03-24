@@ -1,8 +1,8 @@
 export class MaterialSubOrder {
     id: number;
-    parentId: number;
+    materialOrderId: number;
     name: string;
-    count: number;
+    num: number;
     unit: string;
     unit_price: number;
     total_price: number;
@@ -11,11 +11,12 @@ export class MaterialSubOrder {
 
 export class MaterialOrder {
     id: number;
+    orderId: number;
     name: string;
     date: string;
     price: number;
     comment: string;
     status: string;
-    childrenCount: number;
-    childrenList: MaterialOrder[];
+    subOrderCount: number;
+    materialSubOrderInfoList: MaterialSubOrder[];
 }

@@ -52,10 +52,13 @@ export class OrderDetailComponent implements OnInit {
             this.product_service.getProducts(this.orderDetail.id)
                 .subscribe(products => this.productList = this.copyProductList(products),
                           error => this.errorMessage = <any>error);
-                          
+            console.log("xxxxxxxxxxxxxxxxxxxx.");
             this.material_order_service.getMaterialOrders(this.orderDetail.id)
-                .subscribe(materialOrders => this.materialOrderList = materialOrders,
-                            error => this.errorMessage = <any>error);
+                .subscribe(materialOrders => {
+                    this.materialOrderList = this.copyMaterialOrders(materialOrders);
+                    console.log(this.materialOrderList);},
+                    error => this.errorMessage = <any>error,
+                            );
         });
 
         this.title = 'Order Detail';    //Initialize title attribute here!!!
@@ -117,6 +120,12 @@ export class OrderDetailComponent implements OnInit {
     private copyProductList(arraySrc: Product[]) : Product[] {
         var arrayDest : Product[] = [];
         arraySrc.forEach((product) => arrayDest.push(Object.assign({}, product)));
+        return arrayDest;
+    }
+
+    private copyMaterialOrders(arraySrc: MaterialOrder[]) : MaterialOrder[] {
+        var arrayDest : MaterialOrder[] = [];
+        arraySrc.forEach((materialOrder) => arrayDest.push(Object.assign({}, materialOrder)));
         return arrayDest;
     }
 

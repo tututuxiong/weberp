@@ -9,31 +9,33 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class MaterialOrderService {
-    private productsUrl_part1 = 'app/orders';  // URL to web API
-    private productsUrl_part2 = 'material-orders';  // URL to web API
+    private materialOrdersUrl_part1 = 'app/orders';  // URL to web API
+    private materialOrdersUrl_part2 = 'materialOrders';  // URL to web API
 
     constructor (private http: Http) {}
 
-    // private extractMaterialOrderInfoData(res: Response) {
+    // private extractMaterialOrderData(res: Response) {
     //          let body = res.json();
     //          return body;
     // }
 
 
-    private extractMaterialOrderInfoListData(res: Response) {
+    private extractMaterialOrderListData(res: Response) {
              let body = res.json();
-             return body.subProductInfoList || { };
+             console.log(body);
+             return body.materialOrderInfoList || { };
     }
 
-    // private extractDelMaterialOrderInfoListData(res: Response) {
+    // private extractDelMaterialOrderListData(res: Response) {
     //          let body = res.json();
     //          return body;
     // }
 
     getMaterialOrders(id: number): Observable<MaterialOrder[]> {
-      const url = `${this.productsUrl_part1}/${id}/${this.productsUrl_part2}`;
+      console.log("Get material orders.");
+      const url = `${this.materialOrdersUrl_part1}/${id}/${this.materialOrdersUrl_part2}`;
       return this.http.get(url)
-                      .map(this.extractMaterialOrderInfoListData)
+                      .map(this.extractMaterialOrderListData)
                       .catch(this.handleError);
     }
 

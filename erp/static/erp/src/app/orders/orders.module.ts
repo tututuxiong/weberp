@@ -11,6 +11,7 @@ import { MaterialOrderComponent } from './material-order/material-order.componen
 
 import { OrderService } from "./order.service";
 import { ProductService } from "./products/product.service";
+import { MaterialOrderService } from "./material-order/material-order.service";
 
 import { OrderRoutingModule } from "./orders-routing.module";
 // Imports for loading & configuring the in-memory web api
@@ -39,7 +40,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     ],
     providers: [
         OrderService,
-        ProductService
+        ProductService,
+        MaterialOrderService
     ]
 
 })
