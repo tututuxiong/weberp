@@ -8,6 +8,8 @@ import { OrderDetailComponent } from "./order-detail.component";
 import { ProductsComponent } from './products/products.component';
 import { ProductsEditableComponent } from './products/products-editable.component';
 import { MaterialOrderComponent } from './material-order/material-order.component';
+import { MaterialSubOrderComponent } from './material-order/material-sub-order.component';
+import { MaterialSubOrderEditableComponent } from './material-order/material-sub-order-editable.component';
 
 import { OrderService } from "./order.service";
 import { ProductService } from "./products/product.service";
@@ -36,7 +38,9 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
         OrderDetailComponent,
         ProductsComponent,
         ProductsEditableComponent,
-        MaterialOrderComponent
+        MaterialOrderComponent,
+        MaterialSubOrderComponent,
+        MaterialSubOrderEditableComponent
     ],
     providers: [
         OrderService,

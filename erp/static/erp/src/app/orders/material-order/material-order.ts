@@ -1,13 +1,4 @@
-export class MaterialSubOrder {
-    id: number;
-    materialOrderId: number;
-    name: string;
-    num: number;
-    unit: string;
-    unit_price: number;
-    total_price: number;
-    comment: string
-}
+import { MaterialSubOrder } from './material-sub-order'
 
 export class MaterialOrder {
     id: number;
@@ -19,4 +10,5 @@ export class MaterialOrder {
     status: string;
     subOrderCount: number;
     materialSubOrderInfoList: MaterialSubOrder[];
+    modifyMode: Boolean;
 }

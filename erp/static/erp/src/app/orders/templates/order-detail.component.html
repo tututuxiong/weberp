@@ -38,15 +38,15 @@
   </table>
 
   <div class="row title-l2">
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <h4>产品清单</h4>
     </div>
 
-    <div class="col-sm-6" *ngIf="productListEditable">
+    <div class="col-sm-4" *ngIf="productListEditable">
       <button class="btn btn-primary" (click)="onSubmitEdit()">完成</button>
       <button class="btn btn-primary" (click)="onCancelEdit()">撤销</button>
     </div>
-    <div class="col-sm-3" *ngIf="!productListEditable">
+    <div class="col-sm-2" *ngIf="!productListEditable">
       <button class="btn btn-primary" (click)="onEditProducts()">编辑</button>
     </div>
   </div>
@@ -58,6 +58,14 @@
     <products [productList]="productList"></products>
   </ng-container>
 
+  <div class="row title-l2">
+    <div class="col-sm-4">
+      <h4>原料采购订单</h4>
+    </div>
+    <div class="col-sm-2">
+      <button class="btn btn-primary">添加订单</button>
+    </div>
+  </div>
   <material-order [materialOrderList]="materialOrderList"></material-order>
 
 </div>

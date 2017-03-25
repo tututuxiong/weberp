@@ -56,6 +56,7 @@ export class OrderDetailComponent implements OnInit {
             this.material_order_service.getMaterialOrders(this.orderDetail.id)
                 .subscribe(materialOrders => {
                     this.materialOrderList = this.copyMaterialOrders(materialOrders);
+                    this.materialOrderList.forEach(mo => mo.modifyMode = false);
                     console.log(this.materialOrderList);},
                     error => this.errorMessage = <any>error,
                             );

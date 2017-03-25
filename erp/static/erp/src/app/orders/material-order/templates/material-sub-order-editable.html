@@ -1,0 +1,25 @@
+<table class="table">
+  <thead class="thead-inverse">
+    <tr>
+      <th scope="col">序号</th>
+      <th scope="col">名称</th>
+      <th scope="col">数量</th>
+      <th scope="col">单位</th>
+      <th scope="col">单价</th>
+      <th scope="col">小计</th>
+      <th scope="col">备注</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let material of materialSubOrderList; let i = index">
+      <th scope="row">{{i+1}}</th>
+      <td>{{material.name}}</td>
+      <td>{{material.num}}</td>
+      <td>{{material.unit}}</td>
+      <td>{{material.unit_price}}</td>
+      <td>{{material.total_price}}</td>
+      <td>{{material.comment}}</td>
+      <td ><button type="button" class="btn btn-success btn-sm"><i class="fa fa-plus"></i></button></td>
+    </tr>
+  </tbody>
+</table>
