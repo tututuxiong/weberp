@@ -44,6 +44,8 @@ export class OrderDetailComponent implements OnInit {
 
     materialOrderList: MaterialOrder[];
 
+    
+
     ngOnInit() : void {
         this.route.params
         .switchMap((params: Params) => this.order_service.getOrder(+params['id']))

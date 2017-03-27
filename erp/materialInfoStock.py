@@ -1,3 +1,5 @@
+import json
+
 class MaterialStockInfo:
     count = 0
 
@@ -20,3 +22,24 @@ class MaterialStockInfo:
         self.instockNum = instockNum
         self.unit = unit
         self.shoppingNum = shoppingNum
+
+
+class MaterialStockInfoList:
+    def __init__(self):
+        self.count = 0
+        self.materialStockInfoList = []
+
+    def __repr__(self):
+        return repr((self.count, self.materialStockInfoList))
+
+    def toJson(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+
+    def addMaterialStockInfo(self, materialStockInfo):
+        if materialStockInfo.id != 0:
+            self.count = self.count + 1
+            self.materialStockInfoList.append(materialStockInfo)
+            return True
+        else:
+            return False
+        

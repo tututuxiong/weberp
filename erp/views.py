@@ -11,6 +11,8 @@ from .subProductInfo import SubProductInfo
 from .materialOrderInfo import MaterialOrderInfo, MaterialSubOrderInfo
 from .materialOrderInfoList import MaterialOrderInfoList
 
+from .materialInfoStock import MaterialStockInfo, MaterialStockInfoList
+
 import json
 # Create your views here.
 
@@ -76,6 +78,11 @@ def subProductList(request, order_id = '0'):
         return HttpResponse(sub_product_list.toJson())
 
 
+#def materialStockList(request):
+
+
+
+
 def materialOrderList(request, order_id = '0'):
     print("materialOrderList order id:",order_id)
     if order_id == '0':
@@ -119,6 +126,10 @@ def materialOrder(request, order_id, procurementOrder_id):
             return HttpResponse(errorMessage)
         else:
             return HttpResponse(material_order_tmp.toJson())
+
+def materialStockList(request):
+    print("fetch materialStockList")
+    return  HttpResponse(material_stock_list.toJson())     
 
 # Stub for test
 ####################################
@@ -169,3 +180,12 @@ material_sub_order.setValue('拉链', 100, '条', 10, 'xxx')
 
 material_order_1.addMaterialSubOrder(material_sub_order)
 material_order_list.addMaterialOrderInfo(material_order_1)
+
+
+###########################################
+material_stock_1 = MaterialStockInfo()
+material_stock_1.setValue('裤头','编号 xxx-xxx', 100, '条', 200)
+material_stock_1.setFormalId()
+
+material_stock_list = MaterialStockInfoList()
+material_stock_list.addMaterialStockInfo(material_stock_1)

@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { OrdersModule } from './orders/orders.module';
 import { InventoryComponent } from './inventory/inventory.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { MaterialStockModule } from './materialStock/materialStock.module'
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
@@ -18,6 +19,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     BrowserModule,
     FormsModule,
     OrdersModule,
+    MaterialStockModule,
     AppRoutingModule
   ],
 
