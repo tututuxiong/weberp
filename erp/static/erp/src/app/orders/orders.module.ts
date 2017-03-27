@@ -7,6 +7,7 @@ import { OrdersComponent } from "./orders.component";
 import { OrderDetailComponent } from "./order-detail.component";
 import { ProductsComponent } from './products/products.component';
 import { ProductsEditableComponent } from './products/products-editable.component';
+import { DetailMaterialComponent } from "./detail-material/detail-material.component"
 import { MaterialOrderComponent } from './material-order/material-order.component';
 
 import { OrderService } from "./order.service";
@@ -35,6 +36,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
         OrdersComponent,
         OrderDetailComponent,
         ProductsComponent,
+        DetailMaterialComponent,
         ProductsEditableComponent,
         MaterialOrderComponent
     ],

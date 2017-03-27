@@ -9,6 +9,7 @@ import { ProductService } from './products/product.service';
 
 import { MaterialOrder } from './material-order/material-order';
 import { MaterialOrderService } from './material-order/material-order.service';
+//import { MaterialStock } from './../materialStock/materialStock'
 
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
@@ -34,6 +35,7 @@ export class OrderDetailComponent implements OnInit {
     orderDetail: Order;
 
     productList: Product[];
+    //materialItemList: MaterialStock[];
     productListBeforeEdit: Product[];
 
     addedProductList: Product[];
@@ -43,8 +45,6 @@ export class OrderDetailComponent implements OnInit {
     errorMessage: string;
 
     materialOrderList: MaterialOrder[];
-
-    
 
     ngOnInit() : void {
         this.route.params

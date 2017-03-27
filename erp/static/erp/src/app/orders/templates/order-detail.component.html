@@ -58,6 +58,13 @@
     <products [productList]="productList"></products>
   </ng-container>
 
+  <div class="row title-l2">
+    <div class="col-sm-3">
+      <h4>原料清单</h4>
+    </div>
+  </div>
+  <detail-material [productList]="productList"></detail-material>
+
   <material-order [materialOrderList]="materialOrderList"></material-order>
 
 </div>
