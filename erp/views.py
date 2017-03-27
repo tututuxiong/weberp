@@ -72,11 +72,47 @@ def subProductList(request, order_id):
         return HttpResponse(sub_product_list.toJson())
 
 
-def materialOrderList(request,order_id):
+def materialOrderList(request, order_id):
     return HttpResponse(material_order_list.toJson())
 
+
 def materialOrder(request, order_id, materialOrder_id):
-    return HttpResponse(material_order.toJson())
+    errorMessage = '{"value":"ERROR"}'
+    scuessfullMessage = '{"value":"OK"}'
+    material_order_tmp = MaterialOrderInfo()
+    if request.method == 'POST':
+        dict_data = json.loads(request.body.decode())['materialOrder']
+        material_order_tmp.setJson2Class(dict_data)
+        if material_order_tmp.id == int(materialOrder_id):
+            if material_order_list.updateMaterialOrderInfo(material_order_tmp):
+                return HttpResponse(material_order_tmp.toJson())
+            else:
+                return HttpResponse(errorMessage)
+
+    elif request.method == 'PUT':
+        dict_data = json.loads(request.body.decode())['materialOrder']
+        material_order_tmp.setJson2Class(dict_data)
+        if material_order_tmp.id == 0:
+            material_order_tmp.setFormalId(int(order_id))
+            if material_order_list.addMaterialOrderInfo(material_order_tmp):
+                return HttpResponse(material_order_tmp.toJson())
+            else:
+                return HttpResponse(errorMessage)
+
+    elif request.method == 'DELETE':
+        if material_order_list.removeMaterialOrderInfo(int(materialOrder_id)):
+            return HttpResponse(scuessfullMessage)
+        else:
+            return HttpResponse(errorMessage)
+
+    elif request.method == 'GET':
+        subProductI = material_order_list.getMaterialOrderInfo(int(materialOrder_id))
+        if None == subProductI:
+            return HttpResponse(errorMessage)
+        else:
+            return HttpResponse(subProductI.toJson())
+
+    return HttpResponse(material_order_1.toJson())
 
 # Stub for test
 ####################################
@@ -118,12 +154,12 @@ sub_product_list.addSubProductInfo(sub_product_1_2)
 
 ##############################################
 material_order_list = MaterialOrderInfoList()
-material_order = MaterialOrderInfo()
-material_order.setFormalId(order_info_1.id)
+material_order_1 = MaterialOrderInfo()
+material_order_1.setFormalId(order_info_1.id)
 
 material_sub_order = MaterialSubOrderInfo()
 material_sub_order.setFormalId(material_order.id)
 material_sub_order.setValue('拉链', 100, '条', 10, 'xxx')
 
-material_order.addMaterialSubOrder(material_sub_order)
-material_order_list.addMaterialOrderInfo(material_order)
+material_order_1.addMaterialSubOrder(material_sub_order)
+material_order_list.addMaterialOrderInfo(material_order_1)
