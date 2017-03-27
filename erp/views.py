@@ -80,6 +80,7 @@ def materialOrder(request, order_id, materialOrder_id):
     errorMessage = '{"value":"ERROR"}'
     scuessfullMessage = '{"value":"OK"}'
     material_order_tmp = MaterialOrderInfo()
+
     if request.method == 'POST':
         dict_data = json.loads(request.body.decode())['materialOrder']
         material_order_tmp.setJson2Class(dict_data)
@@ -106,13 +107,11 @@ def materialOrder(request, order_id, materialOrder_id):
             return HttpResponse(errorMessage)
 
     elif request.method == 'GET':
-        subProductI = material_order_list.getMaterialOrderInfo(int(materialOrder_id))
-        if None == subProductI:
+        material_order_tmp = material_order_list.getMaterialOrderInfo(int(materialOrder_id))
+        if None == material_order_tmp:
             return HttpResponse(errorMessage)
         else:
-            return HttpResponse(subProductI.toJson())
-
-    return HttpResponse(material_order_1.toJson())
+            return HttpResponse(material_order_tmp.toJson())
 
 # Stub for test
 ####################################
@@ -158,7 +157,7 @@ material_order_1 = MaterialOrderInfo()
 material_order_1.setFormalId(order_info_1.id)
 
 material_sub_order = MaterialSubOrderInfo()
-material_sub_order.setFormalId(material_order.id)
+material_sub_order.setFormalId(material_order_1.id)
 material_sub_order.setValue('拉链', 100, '条', 10, 'xxx')
 
 material_order_1.addMaterialSubOrder(material_sub_order)
