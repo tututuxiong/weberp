@@ -67,16 +67,23 @@ def subProduct(request, order_id, product_id):
             return HttpResponse(subProductI.toJson())
 
 
-def subProductList(request, order_id):
-    if request.method == 'GET':
+def subProductList(request, order_id = '0'):
+    print("subProductList order id:",order_id)
+    if order_id == '0':
+        if request.method == 'GET':
+            return HttpResponse(sub_product_list.toJson())
+    else:
         return HttpResponse(sub_product_list.toJson())
 
 
-def materialOrderList(request, order_id):
-    return HttpResponse(material_order_list.toJson())
+def materialOrderList(request, order_id = '0'):
+    print("materialOrderList order id:",order_id)
+    if order_id == '0':
+        return HttpResponse(material_order_list.toJson())
+    else:
+        return HttpResponse(material_order_list.toJson())
 
-
-def materialOrder(request, order_id, materialOrder_id):
+def materialOrder(request, order_id, procurementOrder_id):
     errorMessage = '{"value":"ERROR"}'
     scuessfullMessage = '{"value":"OK"}'
     material_order_tmp = MaterialOrderInfo()
@@ -84,7 +91,7 @@ def materialOrder(request, order_id, materialOrder_id):
     if request.method == 'POST':
         dict_data = json.loads(request.body.decode())['materialOrder']
         material_order_tmp.setJson2Class(dict_data)
-        if material_order_tmp.id == int(materialOrder_id):
+        if material_order_tmp.id == int(procurementOrder_id):
             if material_order_list.updateMaterialOrderInfo(material_order_tmp):
                 return HttpResponse(material_order_tmp.toJson())
             else:
@@ -101,13 +108,13 @@ def materialOrder(request, order_id, materialOrder_id):
                 return HttpResponse(errorMessage)
 
     elif request.method == 'DELETE':
-        if material_order_list.removeMaterialOrderInfo(int(materialOrder_id)):
+        if material_order_list.removeMaterialOrderInfo(int(procurementOrder_id)):
             return HttpResponse(scuessfullMessage)
         else:
             return HttpResponse(errorMessage)
 
     elif request.method == 'GET':
-        material_order_tmp = material_order_list.getMaterialOrderInfo(int(materialOrder_id))
+        material_order_tmp = material_order_list.getMaterialOrderInfo(int(procurementOrder_id))
         if None == material_order_tmp:
             return HttpResponse(errorMessage)
         else:
