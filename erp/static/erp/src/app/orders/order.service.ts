@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class OrderService {
-//    private ordersUrl = 'api/Orders';  // URL to web api
+  //  private ordersUrl = 'api/Orders';  // URL to web api
     private ordersUrl = 'app/Orders';  // URL to web api
     private headers = new Headers({'Content-Type': 'application/json'});
 
@@ -41,6 +41,7 @@ export class OrderService {
 
 
     getOrders() : Observable<Order[]> {
+      console.log("get orders.!");
         return this.http.get(this.ordersUrl)
                         .map(this.extractOrderListInfoData)
                         .catch(this.handleError);

@@ -7,14 +7,17 @@ import { OrderService } from "./order.service";
 import { Product } from './products/product';
 import { ProductService } from './products/product.service';
 
-import { MaterialOrder } from './material-order/material-order';
-import { MaterialOrderService } from './material-order/material-order.service';
-import { DetailMaterialRequriment } from './detail-material/detail-material'
+import { MaterialOrder } from '../shared/material/material-order';
+import { MaterialOrderService } from './material-order.service';
+// import { MaterialOrderComponent } from '../shared/material/material-order.component';
 
+import { DetailMaterialRequriment } from './detail-material/detail-material'
 import { MaterialStockService } from './../materialStock/materialStock.service';
 
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
+
+import { ProcurementOrderService } from '../procurement/procurement-order.service';
 
 @Component({
     //selector is not needed here because we use routing.
@@ -30,8 +33,9 @@ export class OrderDetailComponent implements OnInit {
         private order_service: OrderService,
         private product_service: ProductService,
         private material_order_service: MaterialOrderService,
+        private poservice: ProcurementOrderService,
         private material_stock_service: MaterialStockService,
-    ) { }
+    ) {}
 
     title: string; //Initialization must be put in ngOnInit; otherwise there is no effect. Don't know why.
 
@@ -51,21 +55,26 @@ export class OrderDetailComponent implements OnInit {
 
     ngOnInit(): void {
         this.route.params
-            .switchMap((params: Params) => this.order_service.getOrder(+params['id']))
-            .subscribe((order: Order) => {
-                this.orderDetail = order;
-                this.product_service.getProducts(this.orderDetail.id)
-                    .subscribe(products => {
+        .switchMap((params: Params) => this.order_service.getOrder(+params['id']))
+        .subscribe((order: Order) => {
+            this.orderDetail = order;
+            this.product_service.getProducts(this.orderDetail.id)
+                .subscribe(products => {
                         this.productList = this.copyProductList(products);
                         this.updateDetailmaterialItemInfo();
                     },
-                    error => this.errorMessage = <any>error);
+                          error => this.errorMessage = <any>error);
+            console.log("xxxxxxxxxxxxxxxxxxxx.");
+            this.materialOrderList = this.poservice.getMaterialOrder(this.orderDetail.id);
 
-                this.material_order_service.getMaterialOrders(this.orderDetail.id)
-                    .subscribe(materialOrders => this.materialOrderList = this.copyMaterialOrders(materialOrders),
-                    error => this.errorMessage = <any>error,
-                );
-            });
+                //         this.material_order_service.getMaterialOrders(this.orderDetail.id)
+                // .subscribe(materialOrders => {
+                //     this.materialOrderList = this.copyMaterialOrders(materialOrders);
+                //     this.materialOrderList.forEach(mo => mo.modifyMode = false);
+                //     console.log(this.materialOrderList);},
+                //     error => this.errorMessage = <any>error,
+                //             );
+        });
 
         this.title = 'Order Detail';    //Initialize title attribute here!!!
         this.productListEditable = false;

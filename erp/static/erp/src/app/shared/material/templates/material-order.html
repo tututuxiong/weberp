@@ -1,0 +1,41 @@
+<div class="card-group">
+  <div class="card col-xs-12" *ngFor="let materialOrder of materialOrderList">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-sm-6">
+          编号：{{materialOrder.id}}
+        </div>
+        <div class="col-sm-6">
+          创建日期：{{materialOrder.date}}
+        </div>
+        <ng-container *ngIf="!materialOrder.modifyMode">
+          <button class="btn btn-primary" (click)="onModify(materialOrder)" style="position: absolute; top:10px; right: 10px">修改</button>
+          <button class="btn btn-danger" style="position: absolute; top:50px; right: 10px">删除</button>
+        </ng-container>
+        <ng-container *ngIf="materialOrder.modifyMode">
+          <button class="btn btn-primary" (click)="onSubmit(materialOrder)" style="position: absolute; top:10px; right: 10px">完成</button>
+           <button class="btn btn-primary" (click)="onAbort(materialOrder)" style="position: absolute; top:50px; right: 10px">撤销</button>
+        </ng-container>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          总价：{{materialOrder.price}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          备注：{{materialOrder.comment}}
+        </div>
+      </div>
+    </div>
+
+    <div class="card-block">
+      <ng-container *ngIf="materialOrder.modifyMode">
+        <material-sub-order-editable [materialSubOrderList]="materialOrder.materialSubOrderInfoList"></material-sub-order-editable>
+      </ng-container>
+      <ng-container *ngIf="!materialOrder.modifyMode">
+        <material-sub-order [materialSubOrderList]="materialOrder.materialSubOrderInfoList"></material-sub-order>
+      </ng-container>
+    </div>
+  </div>
+</div>
