@@ -29,7 +29,7 @@ def orderList(request):
     return HttpResponse(order_list_info.toJson())
 
 
-def subProduct(request, order_id, product_id):
+def subProduct(request, product_id):
     errorMessage = '{"value":"ERROR"}'
     scuessfullMessage = '{"value":"OK"}'
     subProductI = SubProductInfo()
@@ -48,8 +48,9 @@ def subProduct(request, order_id, product_id):
     elif request.method == 'PUT':
         dict_data = json.loads(request.body.decode())['product']
         subProductI.setJson2Class(dict_data)
+        print(subProductI)
         if subProductI.id == 0:
-            subProductI.setFormalId(int(order_id))
+            subProductI.setFormalId(subProductI.orderId)
             if sub_product_list.addSubProductInfo(subProductI):
                 return HttpResponse(subProductI.toJson())
             else:
