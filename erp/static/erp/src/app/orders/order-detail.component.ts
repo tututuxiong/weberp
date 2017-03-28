@@ -55,22 +55,9 @@ export class OrderDetailComponent implements OnInit {
             .subscribe((order: Order) => {
                 this.orderDetail = order;
                 this.product_service.getProducts(this.orderDetail.id)
-                    .subscribe(products => 
-                    {
+                    .subscribe(products => {
                         this.productList = this.copyProductList(products);
-                        this.updatematerialItemList();
-                        this.materialItemList.forEach(meterialItem=>
-                        {
-                            /*删除单位*/
-                             var name = meterialItem.name.substring(0,meterialItem.name.indexOf('/'));
-                             console.log(name);
-                             this.material_stock_service.getMaterialStockByName(name).
-                             subscribe(material_stock=>
-                             {
-                                 meterialItem.shoppingNum = material_stock.shoppingNum;
-                                 meterialItem.instockNum = material_stock.instockNum;
-                             })
-                        })                        
+                        this.updateDetailmaterialItemInfo();
                     },
                     error => this.errorMessage = <any>error);
 
@@ -112,7 +99,8 @@ export class OrderDetailComponent implements OnInit {
         this.deletedProductList.forEach(delProduct => {
             let result: string;
             this.product_service.delProducts(delProduct)
-                .subscribe(message => result = message,
+                .subscribe(message => {result = message;
+                this.updateDetailmaterialItemInfo();},
                 error => this.errorMessage = <any>error);
         })
 
@@ -165,6 +153,20 @@ export class OrderDetailComponent implements OnInit {
         return JSON.stringify(product_a) == JSON.stringify(product_b);
     }
 
+    private updateDetailmaterialItemInfo() {
+        this.updatematerialItemList();
+        this.materialItemList.forEach(meterialItem => {
+            /*删除单位*/
+            var name = meterialItem.name.substring(0, meterialItem.name.indexOf('/'));
+            console.log(name);
+            this.material_stock_service.getMaterialStockByName(name).
+                subscribe(material_stock => {
+                    meterialItem.shoppingNum = material_stock.shoppingNum;
+                    meterialItem.instockNum = material_stock.instockNum;
+                })
+        })
+    }
+
     private updatematerialItemList() {
         this.materialItemList = [];
         var isExist: Boolean;
@@ -180,7 +182,7 @@ export class OrderDetailComponent implements OnInit {
                 }
 
                 if (isExist == false) {
-                    var tmp_materialitem  = new DetailMaterialRequriment;
+                    var tmp_materialitem = new DetailMaterialRequriment;
                     tmp_materialitem.name = k;
                     tmp_materialitem.requrimentNum = product_iter.materialList[k];
                     this.materialItemList.push(tmp_materialitem);
