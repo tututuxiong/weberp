@@ -9,7 +9,9 @@ import { ProductService } from './products/product.service';
 
 import { MaterialOrder } from './material-order/material-order';
 import { MaterialOrderService } from './material-order/material-order.service';
-//import { MaterialStock } from './../materialStock/materialStock'
+import { DetailMaterialRequriment } from './detail-material/detail-material'
+
+import { MaterialStockService } from './../materialStock/materialStock.service';
 
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
@@ -27,15 +29,16 @@ export class OrderDetailComponent implements OnInit {
         private router: Router,
         private order_service: OrderService,
         private product_service: ProductService,
-        private material_order_service: MaterialOrderService
-    ) {}
+        private material_order_service: MaterialOrderService,
+        private material_stock_service: MaterialStockService,
+    ) { }
 
     title: string; //Initialization must be put in ngOnInit; otherwise there is no effect. Don't know why.
 
     orderDetail: Order;
 
     productList: Product[];
-    //materialItemList: MaterialStock[];
+    materialItemList: DetailMaterialRequriment[];
     productListBeforeEdit: Product[];
 
     addedProductList: Product[];
@@ -46,20 +49,36 @@ export class OrderDetailComponent implements OnInit {
 
     materialOrderList: MaterialOrder[];
 
-    ngOnInit() : void {
+    ngOnInit(): void {
         this.route.params
-        .switchMap((params: Params) => this.order_service.getOrder(+params['id']))
-        .subscribe((order: Order) => {
-            this.orderDetail = order;
-            this.product_service.getProducts(this.orderDetail.id)
-                .subscribe(products => this.productList = this.copyProductList(products),
-                          error => this.errorMessage = <any>error);
+            .switchMap((params: Params) => this.order_service.getOrder(+params['id']))
+            .subscribe((order: Order) => {
+                this.orderDetail = order;
+                this.product_service.getProducts(this.orderDetail.id)
+                    .subscribe(products => 
+                    {
+                        this.productList = this.copyProductList(products);
+                        this.updatematerialItemList();
+                        this.materialItemList.forEach(meterialItem=>
+                        {
+                            /*删除单位*/
+                             var name = meterialItem.name.substring(0,meterialItem.name.indexOf('/'));
+                             console.log(name);
+                             this.material_stock_service.getMaterialStockByName(name).
+                             subscribe(material_stock=>
+                             {
+                                 meterialItem.shoppingNum = material_stock.shoppingNum;
+                                 meterialItem.instockNum = material_stock.instockNum;
+                             })
+                        })                        
+                    },
+                    error => this.errorMessage = <any>error);
 
-            this.material_order_service.getMaterialOrders(this.orderDetail.id)
-                .subscribe(materialOrders => this.materialOrderList = this.copyMaterialOrders(materialOrders),
+                this.material_order_service.getMaterialOrders(this.orderDetail.id)
+                    .subscribe(materialOrders => this.materialOrderList = this.copyMaterialOrders(materialOrders),
                     error => this.errorMessage = <any>error,
-                            );
-        });
+                );
+            });
 
         this.title = 'Order Detail';    //Initialize title attribute here!!!
         this.productListEditable = false;
@@ -68,24 +87,24 @@ export class OrderDetailComponent implements OnInit {
         this.deletedProductList = [];
     }
 
-    private onEditProducts() : void {
-  
+    private onEditProducts(): void {
+
         if (!this.productListEditable) {
             this.productListBeforeEdit = this.copyProductList(this.productList);
         }
-        
+
         this.productListEditable = !this.productListEditable;
     }
 
-    private onSubmitEdit() : void {
+    private onSubmitEdit(): void {
 
         this.productListEditable = !this.productListEditable;
 
         this.addedProductList.forEach(newProduct => {
             // let result: Product;
             this.product_service.addProducts(newProduct)
-            .subscribe(product => newProduct = Object.assign({}, product),
-                        error => this.errorMessage = <any>error);
+                .subscribe(product => newProduct = Object.assign({}, product),
+                error => this.errorMessage = <any>error);
         })
 
         this.addedProductList = [];
@@ -93,40 +112,40 @@ export class OrderDetailComponent implements OnInit {
         this.deletedProductList.forEach(delProduct => {
             let result: string;
             this.product_service.delProducts(delProduct)
-            .subscribe(message => result = message,
-                        error => this.errorMessage = <any>error);
+                .subscribe(message => result = message,
+                error => this.errorMessage = <any>error);
         })
 
         this.deletedProductList = [];
-        
+
         this.getUpdatedProducts().forEach(chgProduct => {
             // let result: Product;
             this.product_service.updateProducts(chgProduct)
-            .subscribe(product => chgProduct = Object.assign({}, product),
-                          error => this.errorMessage = <any>error);
+                .subscribe(product => chgProduct = Object.assign({}, product),
+                error => this.errorMessage = <any>error);
         })
     }
 
-    private onCancelEdit() : void {
+    private onCancelEdit(): void {
         this.productList = this.copyProductList(this.productListBeforeEdit);
         this.addedProductList = [];
         this.deletedProductList = [];
         this.productListEditable = !this.productListEditable;
     }
 
-    private copyProductList(arraySrc: Product[]) : Product[] {
-        var arrayDest : Product[] = [];
+    private copyProductList(arraySrc: Product[]): Product[] {
+        var arrayDest: Product[] = [];
         arraySrc.forEach((product) => arrayDest.push(Object.assign({}, product)));
         return arrayDest;
     }
 
-    private copyMaterialOrders(arraySrc: MaterialOrder[]) : MaterialOrder[] {
-        var arrayDest : MaterialOrder[] = [];
+    private copyMaterialOrders(arraySrc: MaterialOrder[]): MaterialOrder[] {
+        var arrayDest: MaterialOrder[] = [];
         arraySrc.forEach((materialOrder) => arrayDest.push(Object.assign({}, materialOrder)));
         return arrayDest;
     }
 
-    private getUpdatedProducts() : Product[] {
+    private getUpdatedProducts(): Product[] {
         let updatedProductList: Product[] = [];
 
         this.productListBeforeEdit.forEach(product_b => {
@@ -141,8 +160,33 @@ export class OrderDetailComponent implements OnInit {
 
         return updatedProductList;
     }
-    
-    private jsonEqual(product_a: Product, product_b: Product) : Boolean {
+
+    private jsonEqual(product_a: Product, product_b: Product): Boolean {
         return JSON.stringify(product_a) == JSON.stringify(product_b);
     }
+
+    private updatematerialItemList() {
+        this.materialItemList = [];
+        var isExist: Boolean;
+
+        this.productList.forEach(product_iter => {
+            for (var k in product_iter.materialList) {
+                isExist = false;
+                for (var m in this.materialItemList) {
+                    if (k == this.materialItemList[m].name) {
+                        this.materialItemList[m].requrimentNum += product_iter.materialList[k];
+                        isExist = true;
+                    }
+                }
+
+                if (isExist == false) {
+                    var tmp_materialitem  = new DetailMaterialRequriment;
+                    tmp_materialitem.name = k;
+                    tmp_materialitem.requrimentNum = product_iter.materialList[k];
+                    this.materialItemList.push(tmp_materialitem);
+                }
+            }
+        })
+    }
+
 }

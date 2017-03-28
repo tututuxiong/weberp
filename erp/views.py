@@ -77,12 +77,6 @@ def subProductList(request, order_id = '0'):
     else:
         return HttpResponse(sub_product_list.toJson())
 
-
-#def materialStockList(request):
-
-
-
-
 def materialOrderList(request, order_id = '0'):
     print("materialOrderList order id:",order_id)
     if order_id == '0':
@@ -130,6 +124,16 @@ def materialOrder(request, order_id, procurementOrder_id):
 def materialStockList(request):
     print("fetch materialStockList")
     return  HttpResponse(material_stock_list.toJson())     
+
+
+def materialStockbyName(request, material_name):
+    print("fetch materialStock: ",material_name)
+
+    material_stock_info = MaterialStockInfo()
+    material_stock_info.name = material_name
+    material_stock_info.instockNum = 10
+    material_stock_info.shoppingNum = 30
+    return  HttpResponse(material_stock_info.toJson())
 
 # Stub for test
 ####################################

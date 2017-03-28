@@ -3,6 +3,7 @@ import { Input } from "@angular/core";
 import { OnInit } from "@angular/core";
 import { Product } from './../products/product';
 import { MaterialStock } from './../../materialStock/materialStock'
+import { DetailMaterialRequriment} from './detail-material'
 
 @Component({
     selector: 'detail-material',
@@ -15,33 +16,10 @@ export class DetailMaterialComponent  implements OnInit {
     productList: Product[];
     
     @Input()
-    materialItemList: {};
+    materialItemList: DetailMaterialRequriment[];
 
     ngOnInit() : void {
         //this.updatematerialItemList();
-    }
-
-    private updatematerialItemList(){
-        this.materialItemList = {}
-        var  isExist : Boolean;
-        
-        this.productList.forEach(product_iter =>{
-            for (var k in product_iter.materialList){
-                isExist = false;
-                for (var m in this.materialItemList){
-                    if (k == m){
-                        this.materialItemList[m] += product_iter.materialList[k];
-                        console.log(k,":",this.materialItemList[m]);
-                        isExist = true;
-                    }
-                }
-
-                if (isExist == false){
-                    this.materialItemList[k] = product_iter.materialList[k];
-                    console.log(k,":",this.materialItemList[m]);
-                }
-            }
-        })
     }
 
     private toList(dict:any) : any {
@@ -53,7 +31,6 @@ export class DetailMaterialComponent  implements OnInit {
             };
             r.push(e);
         }
-        console.log(r);
         return r;
     }    
 }

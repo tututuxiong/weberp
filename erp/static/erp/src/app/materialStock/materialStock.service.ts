@@ -9,12 +9,17 @@ import 'rxjs/add/operator/map';
 export class MaterialStockService {
     constructor(private http: Http) {}
     
-    private materialsStock = 'app/materialStocks';  // URL to web api
+    private materialsStockUrl = 'app/materialStocks';  // URL to web api
 
 
     private extractMaterialsStockInfoData(res: Response) {
         let body = res.json();
         return body.materialStockInfoList || {};
+    }
+
+    private extractMaterialStockInfoData(res: Response) {
+        let body = res.json();
+        return body;
     }
 
     private handleError(error: Response | any) {
@@ -32,8 +37,15 @@ export class MaterialStockService {
     }
 
     getMaterialStocks(): Observable<MaterialStock[]> {
-        return this.http.get(this.materialsStock)
+        return this.http.get(this.materialsStockUrl)
             .map(this.extractMaterialsStockInfoData)
+            .catch(this.handleError);
+    }
+
+    getMaterialStockByName(name: string): Observable<MaterialStock> {
+        const url = `${this.materialsStockUrl}/${name}`;
+        return this.http.get(url)
+            .map(this.extractMaterialStockInfoData)
             .catch(this.handleError);
     }
 }
