@@ -7,6 +7,10 @@ import { AppComponent }  from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { OrdersModule } from './orders/orders.module';
+import { ProcurementModule } from './procurement/procurement.module';
+
+import { SharedModule } from './shared/shared.module';
+
 import { InventoryComponent } from './inventory/inventory.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
@@ -18,6 +22,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     BrowserModule,
     FormsModule,
     OrdersModule,
+    SharedModule,
+    ProcurementModule,
     AppRoutingModule
   ],
 

@@ -2,6 +2,8 @@ import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
 
 import {DashboardComponent} from "./dashboard/dashboard.component";
+import {OrdersComponent} from "./orders/orders.component";
+import {ProcurementComponent} from "./procurement/procurement.component";
 import {InventoryComponent} from "./inventory/inventory.component";
 
 const appRoutes : Routes = [
@@ -15,7 +17,7 @@ const appRoutes : Routes = [
     }, {
         path: 'inventory',
         component: InventoryComponent
-    }, 
+    }
 ];
 
 @NgModule({

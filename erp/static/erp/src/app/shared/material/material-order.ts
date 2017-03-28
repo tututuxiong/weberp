@@ -1,4 +1,4 @@
-import { MaterialSubOrder } from './material-sub-order'
+import { MaterialSubOrder } from './material-sub-order';
 
 export class MaterialOrder {
     id: number;
