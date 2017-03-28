@@ -24,16 +24,30 @@
             </tr>
         </table>
     </div>
-    <div role="tabpanel" class="tab-pane" *ngFor="let product of productList; let i = index" id=product{{product.id}}>
+    <div role="tabpanel" class="tab-pane active" *ngFor="let product of productList; let i = index" id=product{{product.id}}>
+        <div class="col-sm-4" *ngIf="materialItemtEditable">
+            <button class="btn btn-primary" (click)="onSubmitEdit(i)">完成</button>
+            <button class="btn btn-primary" (click)="onCancelEdit(i)">撤销</button>
+        </div>
+        <div class="col-sm-2" *ngIf="!materialItemtEditable">
+            <button class="btn btn-primary" (click)="onEdit(i)">编辑</button>
+        </div>
         <table class="table">
             <tr>
                 <th>名称/单位</th>
                 <th>数量</th>
             </tr>
-            <tr *ngFor="let material of toList(product.materialList)">
-                <td>{{material.text}}</td>
-                <td>{{material.value}}</td>
-            </tr>
+            <ng-container *ngIf="!materialItemtEditable">
+                <tr *ngFor="let material of toList(product.materialList)">
+                    <td>{{material.text}}</td>
+                    <td>{{material.value}}</td>
+                </tr>
+            </ng-container>
+            <ng-container *ngIf="materialItemtEditable">
+                <tr *ngFor="let material of toList(product.materialList)">
+                    <td>{{material.text}}</td>
+                </tr>
+            </ng-container>
         </table>
     </div>
 </div>

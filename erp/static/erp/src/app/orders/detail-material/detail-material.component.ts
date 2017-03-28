@@ -14,12 +14,40 @@ import { DetailMaterialRequriment} from './detail-material'
 export class DetailMaterialComponent  implements OnInit {
     @Input()
     productList: Product[];
-    
+
     @Input()
     materialItemList: DetailMaterialRequriment[];
 
+    materialItemtEditable: Boolean;
+    tmpProductMaterial: {};
+
     ngOnInit() : void {
-        //this.updatematerialItemList();
+        this.materialItemtEditable  = false;
+    }
+
+
+    private onSubmitEdit(index: any){
+        this.materialItemtEditable = !this.materialItemtEditable;
+        console.log("onsubmit:",this.productList[index].materialList);
+    }
+
+    private onEdit(index: any){
+        this.materialItemtEditable = !this.materialItemtEditable;
+        this.copyDict(this.tmpProductMaterial,this.productList[index].materialList);
+        console.log("onedit:",this.tmpProductMaterial);
+    }
+
+    private onCancelEdit(index: any){
+        this.materialItemtEditable = !this.materialItemtEditable;
+        this.copyDict(this.productList[index].materialList,this.tmpProductMaterial);
+        console.log("onedit:",this.tmpProductMaterial);
+    }
+
+    private copyDict(target:any, src:any){
+        target = {};
+        for (var k in src) {
+            target[k] = src[k];
+        }
     }
 
     private toList(dict:any) : any {
@@ -32,5 +60,5 @@ export class DetailMaterialComponent  implements OnInit {
             r.push(e);
         }
         return r;
-    }    
+    }
 }

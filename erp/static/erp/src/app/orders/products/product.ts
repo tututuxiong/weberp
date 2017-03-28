@@ -9,7 +9,7 @@ export class Product {
     comment: string;
     materialList: {};
 
-    constructor(source: Product) {
+     constructor(source: Product) {
         this.id = source.id;
         this.name = source.name;
         this.orderId = source.orderId;
