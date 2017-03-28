@@ -15,5 +15,4 @@ import { Product } from './product';
 export class ProductsComponent {
     @Input()
     productList: Product[];
-
 }

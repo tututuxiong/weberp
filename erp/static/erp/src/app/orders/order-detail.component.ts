@@ -11,6 +11,9 @@ import { MaterialOrder } from '../shared/material/material-order';
 import { MaterialOrderService } from './material-order.service';
 // import { MaterialOrderComponent } from '../shared/material/material-order.component';
 
+import { DetailMaterialRequriment } from './detail-material/detail-material'
+import { MaterialStockService } from './../materialStock/materialStock.service';
+
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
 
@@ -30,7 +33,8 @@ export class OrderDetailComponent implements OnInit {
         private order_service: OrderService,
         private product_service: ProductService,
         private material_order_service: MaterialOrderService,
-        private poservice: ProcurementOrderService
+        private poservice: ProcurementOrderService,
+        private material_stock_service: MaterialStockService,
     ) {}
 
     title: string; //Initialization must be put in ngOnInit; otherwise there is no effect. Don't know why.
@@ -38,6 +42,7 @@ export class OrderDetailComponent implements OnInit {
     orderDetail: Order;
 
     productList: Product[];
+    materialItemList: DetailMaterialRequriment[];
     productListBeforeEdit: Product[];
 
     addedProductList: Product[];
@@ -48,13 +53,16 @@ export class OrderDetailComponent implements OnInit {
 
     materialOrderList: MaterialOrder[];
 
-    ngOnInit() : void {
+    ngOnInit(): void {
         this.route.params
         .switchMap((params: Params) => this.order_service.getOrder(+params['id']))
         .subscribe((order: Order) => {
             this.orderDetail = order;
             this.product_service.getProducts(this.orderDetail.id)
-                .subscribe(products => this.productList = this.copyProductList(products),
+                .subscribe(products => {
+                        this.productList = this.copyProductList(products);
+                        this.updateDetailmaterialItemInfo();
+                    },
                           error => this.errorMessage = <any>error);
             console.log("xxxxxxxxxxxxxxxxxxxx.");
             this.materialOrderList = this.poservice.getMaterialOrder(this.orderDetail.id);
@@ -75,68 +83,66 @@ export class OrderDetailComponent implements OnInit {
         this.deletedProductList = [];
     }
 
-    private onEditProducts() : void {
-  
+    private onEditProducts(): void {
+
         if (!this.productListEditable) {
             this.productListBeforeEdit = this.copyProductList(this.productList);
         }
-        
+
         this.productListEditable = !this.productListEditable;
     }
 
-    private onSubmitEdit() : void {
+    private onSubmitEdit(): void {
 
         this.productListEditable = !this.productListEditable;
 
         this.addedProductList.forEach(newProduct => {
-            console.log("Adding new product.", newProduct);
             // let result: Product;
             this.product_service.addProducts(newProduct)
-            .subscribe(product => newProduct = Object.assign({}, product),
-                        error => this.errorMessage = <any>error);
+                .subscribe(product => newProduct = Object.assign({}, product),
+                error => this.errorMessage = <any>error);
         })
 
         this.addedProductList = [];
 
         this.deletedProductList.forEach(delProduct => {
-            console.log("Deleting product.", delProduct);
             let result: string;
             this.product_service.delProducts(delProduct)
-            .subscribe(message => result = message,
-                        error => this.errorMessage = <any>error);
+                .subscribe(message => {result = message;
+                this.updateDetailmaterialItemInfo();},
+                error => this.errorMessage = <any>error);
         })
 
         this.deletedProductList = [];
-        
+
         this.getUpdatedProducts().forEach(chgProduct => {
-            console.log("Updating product", chgProduct);
             // let result: Product;
             this.product_service.updateProducts(chgProduct)
-            .subscribe(product => chgProduct = Object.assign({}, product),
-                          error => this.errorMessage = <any>error);
+                .subscribe(product => chgProduct = Object.assign({}, product),
+                error => this.errorMessage = <any>error);
         })
     }
 
-    private onCancelEdit() : void {
+    private onCancelEdit(): void {
         this.productList = this.copyProductList(this.productListBeforeEdit);
         this.addedProductList = [];
         this.deletedProductList = [];
         this.productListEditable = !this.productListEditable;
     }
 
-    private copyProductList(arraySrc: Product[]) : Product[] {
-        var arrayDest : Product[] = [];
+    private copyProductList(arraySrc: Product[]): Product[] {
+        var arrayDest: Product[] = [];
         arraySrc.forEach((product) => arrayDest.push(Object.assign({}, product)));
         return arrayDest;
     }
 
-    private copyMaterialOrders(arraySrc: MaterialOrder[]) : MaterialOrder[] {
-        var arrayDest : MaterialOrder[] = [];
+    private copyMaterialOrders(arraySrc: MaterialOrder[]): MaterialOrder[] {
+        var arrayDest: MaterialOrder[] = [];
         arraySrc.forEach((materialOrder) => arrayDest.push(Object.assign({}, materialOrder)));
         return arrayDest;
     }
 
-    private getUpdatedProducts() : Product[] {
+    private getUpdatedProducts(): Product[] {
         let updatedProductList: Product[] = [];
 
         this.productListBeforeEdit.forEach(product_b => {
@@ -151,8 +157,47 @@ export class OrderDetailComponent implements OnInit {
 
         return updatedProductList;
     }
-    
-    private jsonEqual(product_a: Product, product_b: Product) : Boolean {
+
+    private jsonEqual(product_a: Product, product_b: Product): Boolean {
         return JSON.stringify(product_a) == JSON.stringify(product_b);
     }
+
+    private updateDetailmaterialItemInfo() {
+        this.updatematerialItemList();
+        this.materialItemList.forEach(meterialItem => {
+            /*删除单位*/
+            var name = meterialItem.name.substring(0, meterialItem.name.indexOf('/'));
+            console.log(name);
+            this.material_stock_service.getMaterialStockByName(name).
+                subscribe(material_stock => {
+                    meterialItem.shoppingNum = material_stock.shoppingNum;
+                    meterialItem.instockNum = material_stock.instockNum;
+                })
+        })
+    }
+
+    private updatematerialItemList() {
+        this.materialItemList = [];
+        var isExist: Boolean;
+
+        this.productList.forEach(product_iter => {
+            for (var k in product_iter.materialList) {
+                isExist = false;
+                for (var m in this.materialItemList) {
+                    if (k == this.materialItemList[m].name) {
+                        this.materialItemList[m].requrimentNum += product_iter.materialList[k];
+                        isExist = true;
+                    }
+                }
+
+                if (isExist == false) {
+                    var tmp_materialitem = new DetailMaterialRequriment;
+                    tmp_materialitem.name = k;
+                    tmp_materialitem.requrimentNum = product_iter.materialList[k];
+                    this.materialItemList.push(tmp_materialitem);
+                }
+            }
+        })
+    }
+
 }

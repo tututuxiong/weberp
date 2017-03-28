@@ -13,6 +13,7 @@ class SubProductInfo:
         self.price = 0
         self.total = ''
         self.comment = ''
+        self.materialList = {}
 
     def setFormalId(self, orderId):
         if self.id == 0:
@@ -29,10 +30,13 @@ class SubProductInfo:
         self.comment = comment
 
     def __repr__(self):
-        return repr((self.id, self.orderId, self.name, self.count, self.unit, self.price, self.total, self.comment))
+        return repr((self.id, self.orderId, self.name, self.count, self.unit, self.price, self.total, self.comment, self.materialList))
 
     def toJson(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+    
+    def addsubProductMaterial(self, name, count):
+        self.materialList[name] = count
 
     def setJson2Class(self, dict_data):
         for name, value in dict_data.items():

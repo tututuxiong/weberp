@@ -1,3 +1,6 @@
+import json
+
+
 class MaterialSubOrderInfo:
     count = 0
 
@@ -61,3 +64,11 @@ class MaterialOrderInfo:
 
     def __repr__(self):
         return repr((self.id,self.orderId, self.name, self.date, self.price, self.comment, self.status, self.subOrderCount, self.materialSubOrderInfoList))
+
+    def toJson(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+        
+    def setJson2Class(self, dict_data):
+        for name, value in dict_data.items():
+            if hasattr(self, name):
+                setattr(self, name, value)

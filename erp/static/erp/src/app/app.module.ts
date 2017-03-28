@@ -13,6 +13,7 @@ import { SharedModule } from './shared/shared.module';
 
 import { InventoryComponent } from './inventory/inventory.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { MaterialStockModule } from './materialStock/materialStock.module'
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
@@ -24,6 +25,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     OrdersModule,
     SharedModule,
     ProcurementModule,
+    MaterialStockModule,
     AppRoutingModule
   ],
 

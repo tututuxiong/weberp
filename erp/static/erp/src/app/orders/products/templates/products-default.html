@@ -1,24 +1,24 @@
-  <table class="table">
+<table class="table">
     <thead class="thead-inverse">
-      <tr>
-        <th scope="col">序号</th>
-        <th scope="col">名称</th>
-        <th scope="col">数量</th>
-        <th scope="col">单位</th>
-        <th scope="col">单价</th>
-        <th scope="col">小计</th>
-        <th scope="col">备注</th>
-      </tr>
+        <tr>
+            <th scope="col">序号</th>
+            <th scope="col">名称</th>
+            <th scope="col">数量</th>
+            <th scope="col">单位</th>
+            <th scope="col">单价</th>
+            <th scope="col">小计</th>
+            <th scope="col">备注</th>
+        </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let product of productList; let i = index">
-        <th scope="row">{{i+1}}</th>
-        <td>{{product.name}}</td>
-        <td>{{product.count}}</td>
-        <td>{{product.unit}}</td>
-        <td>{{product.price}}</td>
-        <td>{{product.total}}</td>
-        <td>{{product.comment}}</td>
-      </tr>
+        <tr *ngFor="let product of productList; let i = index">
+            <th scope="row">{{i+1}}</th>
+            <td>{{product.name}}</td>
+            <td>{{product.count}}</td>
+            <td>{{product.unit}}</td>
+            <td>{{product.price}}</td>
+            <td>{{product.total}}</td>
+            <td>{{product.comment}}</td>
+        </tr>
     </tbody>
-  </table>
+</table>

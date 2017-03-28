@@ -10,8 +10,9 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ProductService {
-    private productsUrl_part1 = 'app/orders';  // URL to web API
-    private productsUrl_part2 = 'subProducts';  // URL to web API
+    private orders_part1 = 'app/orders';  // URL to web API
+    private orders_part2 = 'subProducts';  // URL to web API
+    private subProductOrder = 'app/subProduct';  // URL to web API
 
     constructor (private http: Http) {}
 
@@ -32,15 +33,14 @@ export class ProductService {
     }
 
     getProducts(id: number): Observable<Product[]> {
-      console.log("Get Products.");
-      const url = `${this.productsUrl_part1}/${id}/${this.productsUrl_part2}`;
+      const url = `${this.orders_part1}/${id}/${this.orders_part2}`;
       return this.http.get(url)
                       .map(this.extractsubProductInfoListData)
                       .catch(this.handleError);
     }
 
-    getProduct(orderId: number, id: number): Observable<Product> {
-      const url = `${this.productsUrl_part1}/${orderId}/${this.productsUrl_part2}/${id}`;
+    getProduct(id: number): Observable<Product> {
+      const url = `${this.subProductOrder}/${id}`;
 
       return this.http.get(url)
                       .map(this.extractsubProductInfoData)
@@ -49,10 +49,9 @@ export class ProductService {
     }
 
     updateProducts(product: Product): Observable<Product>{
-      console.log("update called.");
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
-      const url = `${this.productsUrl_part1}/${product.orderId}/${this.productsUrl_part2}/${product.id}`;
+      const url = `${this.subProductOrder}/${product.id}`;
       return  this.http.post(url, { product }, options)
                        .map(this.extractsubProductInfoData)
                        .catch(this.handleError);
@@ -61,7 +60,7 @@ export class ProductService {
     delProducts(product: Product): Observable<string>{
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
-      const url = `${this.productsUrl_part1}/${product.orderId}/${this.productsUrl_part2}/${product.id}`;
+      const url = `${this.subProductOrder}/${product.id}`;
       return  this.http.delete(url, options)
                        .map(this.extractDelSubProductInfoListData)
                        .catch(this.handleError);
@@ -70,8 +69,7 @@ export class ProductService {
     addProducts(product: Product): Observable<Product>{
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
-      const url = `${this.productsUrl_part1}/${product.orderId}/${this.productsUrl_part2}/${product.id}`;
-      console.log("Sending PUT http request to Server.");
+      const url = `${this.subProductOrder}/${product.id}`;
       return  this.http.put(url, { product }, options)
                        .map(this.extractsubProductInfoData)
                        .catch(this.handleError);

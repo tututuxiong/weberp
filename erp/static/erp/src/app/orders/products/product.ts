@@ -7,6 +7,7 @@ export class Product {
     price: number;
     total: number;
     comment: string;
+    materialList: {};
 
     constructor(source: Product) {
         this.id = source.id;
@@ -17,5 +18,6 @@ export class Product {
         this.price = source.price;
         this.total = source.total;
         this.comment = source.comment;
+        this.materialList = source.materialList;
     }
 }
