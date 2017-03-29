@@ -19,9 +19,9 @@ import { OrderRoutingModule } from "./orders-routing.module";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { ProcurementOrderService } from '../procurement/procurement-order.service';
+// import { ProcurementOrderService } from '../procurement/procurement-order.service';
 
- import { SharedModule } from '../shared/shared.module'
+ import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     imports: [
@@ -45,7 +45,6 @@ import { ProcurementOrderService } from '../procurement/procurement-order.servic
         OrderService,
         ProductService,
         MaterialOrderService,
-        ProcurementOrderService,
         MaterialStockService,
     ]
 
