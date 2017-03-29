@@ -179,13 +179,12 @@ export class OrderDetailComponent implements OnInit {
 
         this.productList.forEach(product_iter => {
             isExist = false;
-            console.log("updatematerialItemList:", product_iter)
             for (var i = 0; i < product_iter.materialRequrimentList.length; i++) {
                 var materialItem_iter = product_iter.materialRequrimentList[i];
                 isExist = false;
                 for (var m in this.materialItemList) {
                     if (this.materialItemList[m].name == materialItem_iter.name) {
-                        this.materialItemList[m].requrimentNum += materialItem_iter.count;
+                        this.materialItemList[m].requrimentNum += Number(materialItem_iter.count);
                         isExist = true;
                     }
                 }
@@ -193,7 +192,7 @@ export class OrderDetailComponent implements OnInit {
                 if (isExist == false) {
                     var tmp_materialitem = new DetailMaterialRequriment;
                     tmp_materialitem.name = materialItem_iter.name;
-                    tmp_materialitem.requrimentNum = materialItem_iter.count;
+                    tmp_materialitem.requrimentNum = Number(materialItem_iter.count);
                     this.materialItemList.push(tmp_materialitem);
                 }
             }
