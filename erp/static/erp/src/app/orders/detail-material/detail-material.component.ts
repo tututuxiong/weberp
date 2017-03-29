@@ -72,7 +72,7 @@ export class DetailMaterialComponent implements OnInit {
                 return;
             }
         }
-        var p: MaterialRequriment;
+        var p: MaterialRequriment = new MaterialRequriment;
         p.count = num;
         p.name = name;
         p.unit = unit;
