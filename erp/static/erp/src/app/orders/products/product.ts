@@ -1,3 +1,9 @@
+export class MaterialRequriment{
+    name: string;
+    count: number;
+    unit: string;
+}
+
 export class Product {
     id: number;
     orderId: number;
@@ -7,7 +13,7 @@ export class Product {
     price: number;
     total: number;
     comment: string;
-    materialList: {};
+    materialRequrimentList: MaterialRequriment[];
 
      constructor(source: Product) {
         this.id = source.id;
@@ -18,6 +24,6 @@ export class Product {
         this.price = source.price;
         this.total = source.total;
         this.comment = source.comment;
-        this.materialList = source.materialList;
+        this.materialRequrimentList = source.materialRequrimentList;
     }
 }

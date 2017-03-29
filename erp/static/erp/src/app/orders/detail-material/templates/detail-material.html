@@ -1,68 +1,16 @@
-<!--<ul class="nav nav-tabs" role="tablist">
-  <li class="nav-items">
-    <a href="#product0" class="nav-link" role="tab" data-toggle="tab">总计需求</a>
-  </li>
-  <li class="nav-items" *ngFor="let product of productList; let i = index">
-    <a href="#product{{product.id}}" class="nav-link" role="tab" data-toggle="tab">{{product.name}}</a>
-  </li>
-</ul>
-
-<div class="tab-content">
-  <div role="tabpanel" class="tab-pane active" id="product0">
-    <table class="table">
-      <tr>
-        <th>名称/单位</th>
-        <th>总计需求</th>
-        <th>在库数量</th>
-        <th>未入库(采购中)</th>
-      </tr>
-      <tr *ngFor="let material of materialItemList">
-        <td>{{material.name}}</td>
-        <td>{{material.requrimentNum}}</td>
-        <td>{{material.instockNum}}</td>
-        <td>{{material.shoppingNum}}</td>
-      </tr>
-    </table>
-  </div>
-  <div role="tabpanel" class="tab-pane" *ngFor="let product of productList; let i = index" id=product{{product.id}}>
-    <div class="col-sm-4" *ngIf="materialItemtEditable">
-      <button class="btn btn-primary" (click)="onSubmitEdit(i)">完成</button>
-      <button class="btn btn-primary" (click)="onCancelEdit(i)">撤销</button>
-    </div>
-    <div class="col-sm-2" *ngIf="!materialItemtEditable">
-      <button class="btn btn-primary" (click)="onEdit(i)">编辑</button>
-    </div>
-    <table class="table">
-      <tr>
-        <th>名称/单位</th>
-        <th>数量</th>
-      </tr>
-      <ng-container *ngIf="!materialItemtEditable">
-        <tr *ngFor="let material of toList(product.materialList)">
-          <td>{{material.text}}</td>
-          <td>{{material.value}}</td>
-        </tr>
-      </ng-container>
-      <ng-container *ngIf="materialItemtEditable">
-        <tr *ngFor="let material of toList(product.materialList)">
-          <td>{{material.text}}</td>
-        </tr>
-      </ng-container>
-    </table>
-  </div>
-</div>-->
-
 <ngb-tabset>
-  <ngb-tab title="总计需求">
-    <template ngbTabContent>
+    <ngb-tab title="总计需求">
+        <template ngbTabContent>
       <table class="table">
         <tr>
+          <th scope="col"></th>
           <th>名称/单位</th>
           <th>总计需求</th>
           <th>在库数量</th>
           <th>未入库(采购中)</th>
         </tr>
-        <tr *ngFor="let material of materialItemList">
+        <tr *ngFor="let material of materialItemList; let i = index">
+          <th >{{i+1}}</th>
           <td>{{material.name}}</td>
           <td>{{material.requrimentNum}}</td>
           <td>{{material.instockNum}}</td>
@@ -70,10 +18,10 @@
         </tr>
       </table>
     </template>
-  </ngb-tab>
+    </ngb-tab>
 
-  <ngb-tab *ngFor="let product of productList; let i = index" title={{product.name}}>
-    <template ngbTabContent>
+    <ngb-tab *ngFor="let product of productList; let i = index" title={{product.name}}>
+        <template ngbTabContent>
       <div class="row">
         <div class="col-sm-8"></div>
         <div class="col-sm-4" *ngIf="materialItemtEditable">
@@ -87,21 +35,49 @@
 
       <table class="table">
         <tr>
-          <th>名称/单位</th>
-          <th>数量</th>
+          <ng-container *ngIf="!materialItemtEditable">
+            <th scope="col"></th>
+            <th>名称</th>
+            <th>单位</th>
+            <th>数量</th>
+          </ng-container>
+          
+          <ng-container *ngIf="materialItemtEditable">
+            <th scope="col"></th>
+            <th></th>
+            <th>名称</th>
+            <th>单位</th>
+            <th>数量</th>
+            <th></th>
+          </ng-container>
         </tr>
         <ng-container *ngIf="!materialItemtEditable">
-          <tr *ngFor="let material of toList(product.materialList)">
-            <td>{{material.text}}</td>
-            <td>{{material.value}}</td>
+          <tr *ngFor="let material of product.materialRequrimentList; let j = index">
+            <th >{{j+1}}</th>
+            <td>{{material.name}}</td>
+            <td>{{material.unit}}</td>
+            <td>{{material.count}}</td>
           </tr>
         </ng-container>
         <ng-container *ngIf="materialItemtEditable">
-          <tr *ngFor="let material of toList(product.materialList)">
-            <td>{{material.text}}</td>
+          <tr *ngFor="let material of product.materialRequrimentList; let j = index">
+            <th ><button type="button" class="btn btn-danger btn-sm" (click)="onDelete(i,j)"><i class="fa fa-minus"></i></button></th>
+            <th >{{j+1}}</th>
+            <td>{{material.name}}</td>
+            <td>{{material.unit}}</td>
+            <td>{{material.count}}</td>
+            <!--<td ><input class="form-control user-input" [(ngModel)]="material.value"></td>-->
           </tr>
+          <tr>
+              <th></th>
+              <th>{{product.materialRequrimentList.length + 1}}</th>
+              <td ><input class="form-control user-input" [(ngModel)]="newMaterialName"></td>
+              <td ><input class="form-control user-input" [(ngModel)]="newMaterialNumber"></td>
+              <td ><input class="form-control user-input" [(ngModel)]="newMaterialUnit"></td>
+              <td ><button type="button" class="btn btn-success btn-sm" (click)="onAdd(newMaterialName,newMaterialUnit,newMaterialNumber,i)"><i class="fa fa-plus"></i></button></td>
+           </tr>
         </ng-container>
       </table>
     </template>
-  </ngb-tab>
+    </ngb-tab>
 </ngb-tabset>

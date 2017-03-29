@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { Input } from "@angular/core";
 
-import { Product } from './product';
+import {MaterialRequriment, Product } from './product';
 
 const NEWPRODUCT: Product = {
     id: 0,
@@ -12,7 +12,7 @@ const NEWPRODUCT: Product = {
     price: 0,
     total: 0,
     comment: '',
-    materialList: {}
+    materialRequrimentList: [],
 };
 
 @Component({

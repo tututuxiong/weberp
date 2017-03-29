@@ -35,7 +35,7 @@ export class OrderDetailComponent implements OnInit {
         private material_order_service: MaterialOrderService,
         // private poservice: ProcurementOrderService,
         private material_stock_service: MaterialStockService,
-    ) {}
+    ) { }
 
     title: string; //Initialization must be put in ngOnInit; otherwise there is no effect. Don't know why.
 
@@ -55,24 +55,24 @@ export class OrderDetailComponent implements OnInit {
 
     ngOnInit(): void {
         this.route.params
-        .switchMap((params: Params) => this.order_service.getOrder(+params['id']))
-        .subscribe((order: Order) => {
-            this.orderDetail = order;
-            this.product_service.getProducts(this.orderDetail.id)
-                .subscribe(products => {
+            .switchMap((params: Params) => this.order_service.getOrder(+params['id']))
+            .subscribe((order: Order) => {
+                this.orderDetail = order;
+                this.product_service.getProducts(this.orderDetail.id)
+                    .subscribe(products => {
                         this.productList = this.copyProductList(products);
                         this.updateDetailmaterialItemInfo();
                     },
-                          error => this.errorMessage = <any>error);
+                    error => this.errorMessage = <any>error);
 
-                        this.material_order_service.getMaterialOrders(this.orderDetail.id)
-                .subscribe(materialOrders => {
-                    this.materialOrderList = this.copyMaterialOrders(materialOrders);
-                    this.materialOrderList.forEach(mo => mo.modifyMode = false);
-                    console.log(this.materialOrderList);},
+                this.material_order_service.getMaterialOrders(this.orderDetail.id)
+                    .subscribe(materialOrders => {
+                        this.materialOrderList = this.copyMaterialOrders(materialOrders);
+                        this.materialOrderList.forEach(mo => mo.modifyMode = false);
+                    },
                     error => this.errorMessage = <any>error,
-                            );
-        });
+                );
+            });
 
         this.title = 'Order Detail';    //Initialize title attribute here!!!
         this.productListEditable = false;
@@ -106,8 +106,10 @@ export class OrderDetailComponent implements OnInit {
         this.deletedProductList.forEach(delProduct => {
             let result: string;
             this.product_service.delProducts(delProduct)
-                .subscribe(message => {result = message;
-                this.updateDetailmaterialItemInfo();},
+                .subscribe(message => {
+                    result = message;
+                    this.updateDetailmaterialItemInfo();
+                },
                 error => this.errorMessage = <any>error);
         })
 
@@ -163,10 +165,7 @@ export class OrderDetailComponent implements OnInit {
     private updateDetailmaterialItemInfo() {
         this.updatematerialItemList();
         this.materialItemList.forEach(meterialItem => {
-            /*删除单位*/
-            var name = meterialItem.name.substring(0, meterialItem.name.indexOf('/'));
-            console.log(name);
-            this.material_stock_service.getMaterialStockByName(name).
+            this.material_stock_service.getMaterialStockByName(meterialItem.name).
                 subscribe(material_stock => {
                     meterialItem.shoppingNum = material_stock.shoppingNum;
                     meterialItem.instockNum = material_stock.instockNum;
@@ -179,23 +178,26 @@ export class OrderDetailComponent implements OnInit {
         var isExist: Boolean;
 
         this.productList.forEach(product_iter => {
-            for (var k in product_iter.materialList) {
+            isExist = false;
+            console.log("updatematerialItemList:", product_iter)
+            for (var i = 0; i < product_iter.materialRequrimentList.length; i++) {
+                var materialItem_iter = product_iter.materialRequrimentList[i];
                 isExist = false;
                 for (var m in this.materialItemList) {
-                    if (k == this.materialItemList[m].name) {
-                        this.materialItemList[m].requrimentNum += product_iter.materialList[k];
+                    if (this.materialItemList[m].name == materialItem_iter.name) {
+                        this.materialItemList[m].requrimentNum += materialItem_iter.count;
                         isExist = true;
                     }
                 }
 
                 if (isExist == false) {
                     var tmp_materialitem = new DetailMaterialRequriment;
-                    tmp_materialitem.name = k;
-                    tmp_materialitem.requrimentNum = product_iter.materialList[k];
+                    tmp_materialitem.name = materialItem_iter.name;
+                    tmp_materialitem.requrimentNum = materialItem_iter.count;
                     this.materialItemList.push(tmp_materialitem);
                 }
             }
+
         })
     }
-
 }

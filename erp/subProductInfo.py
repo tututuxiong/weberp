@@ -1,6 +1,13 @@
 import json
 
 
+class MaterialRequiment:
+    def __init__(self,name,unit,count):
+        self.name = name
+        self.count = count
+        self.unit = unit
+    
+
 class SubProductInfo:
     count = 0
 
@@ -13,7 +20,7 @@ class SubProductInfo:
         self.price = 0
         self.total = ''
         self.comment = ''
-        self.materialList = {}
+        self.materialRequrimentList = []
 
     def setFormalId(self, orderId):
         if self.id == 0:
@@ -34,9 +41,9 @@ class SubProductInfo:
 
     def toJson(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
-    
-    def addsubProductMaterial(self, name, count):
-        self.materialList[name] = count
+
+    def addsubProductMaterial(self, name, unit, count):
+        self.materialRequrimentList.append(MaterialRequiment(name,unit,count))
 
     def setJson2Class(self, dict_data):
         for name, value in dict_data.items():
