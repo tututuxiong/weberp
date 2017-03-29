@@ -33,21 +33,24 @@ export class DetailMaterialComponent  implements OnInit {
 
     private onEdit(index: any){
         this.materialItemtEditable = !this.materialItemtEditable;
-        this.copyDict(this.tmpProductMaterial,this.productList[index].materialList);
+        this.tmpProductMaterial = this.copyDict(this.productList[index].materialList);
         console.log("onedit:",this.tmpProductMaterial);
     }
 
     private onCancelEdit(index: any){
         this.materialItemtEditable = !this.materialItemtEditable;
-        this.copyDict(this.productList[index].materialList,this.tmpProductMaterial);
+        this.tmpProductMaterial = this.copyDict(this.productList[index].materialList);
         console.log("onedit:",this.tmpProductMaterial);
     }
 
-    private copyDict(target:any, src:any){
-        target = {};
+    private copyDict(src:any): any {
+        var target : any = {};
         for (var k in src) {
+            console.log("src: ",k,":",src[k])
             target[k] = src[k];
+            console.log("target: ",k,":",target[k])
         }
+        return target;
     }
 
     private toList(dict:any) : any {

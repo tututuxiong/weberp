@@ -28,7 +28,8 @@ export class ProcurementComponent implements OnInit {
     getProcurementOrders() : void {
         this.procurementService.getMaterialOrders().subscribe(
             orders => {this.materialOrderList = orders; 
-                // this.initialized = true; 
+                console.log("orders: ", orders);
+                console.log("materialOrderList: ", this.materialOrderList);
                 this.procurementService.setMaterialOrders(this.materialOrderList);},
             error => this.errorMessage = <any>error
         )

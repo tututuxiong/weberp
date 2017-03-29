@@ -16,21 +16,18 @@ export class ProcurementOrderService {
     dataReady = false;
     // private MaterialOrdersUrl = 'MaterialOrders';
     // private materialOrdersUrl_part1 = 'app/orders';  // URL to web API
-    private materialOrdersUrl_part2 = 'app/materialOrders';  // URL to web API
+    private materialOrdersUrl = 'app/procurementOrders';  // URL to web API
 
     private extractMaterialOrderListData(res: Response) {
              let body = res.json();
              console.log(body);
-             return body.MaterialOrders || { };
+             return body.MaterialOrderInfoList || { };
     }
 
     getMaterialOrders(): Observable<MaterialOrder[]> {
       console.log("Get procurement orders.");
-      // const url = `${this.procurementOrdersUrl}/`;
-      let url:string = 'api/MaterialOrders';
-      return this.http.get(url)
-                      .map(response => response.json().data as MaterialOrder[])
-                      // .map(this.extractProcurementOrderListData)
+      return this.http.get(this.materialOrdersUrl)
+                      .map(this.extractMaterialOrderListData)
                       .catch(this.handleError);
     }
 
