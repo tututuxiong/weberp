@@ -10,7 +10,7 @@ import { ProductsEditableComponent } from './products/products-editable.componen
 
 import { OrderService } from "./order.service";
 import { ProductService } from "./products/product.service";
-import { MaterialOrderService } from "./material-order.service";
+import { MaterialOrderService } from "../shared/material/material-order.service";
 
 import { DetailMaterialComponent } from "./detail-material/detail-material.component"
 import { MaterialStockService } from './../materialStock/materialStock.service';
