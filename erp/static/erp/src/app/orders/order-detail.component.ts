@@ -8,7 +8,7 @@ import { Product } from './products/product';
 import { ProductService } from './products/product.service';
 
 import { MaterialOrder } from '../shared/material/material-order';
-import { MaterialOrderService } from './material-order.service';
+import { MaterialOrderService } from '../shared/material/material-order.service';
 // import { MaterialOrderComponent } from '../shared/material/material-order.component';
 
 import { DetailMaterialRequriment } from './detail-material/detail-material'

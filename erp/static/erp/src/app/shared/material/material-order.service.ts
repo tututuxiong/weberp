@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import { MaterialOrder } from '../shared/material/material-order';
+import { MaterialOrder } from './material-order';
 
 import { Http, Response,Headers, RequestOptions} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
