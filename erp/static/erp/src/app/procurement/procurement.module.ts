@@ -5,7 +5,7 @@ import { HttpModule, JsonpModule }    from '@angular/http';
 
 import { ProcurementComponent } from './procurement.component';
 import { ProcurementRoutingModule } from './procurement-routing.module';
-import { ProcurementOrderService } from './procurement-order.service';
+import { ProcurementService } from './procurement.service';
 
 // Imports for loading & configuring the in-memory web api
 // import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -33,7 +33,7 @@ import { SharedModule } from '../shared/shared.module';
     ],
 
     providers: [
-        ProcurementOrderService
+        ProcurementService
     ]
 })
 

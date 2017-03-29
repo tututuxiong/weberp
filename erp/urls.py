@@ -6,6 +6,7 @@ urlpatterns = [
     url(r'dashboard$', views.index, name='index'),
     url(r'orders$', views.index, name='index'),
     url(r'materialsStock$', views.index, name='index'),
+    url(r'procurement$', views.index, name='index'),
     url(r'order/[0-9]{1,4}$', views.index, name='index'),
     url(r'app/Orders$', views.orderList),
     url(r'app/materialStocks$', views.materialStockList),

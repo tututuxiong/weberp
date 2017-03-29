@@ -17,7 +17,7 @@ import { MaterialStockService } from './../materialStock/materialStock.service';
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
 
-import { ProcurementOrderService } from '../procurement/procurement-order.service';
+// import { ProcurementOrderService } from '../procurement/procurement-order.service';
 
 @Component({
     //selector is not needed here because we use routing.
@@ -33,7 +33,7 @@ export class OrderDetailComponent implements OnInit {
         private order_service: OrderService,
         private product_service: ProductService,
         private material_order_service: MaterialOrderService,
-        private poservice: ProcurementOrderService,
+        // private poservice: ProcurementOrderService,
         private material_stock_service: MaterialStockService,
     ) {}
 
@@ -64,16 +64,14 @@ export class OrderDetailComponent implements OnInit {
                         this.updateDetailmaterialItemInfo();
                     },
                           error => this.errorMessage = <any>error);
-            console.log("xxxxxxxxxxxxxxxxxxxx.");
-            this.materialOrderList = this.poservice.getMaterialOrder(this.orderDetail.id);
 
-                //         this.material_order_service.getMaterialOrders(this.orderDetail.id)
-                // .subscribe(materialOrders => {
-                //     this.materialOrderList = this.copyMaterialOrders(materialOrders);
-                //     this.materialOrderList.forEach(mo => mo.modifyMode = false);
-                //     console.log(this.materialOrderList);},
-                //     error => this.errorMessage = <any>error,
-                //             );
+                        this.material_order_service.getMaterialOrders(this.orderDetail.id)
+                .subscribe(materialOrders => {
+                    this.materialOrderList = this.copyMaterialOrders(materialOrders);
+                    this.materialOrderList.forEach(mo => mo.modifyMode = false);
+                    console.log(this.materialOrderList);},
+                    error => this.errorMessage = <any>error,
+                            );
         });
 
         this.title = 'Order Detail';    //Initialize title attribute here!!!

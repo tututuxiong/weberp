@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { OnInit } from "@angular/core";
 
-import { ProcurementOrderService } from './procurement-order.service';
+import { ProcurementService } from './procurement.service';
 
 // Import from SharedModule
 import { MaterialOrder } from '../shared/material/material-order';
@@ -13,7 +13,7 @@ import { MaterialOrder } from '../shared/material/material-order';
 
 export class ProcurementComponent implements OnInit {
 
-    constructor(private procurementService: ProcurementOrderService){
+    constructor(private procurementService: ProcurementService){
 
     }
 
@@ -27,12 +27,22 @@ export class ProcurementComponent implements OnInit {
     //获取全部采购订单
     getProcurementOrders() : void {
         this.procurementService.getMaterialOrders().subscribe(
-            orders => {this.materialOrderList = orders; 
-                // this.initialized = true; 
-                this.procurementService.setMaterialOrders(this.materialOrderList);},
+            orders => {this.materialOrderList = this.copyMaterialOrders(orders);
+                console.log("orders: ", orders);
+                console.log("materialOrderList: ", this.materialOrderList);
+                // this.procurementService.setMaterialOrders(this.materialOrderList);
+            },
             error => this.errorMessage = <any>error
         )
     }
 
+    copyMaterialOrders(src: MaterialOrder[]) : MaterialOrder[] {
+        let dest: MaterialOrder[] = [];
 
+        src.forEach(materialOrder => {
+            dest.push(materialOrder);
+        });
+
+        return dest;
+    }
 }
