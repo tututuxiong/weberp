@@ -19,7 +19,7 @@ import { Observable } from 'rxjs/Observable';
 
 // import { ProcurementOrderService } from '../procurement/procurement-order.service';
 
-import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
+// import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     //selector is not needed here because we use routing.
@@ -37,7 +37,7 @@ export class OrderDetailComponent implements OnInit {
         private material_order_service: MaterialOrderService,
         // private poservice: ProcurementOrderService,
         private material_stock_service: MaterialStockService,
-        private modalService: NgbModal
+        // private modalService: NgbModal
     ) {}
 
     title: string; //Initialization must be put in ngOnInit; otherwise there is no effect. Don't know why.
@@ -208,21 +208,21 @@ export class OrderDetailComponent implements OnInit {
         })
     }
 
-    open(content: any) {
-        this.modalService.open(content).result.then((result) => {
-            this.closeResult = `Closed with: ${result}`;
-        }, (reason) => {
-            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        });
-    }
+    // open(content: any) {
+    //     this.modalService.open(content).result.then((result) => {
+    //         this.closeResult = `Closed with: ${result}`;
+    //     }, (reason) => {
+    //         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    //     });
+    // }
 
-    private getDismissReason(reason: any): string {
-        if (reason === ModalDismissReasons.ESC) {
-            return 'by pressing ESC';
-        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-            return 'by clicking on a backdrop';
-        } else {
-            return  `with: ${reason}`;
-        }
-    }
+    // private getDismissReason(reason: any): string {
+    //     if (reason === ModalDismissReasons.ESC) {
+    //         return 'by pressing ESC';
+    //     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+    //         return 'by clicking on a backdrop';
+    //     } else {
+    //         return  `with: ${reason}`;
+    //     }
+    // }
 }
