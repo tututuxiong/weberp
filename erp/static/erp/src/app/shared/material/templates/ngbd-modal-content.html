@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title">Hi there!</h4>
+  <h4 class="modal-title">创建新的采购订单</h4>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -15,12 +15,12 @@
           创建日期：{{materialOrder.date}}
         </div>
         <ng-container *ngIf="!materialOrder.modifyMode">
-          <button class="btn btn-primary" (click)="onModify(materialOrder)" style="position: absolute; top:10px; right: 10px">修改</button>
-          <button class="btn btn-danger" style="position: absolute; top:50px; right: 10px">删除</button>
+          <button class="btn btn-primary" (click)="onModify()" style="position: absolute; top:10px; right: 10px">修改</button>
+          <!--<button class="btn btn-danger" style="position: absolute; top:50px; right: 10px">删除</button>-->
         </ng-container>
         <ng-container *ngIf="materialOrder.modifyMode">
-          <button class="btn btn-primary" (click)="onSubmit(materialOrder)" style="position: absolute; top:10px; right: 10px">完成</button>
-          <button class="btn btn-primary" (click)="onAbort(materialOrder)" style="position: absolute; top:50px; right: 10px">撤销</button>
+          <button class="btn btn-primary" (click)="onSubmit()" style="position: absolute; top:10px; right: 10px">完成</button>
+          <button class="btn btn-primary" (click)="onAbort()" style="position: absolute; top:50px; right: 10px">撤销</button>
         </ng-container>
       </div>
       <div class="row">
@@ -37,7 +37,7 @@
 
     <div class="card-block">
       <ng-container *ngIf="materialOrder.modifyMode">
-        <material-sub-order-editable [materialSubOrderList]="materialOrder.materialSubOrderInfoList"></material-sub-order-editable>
+        <material-sub-order-editable [materialOrderId]="materialOrder.id" [materialSubOrderList]="materialOrder.materialSubOrderInfoList"></material-sub-order-editable>
       </ng-container>
       <ng-container *ngIf="!materialOrder.modifyMode">
         <material-sub-order [materialSubOrderList]="materialOrder.materialSubOrderInfoList"></material-sub-order>
@@ -46,5 +46,6 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+  <button type="button" class="btn btn-success" (click)="onSubmitOrder()">提交</button>
+  <button type="button" class="btn btn-secondary" (click)="activeModal.close('Cancel')">关闭</button>
 </div>
