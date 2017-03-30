@@ -1,5 +1,5 @@
-<div class="card-group">
-  <div class="card col-xs-12" *ngFor="let materialOrder of materialOrderList">
+<div class="row">
+  <div class="card col-sm-12" *ngFor="let materialOrder of materialOrderList">
     <div class="card-header">
       <div class="row">
         <div class="col-sm-6">
@@ -31,7 +31,7 @@
 
     <div class="card-block">
       <ng-container *ngIf="materialOrder.modifyMode">
-        <material-sub-order-editable [materialSubOrderList]="materialOrder.materialSubOrderInfoList"></material-sub-order-editable>
+        <material-sub-order-editable [materialOrderId]="materialOrder.id" [materialSubOrderList]="materialOrder.materialSubOrderInfoList"></material-sub-order-editable>
       </ng-container>
       <ng-container *ngIf="!materialOrder.modifyMode">
         <material-sub-order [materialSubOrderList]="materialOrder.materialSubOrderInfoList"></material-sub-order>

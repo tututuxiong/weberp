@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 
 import { MaterialOrderComponent } from './material/material-order.component';
 import { NgbdModalContent, MaterialOrderAddComponent } from './material/material-order-add.component';
@@ -11,6 +12,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 @NgModule({
     imports: [
         CommonModule,
+        FormsModule,
         NgbModule.forRoot()
     ],
 

@@ -19,7 +19,16 @@
       <td>{{material.unit_price}}</td>
       <td>{{material.total_price}}</td>
       <td>{{material.comment}}</td>
-      <td ><button type="button" class="btn btn-success btn-sm"><i class="fa fa-plus"></i></button></td>
+    </tr>
+    <tr>
+      <th scope="row">{{materialSubOrderList.length + 1}}</th>
+      <td><input class="form-control" [(ngModel)]="newMaterial.name"></td>
+      <td><input class="form-control" [(ngModel)]="newMaterial.num"></td>
+      <td><input class="form-control" [(ngModel)]="newMaterial.unit"></td>
+      <td><input class="form-control" [(ngModel)]="newMaterial.unit_price"></td>
+      <td><input class="form-control" [(ngModel)]="newMaterial.total_price"></td>
+      <td><input class="form-control" [(ngModel)]="newMaterial.comment"></td>
+      <td><button type="button" class="btn btn-success btn-sm" (click)="onAddMaterial()"><i class="fa fa-plus"></i></button></td>
     </tr>
   </tbody>
 </table>
