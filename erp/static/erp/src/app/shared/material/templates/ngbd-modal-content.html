@@ -1,5 +1,11 @@
-<div class="row">
-  <div class="card col-sm-12" *ngFor="let materialOrder of materialOrderList">
+<div class="modal-header">
+  <h4 class="modal-title">创建新的采购订单</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+</div>
+<div class="modal-body">
+  <div class="card col-xs-12">
     <div class="card-header">
       <div class="row">
         <div class="col-sm-6">
@@ -9,12 +15,12 @@
           创建日期：{{materialOrder.date}}
         </div>
         <ng-container *ngIf="!materialOrder.modifyMode">
-          <button class="btn btn-primary" (click)="onModify(materialOrder)" style="position: absolute; top:10px; right: 10px">修改</button>
-          <button class="btn btn-danger" style="position: absolute; top:50px; right: 10px">删除</button>
+          <button class="btn btn-primary" (click)="onModify()" style="position: absolute; top:10px; right: 10px">修改</button>
+          <!--<button class="btn btn-danger" style="position: absolute; top:50px; right: 10px">删除</button>-->
         </ng-container>
         <ng-container *ngIf="materialOrder.modifyMode">
-          <button class="btn btn-primary" (click)="onSubmit(materialOrder)" style="position: absolute; top:10px; right: 10px">完成</button>
-           <button class="btn btn-primary" (click)="onAbort(materialOrder)" style="position: absolute; top:50px; right: 10px">撤销</button>
+          <button class="btn btn-primary" (click)="onSubmit()" style="position: absolute; top:10px; right: 10px">完成</button>
+          <button class="btn btn-primary" (click)="onAbort()" style="position: absolute; top:50px; right: 10px">撤销</button>
         </ng-container>
       </div>
       <div class="row">
@@ -38,4 +44,8 @@
       </ng-container>
     </div>
   </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-success" (click)="onSubmitOrder()">提交</button>
+  <button type="button" class="btn btn-secondary" (click)="activeModal.close('Cancel')">关闭</button>
 </div>

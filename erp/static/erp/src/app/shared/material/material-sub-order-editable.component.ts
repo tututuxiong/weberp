@@ -12,4 +12,19 @@ import { MaterialSubOrder } from './material-sub-order';
 export class MaterialSubOrderEditableComponent {
     @Input()
     materialSubOrderList: MaterialSubOrder[];
+
+    @Input()
+    materialOrderId: number;
+
+    newMaterial: MaterialSubOrder = new MaterialSubOrder(this.materialOrderId);
+    
+    onAddMaterial() {
+      this.materialSubOrderList.push(this.newMaterial);
+      this.newMaterial = new MaterialSubOrder(this.materialOrderId);
+    }
+
+    onDeleteMaterial(material: MaterialSubOrder) : void {
+        let index = this.materialSubOrderList.indexOf(material);
+        this.materialSubOrderList.splice(index, 1);
+    }
 }
