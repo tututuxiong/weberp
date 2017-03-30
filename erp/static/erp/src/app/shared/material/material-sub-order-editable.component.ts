@@ -22,4 +22,9 @@ export class MaterialSubOrderEditableComponent {
       this.materialSubOrderList.push(this.newMaterial);
       this.newMaterial = new MaterialSubOrder(this.materialOrderId);
     }
+
+    onDeleteMaterial(material: MaterialSubOrder) : void {
+        let index = this.materialSubOrderList.indexOf(material);
+        this.materialSubOrderList.splice(index, 1);
+    }
 }
