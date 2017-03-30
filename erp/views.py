@@ -16,10 +16,11 @@ from .materialInfoStock import MaterialStockInfo, MaterialStockInfoList
 import json
 # Create your views here.
 
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def index(request):
     return render(request, 'erp/index.html')
-
 
 def order(request, order_id):
     return HttpResponse(order_info_1.toJson())
