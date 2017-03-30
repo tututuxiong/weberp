@@ -97,7 +97,10 @@ export class OrderDetailComponent implements OnInit {
         this.addedProductList.forEach(newProduct => {
             // let result: Product;
             this.product_service.addProducts(newProduct)
-                .subscribe(product => newProduct = Object.assign({}, product),
+                .subscribe(product => {
+                    newProduct = Object.assign({}, product);
+                    this.updateDetailmaterialItemInfo();
+                },
                 error => this.errorMessage = <any>error);
         })
 

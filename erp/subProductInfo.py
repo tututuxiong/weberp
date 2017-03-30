@@ -37,7 +37,7 @@ class SubProductInfo:
         self.comment = comment
 
     def __repr__(self):
-        return repr((self.id, self.orderId, self.name, self.count, self.unit, self.price, self.total, self.comment, self.materialList))
+        return repr((self.id, self.orderId, self.name, self.count, self.unit, self.price, self.total, self.comment, self.materialRequrimentList))
 
     def toJson(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
