@@ -5,11 +5,8 @@ import { HttpModule, JsonpModule }    from '@angular/http';
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { MaterialStockComponent} from './materialStock.component'
-import {MaterialStockService} from './materialStock.service'
-
-import {MaterialStockRoutingModule} from './materialStock-routing.module'
-import {TreeModule} from './../tree/tree.module'
+import { TreeComponent} from './tree.component'
+import {TreeService} from './tree.service'
 
 @NgModule({
     imports: [
@@ -18,16 +15,16 @@ import {TreeModule} from './../tree/tree.module'
         HttpModule,
         JsonpModule,
         NgbModule,
-        MaterialStockRoutingModule,
-        TreeModule,
     ],
 
     declarations: [
-        MaterialStockComponent,
+        TreeComponent,
     ],
     providers: [
-        MaterialStockService
-    ]
+        TreeService,
+    ],
+
+    exports:[TreeComponent,],
 })
 
-export class MaterialStockModule {}
+export class TreeModule {}

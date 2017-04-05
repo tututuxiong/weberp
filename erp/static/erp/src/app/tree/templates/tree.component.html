@@ -1,0 +1,11 @@
+<ul>
+    <li>{{root_tree.name}}</li>
+    <ul>
+        <li *ngFor="let node of root_tree.nodes">{{node.name}}</li>
+    </ul>
+    <div *ngFor="let sub of root_tree.subTrees">
+        <tree-view [root_tree]="sub"></tree-view>
+    </div>
+    <li>新增产品</li>
+    <li>新增产品分类</li>
+</ul>

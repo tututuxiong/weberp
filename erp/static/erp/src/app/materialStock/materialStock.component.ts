@@ -2,7 +2,9 @@ import { Component } from "@angular/core";
 import { OnInit } from "@angular/core";
 
 import { MaterialStockService } from './materialStock.service';
+import { TreeService } from './../tree/tree.service';
 import { MaterialStock } from './materialStock';
+import { Tree, Node } from './../tree/tree';
 
 // Component definition
 @Component({
@@ -15,19 +17,34 @@ import { MaterialStock } from './materialStock';
 
 export class MaterialStockComponent implements OnInit {
     constructor(
-        private materialStockService: MaterialStockService
-    ) {}
+        private materialStockService: MaterialStockService,
+        private treeService: TreeService,
+    ) { }
 
-        ngOnInit() : void {
+    ngOnInit(): void {
+        this.root_tree = new Tree();
         this.getMaterialStocks();
+        this.getTree();
     }
     materialStockList: MaterialStock[];
+    root_tree: Tree;
     errorMessage: string;
 
-        getMaterialStocks(): void {
+    getMaterialStocks(): void {
         this.materialStockService.getMaterialStocks()
-                         .subscribe(
-                           materialsStock => this.materialStockList = materialsStock,
-                           error => this.errorMessage = <any>error);
+            .subscribe(
+            materialsStock => this.materialStockList = materialsStock,
+            error => this.errorMessage = <any>error);
+
+    }
+
+    getTree(): void{
+        this.treeService.getRootTree().subscribe(materialTree => {
+            this.root_tree = materialTree;
+            console.log(this.root_tree.nodes);
+            console.log(this.root_tree.name);
+            console.log(this.root_tree.subTrees);
+        },
+        error => this.errorMessage = <any>error)
     }
 }

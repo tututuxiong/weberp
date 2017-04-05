@@ -12,6 +12,7 @@ from .materialOrderInfo import MaterialOrderInfo, MaterialSubOrderInfo
 from .materialOrderInfoList import MaterialOrderInfoList
 
 from .materialInfoStock import MaterialStockInfo, MaterialStockInfoList
+from .testClass import Tree, Node
 
 import json
 # Create your views here.
@@ -136,6 +137,21 @@ def materialStockbyName(request, material_name):
     material_stock_info.instockNum = 10
     material_stock_info.shoppingNum = 30
     return  HttpResponse(material_stock_info.toJson())
+
+def tree(request):
+    return  HttpResponse(root.toJson())
+
+
+root = Tree("root")
+subtree1 = Tree("subTree_1")
+node_1 = Tree("node_1")
+subtree = Tree("subTree")
+subtree.addSubTree(subtree1)
+subtree.addNode(node_1)
+node  = Node("node1")
+root.addNode(node)
+root.addSubTree(subtree)
+
 
 # Stub for test
 ####################################

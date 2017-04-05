@@ -18,4 +18,6 @@ urlpatterns = [
     url(r'app/subProduct/(?P<product_id>[0-9]+)$', views.subProduct),
     url(r'app/orders/(?P<order_id>[0-9]+)/procurementOrders$', views.materialOrderList),
     url(r'app/procurementOrder/(?P<procurementOrder_id>[0-9]+)$', views.materialOrder),
+    url(r'app/tree$', views.tree),
+    
 ]

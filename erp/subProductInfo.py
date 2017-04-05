@@ -6,7 +6,6 @@ class MaterialRequiment:
         self.name = name
         self.count = count
         self.unit = unit
-    
 
 class SubProductInfo:
     count = 0
@@ -49,3 +48,4 @@ class SubProductInfo:
         for name, value in dict_data.items():
             if hasattr(self, name):
                 setattr(self, name, value)
+
