@@ -1,11 +1,13 @@
 <ul>
-    <li>{{root_tree.name}}</li>
-    <ul>
-        <li *ngFor="let node of root_tree.nodes">{{node.name}}</li>
-    </ul>
-    <div *ngFor="let sub of root_tree.subTrees">
-        <tree-view [root_tree]="sub" [path]="path + spacing +  root_tree.name"></tree-view>
-    </div>
-    <li><button class="btn btn-primary" (click)="AddNode()">新增产品</button></li>
-    <li><button class="btn btn-primary" (click)="AddSubTree()">新增分类</button></li>
+    <li><button class="btn btn-default" (click)="expand()">{{root_tree.name}}</button></li>
+    <ng-container *ngIf="isExpand">
+        <ul>
+            <li *ngFor="let node of root_tree.nodes">{{node.name}}</li>
+        </ul>
+        <div *ngFor="let sub of root_tree.subTrees">
+            <tree-view [root_tree]="sub" [path]="path + spacing +  root_tree.name"></tree-view>
+        </div>
+        <li><button class="btn btn-primary" (click)="AddNode()">新增产品</button></li>
+        <li><button class="btn btn-primary" (click)="AddSubTree()">新增分类</button></li>
+    </ng-container>
 </ul>

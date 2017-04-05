@@ -19,9 +19,11 @@ export class TreeComponent implements OnInit {
     path: string;
 
     spacing: string;
+    isExpand: boolean;
 
     ngOnInit(): void {
         this.spacing = ":";
+        this.isExpand = false;
     }
     AddNode() {
         console.log(this.path);
@@ -30,5 +32,10 @@ export class TreeComponent implements OnInit {
     AddSubTree() {
         console.log(this.path);
         console.log(this.root_tree.name);
-    }    
+    }
+    
+    expand()
+    {
+        this.isExpand = !this.isExpand;
+    } 
 }
