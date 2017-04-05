@@ -4,8 +4,8 @@
         <li *ngFor="let node of root_tree.nodes">{{node.name}}</li>
     </ul>
     <div *ngFor="let sub of root_tree.subTrees">
-        <tree-view [root_tree]="sub"></tree-view>
+        <tree-view [root_tree]="sub" [path]="path + spacing +  root_tree.name"></tree-view>
     </div>
-    <li>新增产品</li>
-    <li>新增产品分类</li>
+    <li><button class="btn btn-primary" (click)="AddNode()">新增产品</button></li>
+    <li><button class="btn btn-primary" (click)="AddSubTree()">新增分类</button></li>
 </ul>

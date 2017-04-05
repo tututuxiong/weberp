@@ -25,10 +25,12 @@ export class MaterialStockComponent implements OnInit {
         this.root_tree = new Tree();
         this.getMaterialStocks();
         this.getTree();
+        this.root_path = "/";
     }
     materialStockList: MaterialStock[];
     root_tree: Tree;
     errorMessage: string;
+    root_path: string;
 
     getMaterialStocks(): void {
         this.materialStockService.getMaterialStocks()
