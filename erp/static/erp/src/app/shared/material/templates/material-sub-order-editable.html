@@ -25,7 +25,9 @@
     <tr>
       <th></th>
       <th scope="row">{{materialSubOrderList.length + 1}}</th>
-      <td><input class="form-control" [(ngModel)]="newMaterial.name"></td>
+      <td><select class="custom-select">
+        <option selected>{{newMaterial.name}}</option>
+        </select></td>
       <td><input class="form-control" [(ngModel)]="newMaterial.num"></td>
       <td><input class="form-control" [(ngModel)]="newMaterial.unit"></td>
       <td><input class="form-control" [(ngModel)]="newMaterial.unit_price"></td>
