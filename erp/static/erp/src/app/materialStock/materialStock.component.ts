@@ -43,9 +43,6 @@ export class MaterialStockComponent implements OnInit {
     getTree(): void{
         this.treeService.getRootTree().subscribe(materialTree => {
             this.root_tree = materialTree;
-            console.log(this.root_tree.nodes);
-            console.log(this.root_tree.name);
-            console.log(this.root_tree.subTrees);
         },
         error => this.errorMessage = <any>error)
     }

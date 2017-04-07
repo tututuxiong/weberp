@@ -1,13 +1,33 @@
-<ul>
+<!--<ul>
     <li><button class="btn btn-default" (click)="expand()">{{root_tree.name}}</button></li>
     <ng-container *ngIf="isExpand">
+        <div *ngFor="let sub of root_tree.subTrees">
+            <tree-view [root_tree]="sub"></tree-view>
+        </div>
         <ul>
             <li *ngFor="let node of root_tree.nodes">{{node.name}}</li>
+            <ng-container *ngIf="!addNewNodeFlag">
+                <li><button class="btn btn-default" (click)="AddNode()">添加原材料</button></li>
+            </ng-container>
+            <ng-container *ngIf="addNewNodeFlag">
+                <li>
+                    <input class="form-control user-input" [(ngModel)]="newNode.name">
+                    <button class="btn btn-default" (click)="AddNodeCompelet()">完成</button></li>
+            </ng-container>
+            <li><button class="btn btn-default" (click)="AddSubTree()">添加分类</button></li>
         </ul>
-        <div *ngFor="let sub of root_tree.subTrees">
-            <tree-view [root_tree]="sub" [path]="path + spacing +  root_tree.name"></tree-view>
-        </div>
-        <li><button class="btn btn-primary" (click)="AddNode()">新增产品</button></li>
-        <li><button class="btn btn-primary" (click)="AddSubTree()">新增分类</button></li>
     </ng-container>
-</ul>
+</ul>-->
+<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+    <ngb-panel *ngFor="let sub of root_tree.subTrees" title={{sub.name}}>
+        <template ngbPanelContent>
+            <tree-view [root_tree]="sub"></tree-view>
+        </template>
+    </ngb-panel>
+
+    <ngb-panel *ngFor="let node of root_tree.nodes" title={{node.name}}>
+        <template ngbPanelContent>
+            <h5>{{node.name}}</h5>
+        </template>
+    </ngb-panel>
+</ngb-accordion>

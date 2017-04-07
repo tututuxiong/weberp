@@ -142,15 +142,19 @@ def tree(request):
     return  HttpResponse(root.toJson())
 
 
-root = Tree("root")
-subtree1 = Tree("subTree_1")
-node_1 = Tree("node_1")
-subtree = Tree("subTree")
-subtree.addSubTree(subtree1)
+root = Tree("布匹")
+
+node_1 = Tree("红色尼龙布")
+subtree = Tree("尼龙布")
 subtree.addNode(node_1)
-node  = Node("node1")
+print(node_1.parentId)
+subtree1 = Tree("桃皮绒")
+subtree1.addNode(Node("漂白斜纹桃皮绒X"))
+node  = Node("白布")
 root.addNode(node)
 root.addSubTree(subtree)
+print(subtree.parentId)
+root.addSubTree(subtree1)
 
 
 # Stub for test

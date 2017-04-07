@@ -14,28 +14,30 @@ import { OnInit } from "@angular/core";
 export class TreeComponent implements OnInit {
     @Input()
     root_tree: Tree;
-
-    @Input()
-    path: string;
-
-    spacing: string;
-    isExpand: boolean;
+  
+    addNewNodeFlag: boolean;
+    newNode: Node;
 
     ngOnInit(): void {
-        this.spacing = ":";
-        this.isExpand = false;
+        this.addNewNodeFlag = false;
+        this.newNode = new Node();
+        this.newNode.parentId = this.root_tree.id;
     }
     AddNode() {
-        console.log(this.path);
+        this.addNewNodeFlag = true;
+        console.log(this.root_tree.id);
         console.log(this.root_tree.name);
+    }
+    AddNodeCompelet(){
+        if (this.newNode.name.length != 0)
+        {
+            this.root_tree.nodes.push(this.newNode);
+            this.newNode = new Node();
+        }        
+        this.addNewNodeFlag = false;
     }
     AddSubTree() {
-        console.log(this.path);
+        console.log(this.root_tree.id);
         console.log(this.root_tree.name);
     }
-    
-    expand()
-    {
-        this.isExpand = !this.isExpand;
-    } 
 }

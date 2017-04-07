@@ -29,3 +29,11 @@
         </tr>
     </tbody>
 </table>
+
+<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+    <ngb-panel title={{root_tree.name}}>
+        <template ngbPanelContent>
+            <tree-view [root_tree]="root_tree"></tree-view>
+        </template>
+    </ngb-panel>
+</ngb-accordion>
