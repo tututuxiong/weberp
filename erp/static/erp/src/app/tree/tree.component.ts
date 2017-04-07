@@ -14,14 +14,22 @@ import { OnInit } from "@angular/core";
 export class TreeComponent implements OnInit {
     @Input()
     root_node: Node;
+
+    @Input()
+    tree_type: string;
   
     addnewLeafFlag: boolean;
     newLeaf: Leaf;
+    isMaterialTree:boolean;
+    haveLeafs:boolean;
 
     ngOnInit(): void {
         this.addnewLeafFlag = false;
         this.newLeaf = new Leaf();
         this.newLeaf.parentId = this.root_node.id;
+        console.log(this.root_node.name,this.root_node.leafs)
+        this.haveLeafs = true;//(this.root_node.leafs.length != 0);
+        this.isMaterialTree = (this.tree_type == "M");
     }
     AddNode() {
         this.addnewLeafFlag = true;

@@ -19,12 +19,37 @@
     </ng-container>
 </ul>-->
 <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-    <ngb-panel  title={{root_node.name}}>
+    <ngb-panel title={{root_node.name}}>
         <template ngbPanelContent>
             <ngb-panel *ngFor="let sub of root_node.subNodes" title={{sub.name}}>
-                <tree-view [root_node]="sub"></tree-view>
+                <tree-view [root_node]="sub" [tree_type]="tree_type"></tree-view>
             </ngb-panel>
-            <h5 *ngFor="let node of root_node.leafs">{{node.name}}</h5>
+            <ng-container *ngIf="root_node.leafs?.length > 0">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>编号</th>
+                            <th>名称</th>
+                            <th>单位</th>
+                            <th>库存数量</th>
+                            <ng-container *ngIf="isMaterialTree">
+                                <th>采购中(未到库)</th>
+                            </ng-container>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let materialStock of root_node.leafs">
+                            <th>{{materialStock.internalId}}</th>
+                            <td>{{materialStock.name}}</td>
+                            <td>{{materialStock.unit}}</td>
+                            <td>{{materialStock.instockNum}}</td>
+                            <ng-container *ngIf="isMaterialTree">
+                                <td>{{materialStock.shoppingNum}}</td>
+                            </ng-container>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-container>
         </template>
-        </ngb-panel>
+    </ngb-panel>
 </ngb-accordion>

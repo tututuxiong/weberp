@@ -23,14 +23,16 @@ export class MaterialStockComponent implements OnInit {
 
     ngOnInit(): void {
         this.root_node = new Node();
-        this.getMaterialStocks();
+        //this.getMaterialStocks();
         this.getTree();
         this.root_path = "/";
+        this.tree_type = "M";
     }
     materialStockList: MaterialStock[];
     root_node: Node;
     errorMessage: string;
     root_path: string;
+    tree_type: string;
 
     getMaterialStocks(): void {
         this.materialStockService.getMaterialStocks()

@@ -1,11 +1,11 @@
 import json
+from .tree import Leaf
 
-class MaterialStockInfo:
+class MaterialStockInfo(Leaf):
     count = 0
 
     def __init__(self):
         self.id = 0
-        self.name = ''
         self.internalId = ''
         self.instockNum = 0
         self.unit = ''

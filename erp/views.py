@@ -147,17 +147,16 @@ root = Node("布匹")
 node_1 = Leaf("红色尼龙布")
 subtree = Node("尼龙布")
 subtree.addLeaf(node_1)
-print(node_1.parentId)
+
 subtree1 = Node("桃皮绒")
 subtree1_1 = Node("桃皮绒xxx")
 node1_1 = Leaf("桃皮绒xxx")
 subtree1_1.addLeaf(node1_1)
 subtree1.addLeaf(Node("漂白斜纹桃皮绒X"))
 subtree1.addSubNode(subtree1_1)
-node  = Leaf("白布")
+node = Leaf("白布")
 root.addLeaf(node)
 root.addSubNode(subtree)
-print(subtree.parentId)
 root.addSubNode(subtree1)
 
 
@@ -219,3 +218,5 @@ material_stock_1.setFormalId()
 
 material_stock_list = MaterialStockInfoList()
 material_stock_list.addMaterialStockInfo(material_stock_1)
+
+root.addLeaf(material_stock_1)
