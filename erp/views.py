@@ -213,7 +213,7 @@ material_order_list.addMaterialOrderInfo(material_order_1)
 
 ###########################################
 material_stock_1 = MaterialStockInfo()
-material_stock_1.setValue('裤头','编号 xxx-xxx', 100, '条', 200)
+material_stock_1.setValue('裤头','xxx-xxx', 100, '条', 200)
 material_stock_1.setFormalId()
 
 material_stock_list = MaterialStockInfoList()

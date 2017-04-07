@@ -27,24 +27,22 @@
             <ng-container *ngIf="root_node.leafs?.length > 0">
                 <table class="table table-hover">
                     <thead>
-                        <tr>
+                        <!--<tr>
                             <th>编号</th>
                             <th>名称</th>
-                            <th>单位</th>
                             <th>库存数量</th>
                             <ng-container *ngIf="isMaterialTree">
                                 <th>采购中(未到库)</th>
                             </ng-container>
-                        </tr>
+                        </tr>-->
                     </thead>
                     <tbody>
                         <tr *ngFor="let materialStock of root_node.leafs">
                             <th>{{materialStock.internalId}}</th>
                             <td>{{materialStock.name}}</td>
-                            <td>{{materialStock.unit}}</td>
-                            <td>{{materialStock.instockNum}}</td>
+                            <td>库存数量: {{materialStock.instockNum}}/{{materialStock.unit}}</td>
                             <ng-container *ngIf="isMaterialTree">
-                                <td>{{materialStock.shoppingNum}}</td>
+                                <td>采购中: {{materialStock.shoppingNum}}/{{materialStock.unit}}</td>
                             </ng-container>
                         </tr>
                     </tbody>
