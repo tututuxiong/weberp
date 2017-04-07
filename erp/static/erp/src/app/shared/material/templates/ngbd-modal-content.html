@@ -46,6 +46,6 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-success" (click)="onSubmitOrder()">提交</button>
+  <button type="button" class="btn btn-success" (click)="onSubmitOrder()" [disabled]="materialOrder.modifyMode">提交</button>
   <button type="button" class="btn btn-secondary" (click)="activeModal.close('Cancel')">关闭</button>
 </div>
