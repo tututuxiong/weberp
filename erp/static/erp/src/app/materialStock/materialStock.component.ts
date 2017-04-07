@@ -4,7 +4,7 @@ import { OnInit } from "@angular/core";
 import { MaterialStockService } from './materialStock.service';
 import { TreeService } from './../tree/tree.service';
 import { MaterialStock } from './materialStock';
-import { Tree, Node } from './../tree/tree';
+import { Leaf, Node } from './../tree/tree';
 
 // Component definition
 @Component({
@@ -22,13 +22,13 @@ export class MaterialStockComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.root_tree = new Tree();
+        this.root_node = new Node();
         this.getMaterialStocks();
         this.getTree();
         this.root_path = "/";
     }
     materialStockList: MaterialStock[];
-    root_tree: Tree;
+    root_node: Node;
     errorMessage: string;
     root_path: string;
 
@@ -42,7 +42,7 @@ export class MaterialStockComponent implements OnInit {
 
     getTree(): void{
         this.treeService.getRootTree().subscribe(materialTree => {
-            this.root_tree = materialTree;
+            this.root_node = materialTree;
         },
         error => this.errorMessage = <any>error)
     }

@@ -19,12 +19,12 @@
     </ng-container>
 </ul>-->
 <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-    <ngb-panel  title={{root_tree.name}}>
+    <ngb-panel  title={{root_node.name}}>
         <template ngbPanelContent>
-            <ngb-panel *ngFor="let sub of root_tree.subTrees" title={{sub.name}}>
-                <tree-view [root_tree]="sub"></tree-view>
+            <ngb-panel *ngFor="let sub of root_node.subNodes" title={{sub.name}}>
+                <tree-view [root_node]="sub"></tree-view>
             </ngb-panel>
-            <h5 *ngFor="let node of root_tree.nodes">{{node.name}}</h5>
+            <h5 *ngFor="let node of root_node.leafs">{{node.name}}</h5>
         </template>
         </ngb-panel>
 </ngb-accordion>

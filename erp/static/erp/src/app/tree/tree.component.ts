@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { Input } from "@angular/core";
-import { Tree, Node } from './tree';
+import { Leaf, Node } from './tree';
 import { OnInit } from "@angular/core";
 // Component definition
 @Component({
@@ -13,31 +13,31 @@ import { OnInit } from "@angular/core";
 
 export class TreeComponent implements OnInit {
     @Input()
-    root_tree: Tree;
+    root_node: Node;
   
-    addNewNodeFlag: boolean;
-    newNode: Node;
+    addnewLeafFlag: boolean;
+    newLeaf: Leaf;
 
     ngOnInit(): void {
-        this.addNewNodeFlag = false;
-        this.newNode = new Node();
-        this.newNode.parentId = this.root_tree.id;
+        this.addnewLeafFlag = false;
+        this.newLeaf = new Leaf();
+        this.newLeaf.parentId = this.root_node.id;
     }
     AddNode() {
-        this.addNewNodeFlag = true;
-        console.log(this.root_tree.id);
-        console.log(this.root_tree.name);
+        this.addnewLeafFlag = true;
+        console.log(this.root_node.id);
+        console.log(this.root_node.name);
     }
     AddNodeCompelet(){
-        if (this.newNode.name.length != 0)
+        if (this.newLeaf.name.length != 0)
         {
-            this.root_tree.nodes.push(this.newNode);
-            this.newNode = new Node();
+            this.root_node.leafs.push(this.newLeaf);
+            this.newLeaf = new Node();
         }        
-        this.addNewNodeFlag = false;
+        this.addnewLeafFlag = false;
     }
     AddSubTree() {
-        console.log(this.root_tree.id);
-        console.log(this.root_tree.name);
+        console.log(this.root_node.id);
+        console.log(this.root_node.name);
     }
 }

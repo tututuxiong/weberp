@@ -12,7 +12,7 @@ from .materialOrderInfo import MaterialOrderInfo, MaterialSubOrderInfo
 from .materialOrderInfoList import MaterialOrderInfoList
 
 from .materialInfoStock import MaterialStockInfo, MaterialStockInfoList
-from .testClass import Tree, Node
+from .tree import Leaf, Node
 
 import json
 # Create your views here.
@@ -142,19 +142,23 @@ def tree(request):
     return  HttpResponse(root.toJson())
 
 
-root = Tree("布匹")
+root = Node("布匹")
 
-node_1 = Tree("红色尼龙布")
-subtree = Tree("尼龙布")
-subtree.addNode(node_1)
+node_1 = Leaf("红色尼龙布")
+subtree = Node("尼龙布")
+subtree.addLeaf(node_1)
 print(node_1.parentId)
-subtree1 = Tree("桃皮绒")
-subtree1.addNode(Node("漂白斜纹桃皮绒X"))
-node  = Node("白布")
-root.addNode(node)
-root.addSubTree(subtree)
+subtree1 = Node("桃皮绒")
+subtree1_1 = Node("桃皮绒xxx")
+node1_1 = Leaf("桃皮绒xxx")
+subtree1_1.addLeaf(node1_1)
+subtree1.addLeaf(Node("漂白斜纹桃皮绒X"))
+subtree1.addSubNode(subtree1_1)
+node  = Leaf("白布")
+root.addLeaf(node)
+root.addSubNode(subtree)
 print(subtree.parentId)
-root.addSubTree(subtree1)
+root.addSubNode(subtree1)
 
 
 # Stub for test

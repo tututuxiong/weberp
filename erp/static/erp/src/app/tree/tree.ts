@@ -1,11 +1,11 @@
-export class Node{
+export class Leaf{
     name: string;
     parentId: number;
 }
 
-export class Tree {
-    subTrees: Tree[];
-    nodes: Node[];
+export class Node {
+    subNodes: Node[];
+    leafs: Leaf[];
     name: string;
     parentId: number;
     id : number;
