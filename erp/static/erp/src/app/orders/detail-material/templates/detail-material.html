@@ -1,6 +1,6 @@
 <ngb-tabset>
-    <ngb-tab title="总计需求">
-        <template ngbTabContent>
+  <ngb-tab title="总计需求">
+    <template ngbTabContent>
       <table class="table">
         <tr>
           <th scope="col"></th>
@@ -10,7 +10,7 @@
           <th>未入库(采购中)</th>
         </tr>
         <tr *ngFor="let material of materialItemList; let i = index">
-          <th >{{i+1}}</th>
+          <th>{{i+1}}</th>
           <td>{{material.name}}</td>
           <td>{{material.requrimentNum}}</td>
           <td>{{material.instockNum}}</td>
@@ -18,10 +18,10 @@
         </tr>
       </table>
     </template>
-    </ngb-tab>
+  </ngb-tab>
 
-    <ngb-tab *ngFor="let product of productList; let i = index" title={{product.name}}>
-        <template ngbTabContent>
+  <ngb-tab *ngFor="let product of productList; let i = index" title={{product.name}}>
+    <template ngbTabContent>
       <div class="row">
         <div class="col-sm-8"></div>
         <div class="col-sm-4" *ngIf="materialItemtEditable">
@@ -41,7 +41,7 @@
             <th>单位</th>
             <th>数量</th>
           </ng-container>
-          
+
           <ng-container *ngIf="materialItemtEditable">
             <th scope="col"></th>
             <th></th>
@@ -53,7 +53,7 @@
         </tr>
         <ng-container *ngIf="!materialItemtEditable">
           <tr *ngFor="let material of product.materialRequrimentList; let j = index">
-            <th >{{j+1}}</th>
+            <th>{{j+1}}</th>
             <td>{{material.name}}</td>
             <td>{{material.unit}}</td>
             <td>{{material.count}}</td>
@@ -61,22 +61,29 @@
         </ng-container>
         <ng-container *ngIf="materialItemtEditable">
           <tr *ngFor="let material of product.materialRequrimentList; let j = index">
-            <th ><button type="button" class="btn btn-danger btn-sm" (click)="onDelete(i,j)"><i class="fa fa-minus"></i></button></th>
-            <th >{{j+1}}</th>
+            <th><button type="button" class="btn btn-danger btn-sm" (click)="onDelete(i,j)"><i class="fa fa-minus"></i></button></th>
+            <th>{{j+1}}</th>
             <td>{{material.name}}</td>
             <td>{{material.unit}}</td>
-            <td ><input class="form-control user-input" [(ngModel)]="material.count"></td>
+            <td><input class="form-control user-input" [(ngModel)]="material.count"></td>
           </tr>
           <tr>
-              <th></th>
-              <th>{{product.materialRequrimentList.length + 1}}</th>
-              <td ><input class="form-control user-input" [(ngModel)]="newMaterialName"></td>
-              <td ><input class="form-control user-input" [(ngModel)]="newMaterialUnit"></td>
-              <td ><input class="form-control user-input" [(ngModel)]="newMaterialNumber"></td>
-              <td ><button type="button" class="btn btn-success btn-sm" (click)="onAdd(newMaterialName,newMaterialUnit,newMaterialNumber,i)"><i class="fa fa-plus"></i></button></td>
-           </tr>
+            <th></th>
+            <td>
+              <ng-container *ngIf="choose_leaf?.name">
+                <td><h2>{{choose_leaf.name}}</h2></td>
+              </ng-container>
+              <dropdown-tree-view [root_node]="mateialTree" (choose_leaf)="onChooseLeaf($event)"></dropdown-tree-view>
+            </td>
+            <th>{{product.materialRequrimentList.length + 1}}</th>
+            <!--<td ><input class="form-control user-input" [(ngModel)]="newMaterialName"></td>
+              <td ><input class="form-control user-input" [(ngModel)]="newMaterialUnit"></td>-->
+            <td><input class="form-control user-input" [(ngModel)]="newMaterialNumber"></td>
+            <td><button type="button" class="btn btn-success btn-sm" (click)="onAdd(newMaterialName,newMaterialUnit,newMaterialNumber,i)"><i class="fa fa-plus"></i></button></td>
+          </tr>
+
         </ng-container>
       </table>
     </template>
-    </ngb-tab>
+  </ngb-tab>
 </ngb-tabset>

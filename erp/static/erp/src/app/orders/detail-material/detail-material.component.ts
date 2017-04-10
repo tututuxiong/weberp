@@ -6,6 +6,8 @@ import { MaterialStock } from './../../materialStock/materialStock'
 import { DetailMaterialRequriment } from './detail-material'
 import { MaterialStockService } from './../../materialStock/materialStock.service';
 import { ProductService } from './../products/product.service';
+import { TreeService } from './../../tree/tree.service'
+import { Node, Leaf } from './../../tree/tree'
 
 @Component({
     selector: 'detail-material',
@@ -27,15 +29,22 @@ export class DetailMaterialComponent implements OnInit {
     newMaterialUnit: string;
     errorMessage: string;
 
+    mateialTree: Node;
+    choose_leaf: Leaf;
     constructor(
         private material_stock_service: MaterialStockService,
         private product_service: ProductService,
-
+        private tree_service: TreeService
     ) { }
 
     ngOnInit(): void {
         this.materialItemtEditable = false;
         this.newMaterialNumber = 0;
+        this.mateialTree = new Node();
+    }
+    
+    onChooseLeaf(leaf: Leaf){
+        this.choose_leaf = leaf;
     }
 
     onSubmitEdit(index: number) {
@@ -74,6 +83,7 @@ export class DetailMaterialComponent implements OnInit {
     onEdit(index: number) {
         this.tmpProductMaterial = this.copyMaterialRequrimentArray(this.productList[index].materialRequrimentList);
         this.materialItemtEditable = !this.materialItemtEditable;
+        this.tree_service.getRootTree().subscribe(materialTree => this.mateialTree = materialTree)
     }
 
     onCancelEdit(index: any) {
@@ -160,5 +170,5 @@ export class DetailMaterialComponent implements OnInit {
             target.push(p)
         });
         return target;
-    }
+    }  
 }

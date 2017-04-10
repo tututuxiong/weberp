@@ -10,3 +10,7 @@
 </div>
 
 <tree-view [root_node]="root_node" [tree_type]="tree_type"></tree-view>
+<ng-container *ngIf="choose_leaf?.name">
+    <h2>{{choose_leaf.name}}</h2>
+</ng-container>
+<dropdown-tree-view [root_node]="root_node" (choose_leaf) = "onChooseLeaf($event)"></dropdown-tree-view>

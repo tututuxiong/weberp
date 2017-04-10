@@ -1,0 +1,33 @@
+<!--<ul>
+    <li><button class="btn btn-link dropdown-toggle" (click)="expand()">{{root_node.name}}</button></li>
+    <ng-container *ngIf="isExpand">
+        <li *ngFor="let subNode of root_node.subNodes">
+            <dropdown-tree-view [root_node]="subNode" (choose_leaf)="onChooseLeaf($event)"></dropdown-tree-view>
+        </li>
+        <li *ngFor="let leaf of root_node.leafs">
+            <button class="btn btn-info" (click)="onChooseLeaf(leaf)">{{leaf.name}}</button>
+        </li>
+    </ng-container>
+</ul>-->
+
+<div *ngFor="let selectItem of selectTargets; let i = index">
+    <select [ngModel]="selectItem" (ngModelChange)="onChangeObj($event,i)" name={{selectItem.name}}>
+    <option [ngValue]="i" *ngFor="let i of selectItem.subNodes">{{i.name}}</option>
+    <option [ngValue]="i" *ngFor="let i of selectItem.leafs">{{i.name}}</option>
+  </select>
+</div>
+<!--
+<div ngbDropdown class="d-inline-block">
+    <button class="btn btn-outline-primary" ngbDropdownToggle (click)="expand()">{{root_node.name}}</button>
+    <ng-container *ngIf="isExpand">
+        <div class="row">
+            <div class="dropdown-menu col-md-3">
+                <button  *ngFor="let subNode of root_node.subNodes" class="dropdown-item">{{subNode.name}}</button>
+                <button *ngFor="let leaf of root_node.leafs" class="dropdown-item">{{leaf.name}}</button>
+            </div>
+            <div class="col-md-3">
+                <dropdown-tree-view [root_node]="subNode"></dropdown-tree-view>
+            </div>
+        </div>
+    </ng-container>
+</div>-->

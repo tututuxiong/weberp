@@ -33,6 +33,7 @@ export class MaterialStockComponent implements OnInit {
     errorMessage: string;
     root_path: string;
     tree_type: string;
+    choose_leaf: Leaf;
 
     getMaterialStocks(): void {
         this.materialStockService.getMaterialStocks()
@@ -47,5 +48,8 @@ export class MaterialStockComponent implements OnInit {
             this.root_node = materialTree;
         },
         error => this.errorMessage = <any>error)
+    }
+    onChooseLeaf(leaf: Leaf){
+        this.choose_leaf = leaf;
     }
 }
