@@ -5,6 +5,8 @@ import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-boot
 import { MaterialOrder } from './material-order';
 import { MaterialSubOrder } from './material-sub-order';
 
+import { MaterialOrderService } from './material-order.service';
+
 @Component({
   selector: 'ngbd-modal-content',
   moduleId: module.id,
@@ -21,13 +23,13 @@ export class NgbdModalContent implements OnInit {
       this.materialOrderOld = this.copyMaterialOrder(this.materialOrder);
     }
 
-    constructor(public activeModal: NgbActiveModal) {
+    constructor(public activeModal: NgbActiveModal,
+                private materialService: MaterialOrderService) {
 
     }
 
     onSubmit() : void {
-      this.materialOrder.modifyMode = false;
-      this.materialOrderOld = this.copyMaterialOrder(this.materialOrder);
+        this.materialOrder.modifyMode = false;
     }
 
     onAbort() : void {
@@ -37,9 +39,14 @@ export class NgbdModalContent implements OnInit {
 
     onModify() : void {
       this.materialOrder.modifyMode = true;
+      this.materialOrderOld = this.copyMaterialOrder(this.materialOrder);
     }
 
     onSubmitOrder() : void {
+      this.materialService.addMaterialOrder(this.materialOrder).subscribe(mo => {
+        this.materialOrder = this.copyMaterialOrder(mo);
+        this.materialOrder.modifyMode = false;
+      });
       this.activeModal.close('Confirm');
     }
 

@@ -13,7 +13,9 @@ export class MaterialOrderService {
     private materialOrdersUrl_part2 = 'procurementOrders';  // URL to web API
 
     private procurementOrdersUrl = 'app/procurementOrders';
-    // private materialOrder = 'app/procurementOrder';  // URL to web API
+
+    private createMaterialOrderUrl = 'app/procurementOrder';
+
     constructor (private http: Http) {}
 
     // private extractMaterialOrderData(res: Response) {
@@ -73,14 +75,14 @@ export class MaterialOrderService {
     //                    .catch(this.handleError);
     // }
 
-    //  addMaterialOrder(materialOrder: MaterialOrder): Observable<MaterialOrder>{
-    //   let headers = new Headers({ 'Content-Type': 'application/json' });
-    //   let options = new RequestOptions({ headers: headers });
-    //   const url = `${this.materialOrder}/${materialOrder.id}`;
-    //   return  this.http.put(url, { materialOrder }, options)
-    //                    .map(this.extractMaterialOrderData)
-    //                    .catch(this.handleError);
-    // }    
+     addMaterialOrder(materialOrder: MaterialOrder): Observable<MaterialOrder>{
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      const url = `${this.createMaterialOrderUrl}/0`;
+      return  this.http.put(url, { materialOrder }, options)
+                       .map(this.extractMaterialOrderData)
+                       .catch(this.handleError);
+    }    
 
     //  delProducts(materialOrder: MaterialOrder): Observable<MaterialOrder>{
     //   let headers = new Headers({ 'Content-Type': 'application/json' });
