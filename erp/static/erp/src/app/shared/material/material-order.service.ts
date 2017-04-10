@@ -11,7 +11,9 @@ import 'rxjs/add/operator/map';
 export class MaterialOrderService {
     private materialOrdersUrl_part1 = 'app/orders';  // URL to web API
     private materialOrdersUrl_part2 = 'procurementOrders';  // URL to web API
-    private materialOrder = 'app/procurementOrder';  // URL to web API
+
+    private procurementOrdersUrl = 'app/procurementOrders';
+    // private materialOrder = 'app/procurementOrder';  // URL to web API
     constructor (private http: Http) {}
 
     // private extractMaterialOrderData(res: Response) {
@@ -47,41 +49,47 @@ export class MaterialOrderService {
                       .catch(this.handleError);
     }
 
-    getMaterialOrder(id: number): Observable<MaterialOrder> {
-      const url = `${this.materialOrder}/${id}`;
-
-      return this.http.get(url)
-                      .map(this.extractMaterialOrderData)
+    getProcurementOrders(): Observable<MaterialOrder[]> {
+      return this.http.get(this.procurementOrdersUrl)
+                      .map(this.extractMaterialOrderListData)
                       .catch(this.handleError);
     }
 
+    // getMaterialOrder(id: number): Observable<MaterialOrder> {
+    //   const url = `${this.materialOrder}/${id}`;
+
+    //   return this.http.get(url)
+    //                   .map(this.extractMaterialOrderData)
+    //                   .catch(this.handleError);
+    // }
+
     
-     updateMaterialOrder(materialOrder: MaterialOrder): Observable<MaterialOrder>{
-      let headers = new Headers({ 'Content-Type': 'application/json' });
-      let options = new RequestOptions({ headers: headers });
-      const url = `${this.materialOrder}/${materialOrder.id}`;
-      return  this.http.post(url, { materialOrder }, options)
-                       .map(this.extractMaterialOrderData)
-                       .catch(this.handleError);
-    }
+    //  updateMaterialOrder(materialOrder: MaterialOrder): Observable<MaterialOrder>{
+    //   let headers = new Headers({ 'Content-Type': 'application/json' });
+    //   let options = new RequestOptions({ headers: headers });
+    //   const url = `${this.materialOrder}/${materialOrder.id}`;
+    //   return  this.http.post(url, { materialOrder }, options)
+    //                    .map(this.extractMaterialOrderData)
+    //                    .catch(this.handleError);
+    // }
 
-     addMaterialOrder(materialOrder: MaterialOrder): Observable<MaterialOrder>{
-      let headers = new Headers({ 'Content-Type': 'application/json' });
-      let options = new RequestOptions({ headers: headers });
-      const url = `${this.materialOrder}/${materialOrder.id}`;
-      return  this.http.put(url, { materialOrder }, options)
-                       .map(this.extractMaterialOrderData)
-                       .catch(this.handleError);
-    }    
+    //  addMaterialOrder(materialOrder: MaterialOrder): Observable<MaterialOrder>{
+    //   let headers = new Headers({ 'Content-Type': 'application/json' });
+    //   let options = new RequestOptions({ headers: headers });
+    //   const url = `${this.materialOrder}/${materialOrder.id}`;
+    //   return  this.http.put(url, { materialOrder }, options)
+    //                    .map(this.extractMaterialOrderData)
+    //                    .catch(this.handleError);
+    // }    
 
-     delProducts(materialOrder: MaterialOrder): Observable<MaterialOrder>{
-      let headers = new Headers({ 'Content-Type': 'application/json' });
-      let options = new RequestOptions({ headers: headers });
-      const url = `${this.materialOrder}/${materialOrder.id}`;
-      return  this.http.delete(url, options)
-                       .map(this.extractDelMaterialOrderData)
-                       .catch(this.handleError);                   
-     }
+    //  delProducts(materialOrder: MaterialOrder): Observable<MaterialOrder>{
+    //   let headers = new Headers({ 'Content-Type': 'application/json' });
+    //   let options = new RequestOptions({ headers: headers });
+    //   const url = `${this.materialOrder}/${materialOrder.id}`;
+    //   return  this.http.delete(url, options)
+    //                    .map(this.extractDelMaterialOrderData)
+    //                    .catch(this.handleError);                   
+    //  }
 
     private handleError (error: Response | any) {
     // In a real world app, we might use a remote logging infrastructure

@@ -5,11 +5,6 @@ import { HttpModule, JsonpModule }    from '@angular/http';
 
 import { ProcurementComponent } from './procurement.component';
 import { ProcurementRoutingModule } from './procurement-routing.module';
-import { ProcurementService } from './procurement.service';
-
-// Imports for loading & configuring the in-memory web api
-// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-// import { InMemoryDataService }  from './in-memory-data.service';
 
 import { SharedModule } from '../shared/shared.module';
 
@@ -19,7 +14,6 @@ import { SharedModule } from '../shared/shared.module';
         FormsModule,
         HttpModule,
         SharedModule,
-        // InMemoryWebApiModule.forRoot(InMemoryDataService),
         JsonpModule,
         ProcurementRoutingModule
     ],
@@ -27,14 +21,6 @@ import { SharedModule } from '../shared/shared.module';
     declarations:[
         ProcurementComponent
     ],
-
-    exports:[
-
-    ],
-
-    providers: [
-        ProcurementService
-    ]
 })
 
 export class ProcurementModule {
