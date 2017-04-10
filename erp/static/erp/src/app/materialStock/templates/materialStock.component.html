@@ -9,25 +9,4 @@
     </div>
 </div>
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>编号</th>
-            <th>名称</th>
-            <th>单位</th>
-            <th>在库数量</th>
-            <th>采购中(未到库)</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let materialStock of materialStockList">
-            <th>{{materialStock.internalId}}</th>
-            <td>{{materialStock.name}}</td>
-            <td>{{materialStock.unit}}</td>
-            <td>{{materialStock.instockNum}}</td>
-            <td>{{materialStock.shoppingNum}}</td>
-        </tr>
-    </tbody>
-</table>
-
-<tree-view [root_tree]="root_tree"></tree-view>
+<tree-view [root_node]="root_node" [tree_type]="tree_type"></tree-view>

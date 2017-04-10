@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Headers, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Tree } from './tree'
+import { Node,Leaf } from './tree'
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
@@ -25,7 +25,7 @@ export class TreeService {
         return Observable.throw(errMsg);
     }
 
-   getRootTree(): Observable<Tree> {
+   getRootTree(): Observable<Node> {
         return this.http.get(this.treeUrl)
             .map(res=>{return res.json()})
             .catch(this.handleError);
