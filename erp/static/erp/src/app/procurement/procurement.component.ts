@@ -1,7 +1,9 @@
 import { Component } from "@angular/core";
 import { OnInit } from "@angular/core";
 
-import { ProcurementService } from './procurement.service';
+// import { ProcurementService } from './procurement.service';
+
+import { MaterialOrderService } from '../shared/material/material-order.service';
 
 // Import from SharedModule
 import { MaterialOrder } from '../shared/material/material-order';
@@ -13,7 +15,7 @@ import { MaterialOrder } from '../shared/material/material-order';
 
 export class ProcurementComponent implements OnInit {
 
-    constructor(private procurementService: ProcurementService){
+    constructor(private materialOrderService: MaterialOrderService){
 
     }
 
@@ -26,7 +28,7 @@ export class ProcurementComponent implements OnInit {
 
     //获取全部采购订单
     getProcurementOrders() : void {
-        this.procurementService.getMaterialOrders().subscribe(
+        this.materialOrderService.getProcurementOrders().subscribe(
             orders => {this.materialOrderList = this.copyMaterialOrders(orders);
                 console.log("orders: ", orders);
                 console.log("materialOrderList: ", this.materialOrderList);

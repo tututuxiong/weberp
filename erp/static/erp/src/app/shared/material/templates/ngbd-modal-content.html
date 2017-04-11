@@ -12,7 +12,7 @@
           编号：{{materialOrder.id}}
         </div>
         <div class="col-sm-6">
-          创建日期：{{materialOrder.date}}
+          创建日期：{{materialOrder.date | date:'short'}}
         </div>
         <ng-container *ngIf="!materialOrder.modifyMode">
           <button class="btn btn-primary" (click)="onModify()" style="position: absolute; top:10px; right: 10px">修改</button>
@@ -46,6 +46,6 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-success" (click)="onSubmitOrder()">提交</button>
+  <button type="button" class="btn btn-success" (click)="onSubmitOrder()" [disabled]="materialOrder.modifyMode">提交</button>
   <button type="button" class="btn btn-secondary" (click)="activeModal.close('Cancel')">关闭</button>
 </div>
