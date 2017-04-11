@@ -106,6 +106,7 @@ def materialOrder(request, procurementOrder_id):
         material_order_tmp.setJson2Class(dict_data)
         if int(procurementOrder_id) == 0:
             material_order_tmp.setFormalId(int(material_order_tmp.orderId))
+            material_order_tmp.allocMaterialSubOrderId()
             if material_order_list.addMaterialOrderInfo(material_order_tmp):
                 return HttpResponse(material_order_tmp.toJson())
             else:

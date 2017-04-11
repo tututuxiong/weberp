@@ -15,7 +15,7 @@ class MaterialSubOrderInfo:
         self.comment = ''
 
     def setFormalId(self, materialOrderId):
-        if self.id == 0:
+        if self.id == -1:
             self.id = MaterialSubOrderInfo.count + 1
             MaterialSubOrderInfo.count = MaterialSubOrderInfo.count + 1
         self.materialOrderId = materialOrderId
@@ -31,6 +31,11 @@ class MaterialSubOrderInfo:
     def __repr__(self):
         return repr((self.id, self.materialOrderId, self.name, self.num, self.unit, self.unit_price, self.total_price, self.comment))
 
+        
+    def setJson2Class(self, dict_data):
+        for name, value in dict_data.items():
+            if hasattr(self, name):
+                setattr(self, name, value)
 
 class MaterialOrderInfo:
     count = 0
@@ -47,7 +52,7 @@ class MaterialOrderInfo:
         self.materialSubOrderInfoList = []
 
     def setFormalId(self,orderId):
-        if self.id == 0:
+        if self.id == -1:
             self.id = MaterialOrderInfo.count + 1
             MaterialOrderInfo.count = MaterialOrderInfo.count + 1
         self.orderId = orderId
@@ -67,8 +72,19 @@ class MaterialOrderInfo:
 
     def toJson(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+    
+    def allocMaterialSubOrderId(self):
+        for materialSubOrder in self.materialSubOrderInfoList:
+            materialSubOrder.setFormalId(self.id)
         
     def setJson2Class(self, dict_data):
         for name, value in dict_data.items():
             if hasattr(self, name):
-                setattr(self, name, value)
+                if (name == "materialSubOrderInfoList"):
+                    for materialSubOrder in value:
+                        tmp_materialSubOrder = MaterialSubOrderInfo()
+                        tmp_materialSubOrder.setJson2Class(materialSubOrder)
+                        tmp_materialSubOrder.setFormalId(self.id)
+                        self.materialSubOrderInfoList.append(tmp_materialSubOrder)
+                else:
+                    setattr(self, name, value)
