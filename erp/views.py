@@ -87,7 +87,7 @@ def materialOrderList(request, order_id = '0'):
     else:
         return HttpResponse(material_order_list.toJson())
 
-def materialOrder(request, order_id, procurementOrder_id):
+def materialOrder(request, procurementOrder_id):
     errorMessage = '{"value":"ERROR"}'
     scuessfullMessage = '{"value":"OK"}'
     material_order_tmp = MaterialOrderInfo()
@@ -104,8 +104,8 @@ def materialOrder(request, order_id, procurementOrder_id):
     elif request.method == 'PUT':
         dict_data = json.loads(request.body.decode())['materialOrder']
         material_order_tmp.setJson2Class(dict_data)
-        if material_order_tmp.id == 0:
-            material_order_tmp.setFormalId(int(order_id))
+        if int(procurementOrder_id) == 0:
+            material_order_tmp.setFormalId(int(material_order_tmp.orderId))
             if material_order_list.addMaterialOrderInfo(material_order_tmp):
                 return HttpResponse(material_order_tmp.toJson())
             else:
