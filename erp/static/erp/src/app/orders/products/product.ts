@@ -2,6 +2,7 @@ export class MaterialRequriment{
     name: string;
     count: number;
     unit: string;
+    id: number;
 }
 
 export class Product {

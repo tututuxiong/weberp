@@ -2,11 +2,11 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 
-from .orderListInfo import OrderListInfo
-from .orderInfo import OrderInfo
+from .orderListInfo import *
+from .orderInfo import *
 
-from .subProductInfoList import SubProductInfoList
-from .subProductInfo import SubProductInfo
+from .subProductInfoList import *
+from .subProductInfo import *
 
 from .materialOrderInfo import MaterialOrderInfo, MaterialSubOrderInfo
 from .materialOrderInfoList import MaterialOrderInfoList
@@ -24,61 +24,45 @@ def index(request):
     return render(request, 'erp/index.html')
 
 def order(request, order_id):
-    return HttpResponse(order_info_1.toJson())
+    if request.method == 'GET':
+        return HttpResponse(fetchOrderFromSqlById(int(order_id)).toJson())
 
 
 def orderList(request):
-    return HttpResponse(order_list_info.toJson())
+    return HttpResponse(fetchOrderListFromSql().toJson())
 
 
 def subProduct(request, product_id):
-    errorMessage = '{"value":"ERROR"}'
-    scuessfullMessage = '{"value":"OK"}'
     subProductI = SubProductInfo()
 
     if request.method == 'POST':
         dict_data = json.loads(request.body.decode())['product']
         subProductI.setJson2Class(dict_data)
-        if subProductI.id == int(product_id):
-            if sub_product_list.updateSubProductInfo(subProductI):
-                return HttpResponse(subProductI.toJson())
-            else:
-                return HttpResponse(errorMessage)
-        else:
-            return HttpResponse(errorMessage)
+        updateSubProduct2Sql(int(product_id),subProductI)
+        return HttpResponse(subProductI.toJson())
 
     elif request.method == 'PUT':
         dict_data = json.loads(request.body.decode())['product']
         subProductI.setJson2Class(dict_data)
         print(subProductI)
         if subProductI.id == 0:
-            subProductI.setFormalId(subProductI.orderId)
-            if sub_product_list.addSubProductInfo(subProductI):
-                return HttpResponse(subProductI.toJson())
-            else:
-                return HttpResponse(errorMessage)
+            addSubProduct2Sql(subProductI)
+            return HttpResponse(subProductI.toJson())   
 
     elif request.method == 'DELETE':
-        if sub_product_list.removeSubProductInfo(int(product_id)):
-            return HttpResponse(scuessfullMessage)
-        else:
-            return HttpResponse(errorMessage)
-
+         return HttpResponse(deleteSubProductFromSqlById(int(product_id)))
+        
     elif request.method == 'GET':
-        subProductI = sub_product_list.getSubProductInfo(int(product_id))
-        if None == subProductI:
-            return HttpResponse(errorMessage)
-        else:
-            return HttpResponse(subProductI.toJson())
+         return HttpResponse(getSubProductFromSqlById(int(product_id)).toJson())
 
 
 def subProductList(request, order_id = '0'):
     print("subProductList order id:",order_id)
     if order_id == '0':
         if request.method == 'GET':
-            return HttpResponse(sub_product_list.toJson())
+            return HttpResponse(initSubProductListFromSqlByOrderId(0).toJson())
     else:
-        return HttpResponse(sub_product_list.toJson())
+        return HttpResponse(initSubProductListFromSqlByOrderId(int(order_id)).toJson())
 
 def materialOrderList(request, order_id = '0'):
     print("materialOrderList order id:",order_id)
