@@ -8,8 +8,8 @@ from .orderInfo import *
 from .subProductInfoList import *
 from .subProductInfo import *
 
-from .materialOrderInfo import MaterialOrderInfo, MaterialSubOrderInfo
-from .materialOrderInfoList import MaterialOrderInfoList
+from .materialOrderInfo import *
+from .materialOrderInfoList import *
 
 from .materialInfoStock import MaterialStockInfo, MaterialStockInfoList
 from .tree import Leaf, Node
@@ -27,10 +27,8 @@ def order(request, order_id):
     if request.method == 'GET':
         return HttpResponse(fetchOrderFromSqlById(int(order_id)).toJson())
 
-
 def orderList(request):
     return HttpResponse(fetchOrderListFromSql().toJson())
-
 
 def subProduct(request, product_id):
     subProductI = SubProductInfo()
@@ -57,19 +55,17 @@ def subProduct(request, product_id):
 
 
 def subProductList(request, order_id = '0'):
-    print("subProductList order id:",order_id)
     if order_id == '0':
         if request.method == 'GET':
-            return HttpResponse(initSubProductListFromSqlByOrderId(0).toJson())
+            return HttpResponse(getSubProductListFromSqlByOrderId(0).toJson())
     else:
-        return HttpResponse(initSubProductListFromSqlByOrderId(int(order_id)).toJson())
+        return HttpResponse(getSubProductListFromSqlByOrderId(int(order_id)).toJson())
 
 def materialOrderList(request, order_id = '0'):
-    print("materialOrderList order id:",order_id)
     if order_id == '0':
-        return HttpResponse(material_order_list.toJson())
+        return HttpResponse(getMaterialOrderListFromSqlByOrderId(0).toJson())
     else:
-        return HttpResponse(material_order_list.toJson())
+        return HttpResponse(getMaterialOrderListFromSqlByOrderId(int(order_id)).toJson())
 
 def materialOrder(request, procurementOrder_id):
     errorMessage = '{"value":"ERROR"}'
@@ -88,26 +84,16 @@ def materialOrder(request, procurementOrder_id):
     elif request.method == 'PUT':
         dict_data = json.loads(request.body.decode())['materialOrder']
         material_order_tmp.setJson2Class(dict_data)
-        if int(procurementOrder_id) == 0:
-            material_order_tmp.setFormalId(int(material_order_tmp.orderId))
-            material_order_tmp.allocMaterialSubOrderId()
-            if material_order_list.addMaterialOrderInfo(material_order_tmp):
-                return HttpResponse(material_order_tmp.toJson())
-            else:
-                return HttpResponse(errorMessage)
+        print(material_order_tmp)
+        if procurementOrder_id == '0':
+            addMaterialOrder2Sql(material_order_tmp)
+            return HttpResponse(material_order_tmp.toJson())
 
     elif request.method == 'DELETE':
-        if material_order_list.removeMaterialOrderInfo(int(procurementOrder_id)):
-            return HttpResponse(scuessfullMessage)
-        else:
-            return HttpResponse(errorMessage)
+        return HttpResponse(delMaterialOrder2Sql(int(procurementOrder_id)))
 
     elif request.method == 'GET':
-        material_order_tmp = material_order_list.getMaterialOrderInfo(int(procurementOrder_id))
-        if None == material_order_tmp:
-            return HttpResponse(errorMessage)
-        else:
-            return HttpResponse(material_order_tmp.toJson())
+        return HttpResponse(getMaterialOrderFromSqlById(int(procurementOrder_id)).toJson())
 
 def materialStockList(request):
     print("fetch materialStockList")

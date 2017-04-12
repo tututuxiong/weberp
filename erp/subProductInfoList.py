@@ -52,18 +52,15 @@ class SubProductInfoList:
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
 
-def initSubProductListFromSqlByOrderId(id):
+def getSubProductListFromSqlByOrderId(id):
     subProductList = SubProductInfoList()
     if ( id !=0 ):
         sales_order = SalesOrder.objects.get(pk = id)
-        tmp_orderInfo = OrderInfo()
-        initOrderInfoFromSqlData(tmp_orderInfo,sales_order)
-        print(sales_order.salesitem_set.all())
 
         for subproduct in sales_order.salesitem_set.all():
             tmp_subProductInfo = SubProductInfo()
             initSubProductFromSql(tmp_subProductInfo,subproduct)
-            subProductList.subProductInfoList.append(tmp_subProductInfo)
+            subProductList.addSubProductInfo(tmp_subProductInfo)
 
         return subProductList
 

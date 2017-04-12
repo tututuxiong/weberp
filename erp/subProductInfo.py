@@ -78,6 +78,9 @@ def deleteSubProductFromSqlById(id):
     errorMessage = '{"value":"ERROR"}'
     try:
         subproduct_sql = SalesItem.objects.get(pk = id)
+            
+        for materialRequimentSql_item in subproduct_sql.rawmatrequirement_set.all():
+            materialRequimentSql_item.delete()
         subproduct_sql.delete()
         return scuessfullMessage
 
