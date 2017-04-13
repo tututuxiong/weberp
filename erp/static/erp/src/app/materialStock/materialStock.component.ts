@@ -2,9 +2,9 @@ import { Component } from "@angular/core";
 import { OnInit } from "@angular/core";
 
 import { MaterialStockService } from './materialStock.service';
-import { TreeService } from './../tree/tree.service';
+import { TreeService } from './../shared/tree/tree.service';
 import { MaterialStock } from './materialStock';
-import { Leaf, Node } from './../tree/tree';
+import { Leaf, Node } from './../shared/tree/tree';
 
 // Component definition
 @Component({

@@ -22,7 +22,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 // import { ProcurementOrderService } from '../procurement/procurement-order.service';
 
  import { SharedModule } from '../shared/shared.module';
- import { TreeModule } from '../tree/tree.module'
+ import { TreeModule } from '../shared/tree/tree.module'
 
 @NgModule({
     imports: [

@@ -6,8 +6,8 @@ import { MaterialStock } from './../../materialStock/materialStock'
 import { DetailMaterialRequriment } from './detail-material'
 import { MaterialStockService } from './../../materialStock/materialStock.service';
 import { ProductService } from './../products/product.service';
-import { TreeService } from './../../tree/tree.service'
-import { Node, Leaf } from './../../tree/tree'
+import { TreeService } from './../../shared/tree/tree.service'
+import { Node, Leaf } from './../../shared/tree/tree'
 
 @Component({
     selector: 'detail-material',
