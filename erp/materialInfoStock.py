@@ -1,6 +1,7 @@
 import json
-from .tree import Leaf
+from .tree import *
 from .models import *
+from .tree import *
 
 class MaterialStockInfo(Leaf):
     count = 0
@@ -55,4 +56,29 @@ def getMaterialStockFromSql(material_id):
         materialStock.unit = material_sql.unit
         return materialStock
     except RawMat.DoesNotExist:
-        print("getMaterialStockFromSql Wront  material_id!!!")        
+        print("getMaterialStockFromSql Wront  material_id!!!")
+
+
+
+def genarateTree(root_sql):
+    if (root_sql.rawmat_set.count()):
+        root = Node(root_sql.name)
+        root.id = root_sql.id
+        for subNode_sql in root_sql.rawmat_set.all():
+            if (subNode_sql.is_leaf == False):
+                root.addSubNode(genarateTree(subNode_sql))
+            else:
+                leaf = Leaf(subNode_sql.name)
+                leaf.id = subNode_sql.id
+                root.addLeaf(leaf)
+        return root
+    else:
+        return None
+
+def getTree():
+    try:
+        root_sql = RawMat.objects.get(parent=None)
+        return genarateTree(root_sql)
+    except RawMat.DoesNotExist:
+        print("no root node yet")
+        return None

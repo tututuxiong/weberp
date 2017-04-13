@@ -1,6 +1,7 @@
 export class Leaf{
     name: string;
     parentId: number;
+    id: number;
 }
 
 export class Node {
