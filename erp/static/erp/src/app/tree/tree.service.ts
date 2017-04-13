@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 export class TreeService {
     constructor(private http: Http) {}
     
-    private treeUrl = 'app/tree';  // URL to web api
+    private treeUrl = 'app/MaterialTree';  // URL to web api
 
     private handleError(error: Response | any) {
         // In a real world app, we might use a remote logging infrastructure

@@ -99,6 +99,6 @@ def materialStockList(request):
 def materialStock(request, material_id):
     return  HttpResponse(getMaterialStockFromSql(int(material_id)).toJson())
 
-def tree(request):
+def MaterialTree(request):
     return  HttpResponse(getTree().toJson())
 
