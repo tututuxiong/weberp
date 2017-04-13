@@ -3,7 +3,6 @@ from datetime import date
 
 # Create your models here.
 
-
 class SalesOrder(models.Model):
     name = models.CharField(max_length=200, default='')
     status = models.CharField(max_length=50)  # NEW, FINISHED
@@ -13,21 +12,24 @@ class SalesOrder(models.Model):
     desc = models.TextField(default='')
     raw_mat_status = models.CharField(max_length=50,default="INIT") # INIT, BUYING, DONE
     mfr_status = models.CharField(max_length=50,default="INIT") # INIT, ONGOING, DONE
-    #comment = models.TextField(default='')
+    comment = models.TextField(default='')
 
     def __str__(self):
-        return self.name + self.status + self.saler + self.desc + str(self.total_price)
+        return self.name
 
 
 class SalesItem(models.Model):
     salesOrder = models.ForeignKey(SalesOrder, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
+    unit = models.CharField(max_length=200,default=None)
+    comment = models.CharField(max_length=200,default="")
     est_num = models.IntegerField()
     est_total_price = models.DecimalField(max_digits=12, decimal_places=2)
 
 
 class RawMat(models.Model):
     name = models.CharField(max_length=200)
+    unit = models.CharField(max_length=200,default=None)
     parent = models.ForeignKey('self', on_delete=models.CASCADE,
                                blank=True, null=True, default=None)  # recursive relationship
     is_leaf = models.BooleanField(default=True)
@@ -41,7 +43,10 @@ class RawMatRequirement(models.Model):
 
 class RawMatOrder(models.Model):
     salesOrder = models.ForeignKey(SalesOrder)
-
+    act_date = models.DateTimeField(default=date.today)
+    status = models.CharField(max_length=50,default="INIT") # INIT, BUYING, DONE
+    comment = models.TextField(default='')
+    name = models.CharField(max_length=200,default='')
 
 class RawMatOrderItem(models.Model):
     rawMatOrder = models.ForeignKey(RawMatOrder, on_delete=models.CASCADE)

@@ -50,6 +50,7 @@ export class DetailMaterialComponent implements OnInit {
     onSubmitEdit(index: number) {
         if (!this.checkEqual(index)) {
             this.updateDetailmaterialItemInfo();
+            console.log(this.productList[index]);
             this.product_service.updateProducts(this.productList[index])
                 .subscribe(prodtct => this.productList[index] = prodtct,
                 error => this.errorMessage = <any>error)
@@ -112,6 +113,7 @@ export class DetailMaterialComponent implements OnInit {
         p.count = num;
         p.name = name;
         p.unit = unit;
+        p.id = 0;
         this.productList[index].materialRequrimentList.push(p);
 
         this.newMaterialName = "";

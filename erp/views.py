@@ -2,14 +2,14 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 
-from .orderListInfo import OrderListInfo
-from .orderInfo import OrderInfo
+from .orderListInfo import *
+from .orderInfo import *
 
-from .subProductInfoList import SubProductInfoList
-from .subProductInfo import SubProductInfo
+from .subProductInfoList import *
+from .subProductInfo import *
 
-from .materialOrderInfo import MaterialOrderInfo, MaterialSubOrderInfo
-from .materialOrderInfoList import MaterialOrderInfoList
+from .materialOrderInfo import *
+from .materialOrderInfoList import *
 
 from .materialInfoStock import MaterialStockInfo, MaterialStockInfoList
 from .tree import Leaf, Node
@@ -24,106 +24,72 @@ def index(request):
     return render(request, 'erp/index.html')
 
 def order(request, order_id):
-    return HttpResponse(order_info_1.toJson())
-
+    if request.method == 'GET':
+        return HttpResponse(fetchOrderFromSqlById(int(order_id)).toJson())
 
 def orderList(request):
-    return HttpResponse(order_list_info.toJson())
-
+    return HttpResponse(fetchOrderListFromSql().toJson())
 
 def subProduct(request, product_id):
-    errorMessage = '{"value":"ERROR"}'
-    scuessfullMessage = '{"value":"OK"}'
     subProductI = SubProductInfo()
 
     if request.method == 'POST':
         dict_data = json.loads(request.body.decode())['product']
         subProductI.setJson2Class(dict_data)
-        if subProductI.id == int(product_id):
-            if sub_product_list.updateSubProductInfo(subProductI):
-                return HttpResponse(subProductI.toJson())
-            else:
-                return HttpResponse(errorMessage)
-        else:
-            return HttpResponse(errorMessage)
+        updateSubProduct2Sql(int(product_id),subProductI)
+        return HttpResponse(subProductI.toJson())
 
     elif request.method == 'PUT':
         dict_data = json.loads(request.body.decode())['product']
         subProductI.setJson2Class(dict_data)
         print(subProductI)
         if subProductI.id == 0:
-            subProductI.setFormalId(subProductI.orderId)
-            if sub_product_list.addSubProductInfo(subProductI):
-                return HttpResponse(subProductI.toJson())
-            else:
-                return HttpResponse(errorMessage)
+            addSubProduct2Sql(subProductI)
+            return HttpResponse(subProductI.toJson())   
 
     elif request.method == 'DELETE':
-        if sub_product_list.removeSubProductInfo(int(product_id)):
-            return HttpResponse(scuessfullMessage)
-        else:
-            return HttpResponse(errorMessage)
-
+         return HttpResponse(deleteSubProductFromSqlById(int(product_id)))
+        
     elif request.method == 'GET':
-        subProductI = sub_product_list.getSubProductInfo(int(product_id))
-        if None == subProductI:
-            return HttpResponse(errorMessage)
-        else:
-            return HttpResponse(subProductI.toJson())
+         return HttpResponse(getSubProductFromSqlById(int(product_id)).toJson())
 
 
 def subProductList(request, order_id = '0'):
-    print("subProductList order id:",order_id)
     if order_id == '0':
         if request.method == 'GET':
-            return HttpResponse(sub_product_list.toJson())
+            return HttpResponse(getSubProductListFromSqlByOrderId(0).toJson())
     else:
-        return HttpResponse(sub_product_list.toJson())
+        return HttpResponse(getSubProductListFromSqlByOrderId(int(order_id)).toJson())
 
 def materialOrderList(request, order_id = '0'):
-    print("materialOrderList order id:",order_id)
     if order_id == '0':
-        return HttpResponse(material_order_list.toJson())
+        return HttpResponse(getMaterialOrderListFromSqlByOrderId(0).toJson())
     else:
-        return HttpResponse(material_order_list.toJson())
+        return HttpResponse(getMaterialOrderListFromSqlByOrderId(int(order_id)).toJson())
 
 def materialOrder(request, procurementOrder_id):
-    errorMessage = '{"value":"ERROR"}'
-    scuessfullMessage = '{"value":"OK"}'
     material_order_tmp = MaterialOrderInfo()
 
     if request.method == 'POST':
         dict_data = json.loads(request.body.decode())['materialOrder']
         material_order_tmp.setJson2Class(dict_data)
         if material_order_tmp.id == int(procurementOrder_id):
-            if material_order_list.updateMaterialOrderInfo(material_order_tmp):
-                return HttpResponse(material_order_tmp.toJson())
-            else:
-                return HttpResponse(errorMessage)
+            updateMaterialOrder2Sql(material_order_tmp)
+            return HttpResponse(material_order_tmp.toJson())
 
     elif request.method == 'PUT':
         dict_data = json.loads(request.body.decode())['materialOrder']
         material_order_tmp.setJson2Class(dict_data)
-        if int(procurementOrder_id) == 0:
-            material_order_tmp.setFormalId(int(material_order_tmp.orderId))
-            material_order_tmp.allocMaterialSubOrderId()
-            if material_order_list.addMaterialOrderInfo(material_order_tmp):
-                return HttpResponse(material_order_tmp.toJson())
-            else:
-                return HttpResponse(errorMessage)
+        print(material_order_tmp)
+        if procurementOrder_id == '0':
+            addMaterialOrder2Sql(material_order_tmp)
+            return HttpResponse(material_order_tmp.toJson())
 
     elif request.method == 'DELETE':
-        if material_order_list.removeMaterialOrderInfo(int(procurementOrder_id)):
-            return HttpResponse(scuessfullMessage)
-        else:
-            return HttpResponse(errorMessage)
+        return HttpResponse(delMaterialOrder2Sql(int(procurementOrder_id)))
 
     elif request.method == 'GET':
-        material_order_tmp = material_order_list.getMaterialOrderInfo(int(procurementOrder_id))
-        if None == material_order_tmp:
-            return HttpResponse(errorMessage)
-        else:
-            return HttpResponse(material_order_tmp.toJson())
+        return HttpResponse(getMaterialOrderFromSqlById(int(procurementOrder_id)).toJson())
 
 def materialStockList(request):
     print("fetch materialStockList")

@@ -1,5 +1,5 @@
 import json
-from .subProductInfo import SubProductInfo
+from .subProductInfo import *
 
 
 class SubProductInfoList:
@@ -50,3 +50,18 @@ class SubProductInfoList:
 
     def toJson(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+
+
+def getSubProductListFromSqlByOrderId(id):
+    subProductList = SubProductInfoList()
+    if ( id !=0 ):
+        sales_order = SalesOrder.objects.get(pk = id)
+
+        for subproduct in sales_order.salesitem_set.all():
+            tmp_subProductInfo = SubProductInfo()
+            initSubProductFromSql(tmp_subProductInfo,subproduct)
+            subProductList.addSubProductInfo(tmp_subProductInfo)
+
+        return subProductList
+
+        

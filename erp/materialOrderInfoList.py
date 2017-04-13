@@ -1,6 +1,6 @@
 import json
-from .materialOrderInfo import MaterialSubOrderInfo, MaterialOrderInfo
-
+from .materialOrderInfo import *
+from .models import *
 
 class MaterialOrderInfoList:
     def __init__(self):
@@ -46,4 +46,16 @@ class MaterialOrderInfoList:
                 return materialOrder_iter
         if isFind != True:
             return None        
-        
+
+def getMaterialOrderListFromSqlByOrderId(id):
+    MaterialOrderList = MaterialOrderInfoList()
+    if ( id !=0 ):
+        try:
+            sales_order = SalesOrder.objects.get(pk = id)
+            for materialOrderSql_item in sales_order.rawmatorder_set.all():
+                tmp_materialOrder = MaterialOrderInfo()
+                initmaterialOrderFromSql(tmp_materialOrder,materialOrderSql_item)
+                MaterialOrderList.addMaterialOrderInfo(tmp_materialOrder)
+            return MaterialOrderList
+        except SalesOrder.DoesNotExist:
+            print("Wront  sales order Id !!!")

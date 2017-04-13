@@ -1,5 +1,5 @@
 import json
-
+from .models import *
 
 class MaterialSubOrderInfo:
     count = 0
@@ -7,6 +7,7 @@ class MaterialSubOrderInfo:
     def __init__(self):
         self.id = 0
         self.materialOrderId = 0
+        self.materialId = 0
         self.name = ''
         self.num = 0
         self.unit = ''
@@ -29,7 +30,7 @@ class MaterialSubOrderInfo:
         self.comment = comment
 
     def __repr__(self):
-        return repr((self.id, self.materialOrderId, self.name, self.num, self.unit, self.unit_price, self.total_price, self.comment))
+        return repr((self.id, self.materialOrderId, self.materialId, self.name, self.num, self.unit, self.unit_price, self.total_price, self.comment))
 
         
     def setJson2Class(self, dict_data):
@@ -88,3 +89,123 @@ class MaterialOrderInfo:
                         self.materialSubOrderInfoList.append(tmp_materialSubOrder)
                 else:
                     setattr(self, name, value)
+
+def initmaterialOrderFromSql(materialOrder,materialOrderSql_item):
+    materialOrder.id  = materialOrderSql_item.id
+    materialOrder.date = materialOrderSql_item.act_date.strftime('%Y-%m-%d %H:%M')
+    materialOrder.status = materialOrderSql_item.status
+    materialOrder.comment = materialOrderSql_item.comment
+    materialOrder.orderId = materialOrderSql_item.salesOrder_id
+    materialOrder.name = materialOrderSql_item.name
+
+    for rawMatOrderItem in materialOrderSql_item.rawmatorderitem_set.all():
+        materialSubOrderInfo = MaterialSubOrderInfo()
+        materialSubOrderInfo.id = rawMatOrderItem.id
+        try:
+            material = RawMat.objects.get(pk = rawMatOrderItem.rawMat_id) 
+            materialSubOrderInfo.materialId = material.id
+            materialSubOrderInfo.name = material.name
+            materialSubOrderInfo.unit = material.unit
+            materialSubOrderInfo.num = rawMatOrderItem.num
+            materialSubOrderInfo.unit_price = 0
+            materialSubOrderInfo.total_price = float(rawMatOrderItem.est_total_price)
+            materialSubOrderInfo.comment = ''        
+            materialOrder.addMaterialSubOrder(materialSubOrderInfo)
+
+        except RawMat.DoesNotExist:
+            print("addMaterialOrder2Sql Wront  rawMatOrderItem.rawMat_id !!!")                
+
+def addMaterialOrder2Sql(material_order):
+    try:
+        order = SalesOrder.objects.get(pk = material_order.orderId)
+        materialOrderSql = order.rawmatorder_set.create(name = material_order.name, comment = material_order.comment)
+        material_order.id = materialOrderSql.id
+        material_order.date = materialOrderSql.act_date.strftime('%Y-%m-%d %H:%M')
+
+        for materialSubOrderInfo_item in material_order.materialSubOrderInfoList:
+            try:
+                material = RawMat.objects.get(pk = materialSubOrderInfo_item.materialId)
+                materialOrderSqlItem = materialOrderSql.rawmatorderitem_set.create(rawMat = material, num = materialSubOrderInfo_item.num, est_total_price = materialSubOrderInfo_item.total_price)
+                materialSubOrderInfo_item.id = materialOrderSqlItem.id
+                materialSubOrderInfo_item.name = material.name
+                materialSubOrderInfo_item.unit = material.unit
+
+            except SalesOrder.DoesNotExist:
+                print("addMaterialOrder2Sql Wront  materialId !!!")                
+
+    except SalesOrder.DoesNotExist:
+        print("Wront (add) material_order.orderId !!!")
+
+scuessfullMessage = '{"value":"OK"}'
+errorMessage = '{"value":"ERROR"}'
+    
+def delMaterialOrder2Sql(material_order_id):
+    try:
+        material_order = RawMatOrder.objects.get(pk=material_order_id)
+        for materialOrderSqlItem in material_order.rawmatorderitem_set.all():
+            materialOrderSqlItem.delete()
+        material_order.delete()
+        return scuessfullMessage
+
+    except RawMatOrder.DoesNotExist:
+        print("Wront (del)  RawMatOrder id !!!")
+        return  errorMessage
+
+def getMaterialOrderFromSqlById(material_order_id):
+    try:
+        material_order_sql = RawMatOrder.objects.get(pk=material_order_id)
+        tmp_materialOrder = MaterialOrderInfo()
+        initmaterialOrderFromSql(tmp_materialOrder,material_order_sql)
+
+        return tmp_materialOrder
+
+    except RawMatOrder.DoesNotExist:
+        print("Wront (get) RawMatOrder id !!!")
+        return  errorMessage
+
+def updateMaterialOrder2Sql(material_order):
+    try:
+        material_order_sql = RawMatOrder.objects.get(pk=material_order.id)
+        material_order_sql.name = material_order.name
+        material_order_sql.comment = material_order.comment
+        material_order_sql.status = material_order.status
+        material_order_sql.save()
+
+        for materialSubOrderInfo_item in  material_order.materialSubOrderInfoList:
+            try:
+                print(materialSubOrderInfo_item.id)
+                if (materialSubOrderInfo_item.id != 0):
+                    RawMatOrderItem_sql = RawMatOrderItem.objects.get(pk=materialSubOrderInfo_item.id)
+                    RawMatOrderItem_sql.num = materialSubOrderInfo_item.num
+                    RawMatOrderItem_sql.est_total_price = materialSubOrderInfo_item.total_price
+                    #RawMatOrderItem_sql.status = materialSubOrderInfo_item.status
+                    RawMatOrderItem_sql.save()
+                    materialSubOrderInfo_item.id = RawMatOrderItem_sql.id
+                else:
+                    addNewmaterialSubOrderInfo2Sql(material_order_sql,materialSubOrderInfo_item)
+
+            except RawMatOrder.DoesNotExist:
+                print(" updateMaterialOrder2Sql Wront (get) RawMatOrderItem id(%d) !!!",materialSubOrderInfo_item.id)
+                return  errorMessage
+
+        #check to delete some items
+        for RawMatOrderItem_sql in material_order_sql.rawmatorderitem_set.all():
+            isDelete = True
+            for materialSubOrderInfo_item in material_order.materialSubOrderInfoList:
+                if (RawMatOrderItem_sql.id == materialSubOrderInfo_item.id):
+                    isDelete = False
+                    break
+            if (isDelete == True):
+                RawMatOrderItem_sql.delete()
+
+    except RawMatOrder.DoesNotExist:
+        print(" updateMaterialOrder2Sql Wront (get) RawMatOrder id !!!")
+        return  errorMessage
+
+def addNewmaterialSubOrderInfo2Sql(rawMatOrderSql, materialSubOrderInfo):
+    try:
+        material = RawMat.objects.get(pk = materialSubOrderInfo.materialId)
+        rawmatorderitemSql = rawMatOrderSql.rawmatorderitem_set.create(rawMat = material, num = materialSubOrderInfo.num, est_total_price=materialSubOrderInfo.total_price) 
+        materialSubOrderInfo.id = rawmatorderitemSql.id
+    except RawMat.DoesNotExist:
+        print("addNewmaterialSubOrderInfo2Sql Wront material_requiment_item.materialId !!!")        

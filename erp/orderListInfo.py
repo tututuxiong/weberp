@@ -1,6 +1,7 @@
 import json
-from .orderInfo import OrderInfo
-
+from .orderInfo import *
+from django.utils import timezone
+from .models import *
 
 class OrderListInfo:
     def __init__(self):
@@ -20,3 +21,15 @@ class OrderListInfo:
 
     def toJson(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+
+
+def fetchOrderListFromSql():
+    orderList = OrderListInfo()
+    for order in SalesOrder.objects.all():
+        tmp_orderInfo = OrderInfo()
+        initOrderInfoFromSqlData(tmp_orderInfo,order)
+        orderList.addOrderInfo(tmp_orderInfo)
+    return orderList
+
+
+            
