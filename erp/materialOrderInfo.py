@@ -173,14 +173,12 @@ def updateMaterialOrder2Sql(material_order):
 
         for materialSubOrderInfo_item in  material_order.materialSubOrderInfoList:
             try:
-                print(materialSubOrderInfo_item.id)
-                if (materialSubOrderInfo_item.id != 0):
+                if (materialSubOrderInfo_item.id != -1):
                     RawMatOrderItem_sql = RawMatOrderItem.objects.get(pk=materialSubOrderInfo_item.id)
                     RawMatOrderItem_sql.num = materialSubOrderInfo_item.num
                     RawMatOrderItem_sql.est_total_price = materialSubOrderInfo_item.total_price
                     #RawMatOrderItem_sql.status = materialSubOrderInfo_item.status
                     RawMatOrderItem_sql.save()
-                    materialSubOrderInfo_item.id = RawMatOrderItem_sql.id
                 else:
                     addNewmaterialSubOrderInfo2Sql(material_order_sql,materialSubOrderInfo_item)
 
