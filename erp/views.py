@@ -68,18 +68,14 @@ def materialOrderList(request, order_id = '0'):
         return HttpResponse(getMaterialOrderListFromSqlByOrderId(int(order_id)).toJson())
 
 def materialOrder(request, procurementOrder_id):
-    errorMessage = '{"value":"ERROR"}'
-    scuessfullMessage = '{"value":"OK"}'
     material_order_tmp = MaterialOrderInfo()
 
     if request.method == 'POST':
         dict_data = json.loads(request.body.decode())['materialOrder']
         material_order_tmp.setJson2Class(dict_data)
         if material_order_tmp.id == int(procurementOrder_id):
-            if material_order_list.updateMaterialOrderInfo(material_order_tmp):
-                return HttpResponse(material_order_tmp.toJson())
-            else:
-                return HttpResponse(errorMessage)
+            updateMaterialOrder2Sql(material_order_tmp)
+            return HttpResponse(material_order_tmp.toJson())
 
     elif request.method == 'PUT':
         dict_data = json.loads(request.body.decode())['materialOrder']
