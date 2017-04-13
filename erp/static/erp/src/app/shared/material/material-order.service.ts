@@ -16,6 +16,7 @@ export class MaterialOrderService {
 
     private createMaterialOrderUrl = 'app/procurementOrder';
     private updateMaterialOrderUrl = this.createMaterialOrderUrl;
+    private deleteMaterialOrderUrl = this.createMaterialOrderUrl;
 
     constructor (private http: Http) {}
 
@@ -85,14 +86,14 @@ export class MaterialOrderService {
                        .catch(this.handleError);
     }    
 
-    //  delProducts(materialOrder: MaterialOrder): Observable<MaterialOrder>{
-    //   let headers = new Headers({ 'Content-Type': 'application/json' });
-    //   let options = new RequestOptions({ headers: headers });
-    //   const url = `${this.materialOrder}/${materialOrder.id}`;
-    //   return  this.http.delete(url, options)
-    //                    .map(this.extractDelMaterialOrderData)
-    //                    .catch(this.handleError);                   
-    //  }
+     delMaterialOrder(materialOrder: MaterialOrder): Observable<MaterialOrder>{
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      const url = `${this.deleteMaterialOrderUrl}/${materialOrder.id}`;
+      return  this.http.delete(url, options)
+                       .map(this.extractDelMaterialOrderData)
+                       .catch(this.handleError);                   
+     }
 
     objectCopy(dest: MaterialOrder, src: MaterialOrder) : void {
         dest.id = src.id;

@@ -37,11 +37,6 @@ export class MaterialOrderComponent {
         }
 
         this.moService.updateMaterialOrder(materialOrder).subscribe(mo => {
-            // console.log(mo.id);
-            // let mo_u : MaterialOrder = this.materialOrderList.find(match_id, mo.id);
-            // console.log(mo_u);
-            // mo_u.custom_copy(mo);
-            // mo_u.modifyMode = false;
             this.moService.objectCopy(materialOrder, mo);
             materialOrder.modifyMode = false;
         })
@@ -49,5 +44,11 @@ export class MaterialOrderComponent {
 
     onAbort(materialOrder: MaterialOrder) : void {
         materialOrder.modifyMode = false;
+    }
+
+    onDelete(materialOrder: MaterialOrder) : void {
+        this.moService.delMaterialOrder(materialOrder).subscribe(mo => {
+            this.materialOrderList.splice(this.materialOrderList.indexOf(materialOrder));
+        })
     }
 }
