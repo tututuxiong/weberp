@@ -144,6 +144,7 @@ export class DetailMaterialComponent implements OnInit {
                 if (isExist == false) {
                     var tmp_materialitem = new DetailMaterialRequriment;
                     tmp_materialitem.name = materialItem_iter.name;
+                    tmp_materialitem.id = materialItem_iter.id
                     tmp_materialitem.requrimentNum = Number(materialItem_iter.count);
                     this.materialItemList.push(tmp_materialitem);
                 }
@@ -154,7 +155,7 @@ export class DetailMaterialComponent implements OnInit {
     private updateDetailmaterialItemInfo() {
         this.updatematerialItemList();
         this.materialItemList.forEach(meterialItem => {
-            this.material_stock_service.getMaterialStockByName(meterialItem.name).
+            this.material_stock_service.getMaterialStockById(meterialItem.id).
                 subscribe(material_stock => {
                     meterialItem.shoppingNum = material_stock.shoppingNum;
                     meterialItem.instockNum = material_stock.instockNum;

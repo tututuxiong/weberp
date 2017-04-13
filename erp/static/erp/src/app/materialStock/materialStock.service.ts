@@ -42,8 +42,8 @@ export class MaterialStockService {
             .catch(this.handleError);
     }
 
-    getMaterialStockByName(name: string): Observable<MaterialStock> {
-        const url = `${this.materialsStockUrl}/${name}`;
+    getMaterialStockById(id: number): Observable<MaterialStock> {
+        const url = `${this.materialsStockUrl}/${id}`;
         return this.http.get(url)
             .map(this.extractMaterialStockInfoData)
             .catch(this.handleError);

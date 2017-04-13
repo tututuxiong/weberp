@@ -11,7 +11,7 @@ from .subProductInfo import *
 from .materialOrderInfo import *
 from .materialOrderInfoList import *
 
-from .materialInfoStock import MaterialStockInfo, MaterialStockInfoList
+from .materialInfoStock import *
 from .tree import Leaf, Node
 
 import json
@@ -49,7 +49,7 @@ def subProduct(request, product_id):
 
     elif request.method == 'DELETE':
          return HttpResponse(deleteSubProductFromSqlById(int(product_id)))
-        
+
     elif request.method == 'GET':
          return HttpResponse(getSubProductFromSqlById(int(product_id)).toJson())
 
@@ -96,14 +96,8 @@ def materialStockList(request):
     return  HttpResponse(material_stock_list.toJson())     
 
 
-def materialStockbyName(request, material_name):
-    print("fetch materialStock: ",material_name)
-
-    material_stock_info = MaterialStockInfo()
-    material_stock_info.name = material_name
-    material_stock_info.instockNum = 10
-    material_stock_info.shoppingNum = 30
-    return  HttpResponse(material_stock_info.toJson())
+def materialStock(request, material_id):
+    return  HttpResponse(getMaterialStockFromSql(int(material_id)).toJson())
 
 def tree(request):
     return  HttpResponse(root.toJson())

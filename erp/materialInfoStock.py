@@ -1,5 +1,6 @@
 import json
 from .tree import Leaf
+from .models import *
 
 class MaterialStockInfo(Leaf):
     count = 0
@@ -44,4 +45,14 @@ class MaterialStockInfoList:
             return True
         else:
             return False
-        
+
+def getMaterialStockFromSql(material_id):
+    try:
+        material_sql = RawMat.objects.get(pk = material_id)
+        materialStock = MaterialStockInfo()
+        materialStock.id = material_sql.id
+        materialStock.name = material_sql.name
+        materialStock.unit = material_sql.unit
+        return materialStock
+    except RawMat.DoesNotExist:
+        print("getMaterialStockFromSql Wront  material_id!!!")        

@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'order/[0-9]{1,4}$', views.index, name='index'),
     url(r'app/Orders$', views.orderList),
     url(r'app/materialStocks$', views.materialStockList),
-    url(r'app/materialStocks/(?P<material_name>\w+)$', views.materialStockbyName),
+    url(r'app/materialStocks/(?P<material_id>[0-9]+)$', views.materialStock),
     url(r'app/Orders/(?P<order_id>[0-9]+)$', views.order),
     url(r'app/procurementOrders$', views.materialOrderList),
     url(r'app/orders/(?P<order_id>[0-9]+)/subProducts$', views.subProductList),
