@@ -16,3 +16,4 @@ erp/__pycache__
 erp/static/erp/src/*.js
 erp/static/erp/src/**/*.js
 .vscode/
+db.sqlite3

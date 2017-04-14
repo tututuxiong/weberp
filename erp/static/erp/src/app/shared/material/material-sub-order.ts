@@ -11,8 +11,8 @@ export class MaterialSubOrder {
 
     constructor(parentId: number) {
         this.id = -1;
-        this.materialId = -1;
         this.materialOrderId = parentId;
+        this.materialId = -1;
         this.name = '新原料';
         this.num = 100;
         this.unit = '个';
