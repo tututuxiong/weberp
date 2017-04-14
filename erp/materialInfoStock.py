@@ -88,9 +88,11 @@ def initNodeBySqlInfo(node, node_sql):
     node.unit =  node_sql.unit
 
 def getNodeInfo(node_id):
-    print(node_id)
     try:
-        node_sql = RawMat.objects.get(pk=node_id)
+        if (node_id == 0):
+            node_sql = RawMat.objects.get(parent=None)
+        else:
+            node_sql = RawMat.objects.get(pk=node_id)
         if (node_sql.is_leaf == False):
             node = Node(node_sql.name)
             initNodeBySqlInfo(node, node_sql)
