@@ -19,5 +19,6 @@ urlpatterns = [
     url(r'app/orders/(?P<order_id>[0-9]+)/procurementOrders$', views.materialOrderList),
     url(r'app/procurementOrder/(?P<procurementOrder_id>[0-9]+)$', views.materialOrder),
     url(r'app/MaterialTree$', views.MaterialTree),
-    
+    url(r'app/node/(?P<node_id>[0-9]+)$', views.NodeInfo),
+    url(r'app/leaf/(?P<node_id>[0-9]+)$', views.NodeInfo),
 ]
