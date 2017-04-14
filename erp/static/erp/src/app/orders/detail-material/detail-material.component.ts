@@ -6,8 +6,8 @@ import { MaterialStock } from './../../materialStock/materialStock'
 import { DetailMaterialRequriment } from './detail-material'
 import { MaterialStockService } from './../../materialStock/materialStock.service';
 import { ProductService } from './../products/product.service';
-import { TreeService } from './../../tree/tree.service'
-import { Node, Leaf } from './../../tree/tree'
+import { TreeService } from './../../shared/tree/tree.service'
+import { Node, Leaf } from './../../shared/tree/tree'
 
 @Component({
     selector: 'detail-material',
@@ -144,6 +144,7 @@ export class DetailMaterialComponent implements OnInit {
                 if (isExist == false) {
                     var tmp_materialitem = new DetailMaterialRequriment;
                     tmp_materialitem.name = materialItem_iter.name;
+                    tmp_materialitem.id = materialItem_iter.id
                     tmp_materialitem.requrimentNum = Number(materialItem_iter.count);
                     this.materialItemList.push(tmp_materialitem);
                 }
@@ -154,7 +155,7 @@ export class DetailMaterialComponent implements OnInit {
     private updateDetailmaterialItemInfo() {
         this.updatematerialItemList();
         this.materialItemList.forEach(meterialItem => {
-            this.material_stock_service.getMaterialStockByName(meterialItem.name).
+            this.material_stock_service.getMaterialStockById(meterialItem.id).
                 subscribe(material_stock => {
                     meterialItem.shoppingNum = material_stock.shoppingNum;
                     meterialItem.instockNum = material_stock.instockNum;

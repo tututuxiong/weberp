@@ -30,7 +30,7 @@ export class TreeComponent implements OnInit {
         this.haveLeafs = true;//(this.root_node.leafs.length != 0);
         this.isMaterialTree = (this.tree_type == "M");
     }
-    AddNode() {
+    AddLeaf() {
         this.addnewLeafFlag = true;
         console.log(this.root_node.id);
         console.log(this.root_node.name);
@@ -43,7 +43,7 @@ export class TreeComponent implements OnInit {
         }        
         this.addnewLeafFlag = false;
     }
-    AddSubTree() {
+    AddSubNode() {
         console.log(this.root_node.id);
         console.log(this.root_node.name);
     }

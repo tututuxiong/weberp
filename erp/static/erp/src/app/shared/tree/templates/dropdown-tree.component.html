@@ -9,12 +9,14 @@
         </li>
     </ng-container>
 </ul>-->
-
-<div *ngFor="let selectItem of selectTargets; let i = index">
-    <select [ngModel]="selectItem" (ngModelChange)="onChangeObj($event,i)" name={{selectItem.name}}>
-    <option [ngValue]="i" *ngFor="let i of selectItem.subNodes">{{i.name}}</option>
-    <option [ngValue]="i" *ngFor="let i of selectItem.leafs">{{i.name}}</option>
-  </select>
+<h4>请选择原材料</h4>
+<div class="row">
+    <div *ngFor="let selectItem of selectTargets; let i = index">
+            <select class = "form-control" [ngModel]="selectItem" (ngModelChange)="onChangeObj($event,i)" name={{selectItem.name}}>
+                <option [ngValue]="i" *ngFor="let i of selectItem.subNodes">{{i.name}}</option>
+                <option [ngValue]="i" *ngFor="let i of selectItem.leafs">{{i.name}}</option>
+            </select>
+    </div>
 </div>
 <!--
 <div ngbDropdown class="d-inline-block">

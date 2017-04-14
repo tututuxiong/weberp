@@ -9,7 +9,7 @@ import { MaterialStockComponent} from './materialStock.component'
 import {MaterialStockService} from './materialStock.service'
 
 import {MaterialStockRoutingModule} from './materialStock-routing.module'
-import {TreeModule} from './../tree/tree.module'
+import {TreeModule} from './../shared/tree/tree.module'
 
 @NgModule({
     imports: [
