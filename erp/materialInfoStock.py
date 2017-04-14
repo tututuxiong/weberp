@@ -82,3 +82,38 @@ def getTree():
     except RawMat.DoesNotExist:
         print("no root node yet")
         return None
+
+def initNodeBySqlInfo(node, node_sql):
+    node.id = node_sql.id
+    node.unit =  node_sql.unit
+
+def getNodeInfo(node_id):
+    print(node_id)
+    try:
+        node_sql = RawMat.objects.get(pk=node_id)
+        if (node_sql.is_leaf == False):
+            node = Node(node_sql.name)
+            initNodeBySqlInfo(node, node_sql)
+
+            for subNode_sql in node_sql.rawmat_set.all():
+                if (subNode_sql.is_leaf == False):
+                    tmp_node = Node(subNode_sql.name)
+                    initNodeBySqlInfo(tmp_node, subNode_sql)
+                    node.addSubNode(tmp_node)
+                else:
+                    tmp_leaf = Leaf(subNode_sql.name)
+                    tmp_leaf.id = subNode_sql.id
+                    tmp_leaf.parentId = node.id
+                    node.addLeaf(tmp_leaf)
+
+            return node
+
+        else:
+            leaf = Leaf(node_sql.name)
+            leaf.id = node_sql.id
+            leaf.parentId = node_sql.parent_id
+            return leaf
+
+    except RawMat.DoesNotExist:
+        print("no root node yet")
+        return None        

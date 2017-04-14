@@ -10,6 +10,8 @@ export class TreeService {
     constructor(private http: Http) {}
     
     private treeUrl = 'app/MaterialTree';  // URL to web api
+    private nodeUrl = 'app/node';  // URL to web api
+    private leafUrl = 'app/leaf';  // URL to web api    
 
     private handleError(error: Response | any) {
         // In a real world app, we might use a remote logging infrastructure
@@ -27,6 +29,20 @@ export class TreeService {
 
    getRootTree(): Observable<Node> {
         return this.http.get(this.treeUrl)
+            .map(res=>{return res.json()})
+            .catch(this.handleError);
+    }
+
+    getNodeById(id: number): Observable<Node> {
+        const url = `${this.nodeUrl}/${id}`;
+        return this.http.get(url)
+            .map(res=>{return res.json()})
+            .catch(this.handleError);
+    }
+
+    getLeafById(id: number): Observable<Leaf> {
+        const url = `${this.leafUrl}/${id}`;
+        return this.http.get(url)
             .map(res=>{return res.json()})
             .catch(this.handleError);
     }    

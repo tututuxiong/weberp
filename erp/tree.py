@@ -6,6 +6,9 @@ class Leaf:
         self.name = name
         self.parentId = 0
 
+    def toJson(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+
 class Node:
     count = 0
     def __init__(self, name):

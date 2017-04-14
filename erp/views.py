@@ -102,3 +102,7 @@ def materialStock(request, material_id):
 def MaterialTree(request):
     return  HttpResponse(getTree().toJson())
 
+def NodeInfo(request, node_id):
+    if request.method == 'GET':
+        return HttpResponse(getNodeInfo(int(node_id)).toJson())
+
