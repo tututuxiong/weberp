@@ -5,7 +5,7 @@ import { HttpModule, JsonpModule }    from '@angular/http';
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { MaterialStockComponent} from './materialStock.component'
+import { MaterialStockComponent, NgbdModalUpdateNodeContent} from './materialStock.component'
 import {MaterialStockService} from './materialStock.service'
 
 import {MaterialStockRoutingModule} from './materialStock-routing.module'
@@ -24,10 +24,15 @@ import {TreeModule} from './../shared/tree/tree.module'
 
     declarations: [
         MaterialStockComponent,
+        NgbdModalUpdateNodeContent
     ],
     providers: [
         MaterialStockService
-    ]
+    ],
+    entryComponents: [
+        NgbdModalUpdateNodeContent
+    ],
+
 })
 
 export class MaterialStockModule {}
