@@ -4,12 +4,6 @@ export class Leaf{
     id: number;
 }
 
-export class LeafUpdate{
-    id: number;
-    count: number;
-    type:number; // 0 +, 1 -
-}
-
 
 export class Node {
     subNodes: Node[];

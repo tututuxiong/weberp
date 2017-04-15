@@ -60,7 +60,6 @@ class RawMatOrderItem(models.Model):
     est_total_price = models.DecimalField(max_digits=12, decimal_places=2)
     status = models.CharField(max_length=50)
 
-
 class RawMatRepoRecord(models.Model):
     reg_date = models.DateTimeField('when this was registered in this system')
     act_date = models.DateTimeField('when this was actually happened')
@@ -72,7 +71,6 @@ class RawMatRepoRecord(models.Model):
 class CheckInRawMatRepoRecord(RawMatRepoRecord):
     act_total_price = models.DecimalField(max_digits=12, decimal_places=2)
     rawMatOrderItem = models.ForeignKey(RawMatOrder, on_delete=models.CASCADE)
-
 
 class CheckOutRawMatRepoRecord(RawMatRepoRecord):
     salesItem = models.ForeignKey(SalesItem, on_delete=models.CASCADE)

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { Headers, Http, Response } from '@angular/http';
+import { Http, Response, Headers, RequestOptions} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { MaterialStock } from './materialStock'
+import { MaterialStock,MaterialUpdateInfo } from './materialStock'
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
@@ -15,6 +15,11 @@ export class MaterialStockService {
     private extractMaterialsStockInfoData(res: Response) {
         let body = res.json();
         return body.materialStockInfoList || {};
+    }
+
+    private extractMaterialsStockUpdateInfo(res: Response) {
+        let body = res.json();
+        return body || {};
     }
 
     private extractMaterialStockInfoData(res: Response) {
@@ -41,6 +46,15 @@ export class MaterialStockService {
             .map(this.extractMaterialsStockInfoData)
             .catch(this.handleError);
     }
+
+    updateMaterialStock(materialUpdateInfo:MaterialUpdateInfo): Observable<MaterialUpdateInfo[]> {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        const url = `${this.materialsStockUrl}/${materialUpdateInfo.materialId}`;
+        return  this.http.post(url, { materialUpdateInfo }, options)
+                       .map(this.extractMaterialsStockUpdateInfo)
+                       .catch(this.handleError);
+    }    
 
     getMaterialStockById(id: number): Observable<MaterialStock> {
         const url = `${this.materialsStockUrl}/${id}`;

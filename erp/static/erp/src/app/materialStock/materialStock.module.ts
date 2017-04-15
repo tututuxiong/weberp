@@ -5,7 +5,8 @@ import { HttpModule, JsonpModule }    from '@angular/http';
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
-import { MaterialStockComponent, NgbdModalUpdateNodeContent} from './materialStock.component'
+import { MaterialStockComponent} from './materialStock.component'
+import { NgbdModalUpdateNodeContent } from './materialStock.update.comonent'
 import {MaterialStockService} from './materialStock.service'
 
 import {MaterialStockRoutingModule} from './materialStock-routing.module'

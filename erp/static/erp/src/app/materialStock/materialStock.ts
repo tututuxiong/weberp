@@ -5,5 +5,16 @@ export class MaterialStock {
     internalId: number;
     unit: string;
     instockNum: number;
-    shoppingNum: number;   
+    shoppingNum: number;
+}
+
+export class MaterialUpdateInfo {
+    materialId: number
+    procurementOrderId: number
+    saleOrderId: number
+    additionalInfo: string;
+    typeId: number
+    price: number
+    result: number
+    num: number
 }

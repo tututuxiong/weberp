@@ -1,17 +1,19 @@
 import { Injectable } from "@angular/core";
 import { Headers, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Node,Leaf } from './tree'
+import { Node, Leaf } from './tree'
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class TreeService {
-    constructor(private http: Http) {}
-    
+    constructor(private http: Http) { }
+
     private treeUrl = 'app/MaterialTree';  // URL to web api
     private nodeUrl = 'app/node';  // URL to web api
     private leafUrl = 'app/leaf';  // URL to web api    
+    private procurementOrder = 'app/procurementOrder';  // URL to web api    
+    private materialTree = 'materialTree';  // URL to web api
 
     private handleError(error: Response | any) {
         // In a real world app, we might use a remote logging infrastructure
@@ -27,24 +29,31 @@ export class TreeService {
         return Observable.throw(errMsg);
     }
 
-   getRootTree(): Observable<Node> {
+    getRootTree(): Observable<Node> {
         return this.http.get(this.treeUrl)
-            .map(res=>{return res.json()})
+            .map(res => { return res.json() })
             .catch(this.handleError);
     }
 
     getNodeById(id: number): Observable<Node> {
         const url = `${this.nodeUrl}/${id}`;
         return this.http.get(url)
-            .map(res=>{return res.json()})
+            .map(res => { return res.json() })
             .catch(this.handleError);
     }
 
     getLeafById(id: number): Observable<Leaf> {
         const url = `${this.leafUrl}/${id}`;
         return this.http.get(url)
-            .map(res=>{return res.json()})
+            .map(res => { return res.json() })
             .catch(this.handleError);
-    }    
+    }
+    
+    getProcurementOrderMaterialTree(id: number): Observable<Node>{
+        const url = `${this.procurementOrder}/${id}/${this.materialTree}`;
+        return this.http.get(url)
+            .map(res => { return res.json() })
+            .catch(this.handleError);
+    }
 }
 

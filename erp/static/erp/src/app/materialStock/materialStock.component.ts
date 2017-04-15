@@ -4,9 +4,9 @@ import { OnInit, Input } from "@angular/core";
 import { MaterialStockService } from './materialStock.service';
 import { TreeService } from './../shared/tree/tree.service';
 import { MaterialStock } from './materialStock';
-import { Leaf, Node,LeafUpdate } from './../shared/tree/tree';
-import {NgbModal, NgbActiveModal,NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
-
+import { Leaf, Node } from './../shared/tree/tree';
+import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdModalUpdateNodeContent } from './materialStock.update.comonent'
 // Component definition
 @Component({
     //selector is not needed here because we use routing.
@@ -37,7 +37,7 @@ export class MaterialStockComponent implements OnInit {
     tree_type: string;
     choose_leaf: Leaf;
 
-    modalOptions: NgbModalOptions = {size: "lg"}
+    modalOptions: NgbModalOptions = { size: "lg" }
 
     getMaterialStocks(): void {
         this.materialStockService.getMaterialStocks()
@@ -47,40 +47,19 @@ export class MaterialStockComponent implements OnInit {
 
     }
 
-    getTree(): void{
+    getTree(): void {
         this.treeService.getRootTree().subscribe(materialTree => {
             this.root_node = materialTree;
         },
-        error => this.errorMessage = <any>error)
+            error => this.errorMessage = <any>error)
     }
-    onChooseLeaf(leaf: Leaf){
+    onChooseLeaf(leaf: Leaf) {
+        console.log(leaf)
         this.choose_leaf = leaf;
     }
-    updateNode()
-    {
+    updateNode() {
         const modalRef = this.modalService.open(NgbdModalUpdateNodeContent, this.modalOptions);
         modalRef.componentInstance.name = 'World';
-        modalRef.componentInstance.root_node = this.root_node;
+        //modalRef.componentInstance.root_node = this.root_node;
     }
 }
-
-@Component({
-  selector: 'ngbd-modal-content',
-  moduleId: module.id,
-  templateUrl: "./templates/materialStock.updatenode.html",
-})
-export class NgbdModalUpdateNodeContent {
-  @Input() name:string;
-  @Input() root_node: Node;
-  choose_leaf: Leaf;
-  updateCount: LeafUpdate;
-
-  constructor(public activeModal: NgbActiveModal) {}
-    
-  onChooseLeaf(leaf: Leaf){
-        this.choose_leaf = leaf;
-        this.updateCount.id = leaf.id;
-        this.updateCount.type = 0;
-    }
-}
-

@@ -2,6 +2,29 @@ import json
 from .tree import *
 from .models import *
 from .tree import *
+import django.utils.timezone as timezone
+from datetime import datetime
+
+class MaterialUpdateInfo:
+    def __init__(self):
+        self.materialId = 0
+        self.procurementOrderId = 0
+        self.saleOrderId = 0
+        self.additionalInfo = ""
+        self.typeId = 0
+        self.price = 0
+        self.num = 0
+        self.result = 1
+
+    def toJson(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+
+    def setJson2Class(self, dict_data):
+        print(dict_data)
+        for name, value in dict_data.items():
+            if hasattr(self, name):
+                setattr(self, name, value)
+
 
 class MaterialStockInfo(Leaf):
     count = 0
@@ -28,6 +51,7 @@ class MaterialStockInfo(Leaf):
     def toJson(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
+
 class MaterialStockInfoList:
     def __init__(self):
         self.count = 0
@@ -47,33 +71,48 @@ class MaterialStockInfoList:
         else:
             return False
 
+
 def getMaterialStockFromSql(material_id):
     try:
-        material_sql = RawMat.objects.get(pk = material_id)
+        material_sql = RawMat.objects.get(pk=material_id)
         materialStock = MaterialStockInfo()
-        materialStock.id = material_sql.id
-        materialStock.name = material_sql.name
-        materialStock.unit = material_sql.unit
+        initMaterialLeafFromSqlData(materialStock,material_sql)
+
         return materialStock
     except RawMat.DoesNotExist:
         print("getMaterialStockFromSql Wront  material_id!!!")
 
 
+def initMaterialLeafFromSqlData(materialStock, subNode_sql):
+    materialStock.name = subNode_sql.name
+    materialStock.unit = subNode_sql.unit
+    materialStock.id = subNode_sql.id
+    materialStock.parentId = subNode_sql.parent_id
+    for CheckInRawMatItem_sql in  CheckInRawMatRepoRecord.objects.filter(rawMaterial=subNode_sql):
+        materialStock.instockNum += CheckInRawMatItem_sql.num
+    for CheckOutRawMatItem_sql in CheckOutRawMatRepoRecord.objects.filter(rawMaterial=subNode_sql):
+        materialStock.instockNum -= CheckOutRawMatItem_sql.num
+        
 
 def genarateTree(root_sql):
-    if (root_sql.rawmat_set.count()):
+    if root_sql.rawmat_set.count():
         root = Node(root_sql.name)
         root.id = root_sql.id
         for subNode_sql in root_sql.rawmat_set.all():
-            if (subNode_sql.is_leaf == False):
+            if subNode_sql.is_leaf == False:
                 root.addSubNode(genarateTree(subNode_sql))
             else:
-                leaf = Leaf(subNode_sql.name)
-                leaf.id = subNode_sql.id
+                leaf = MaterialStockInfo()
+                initMaterialLeafFromSqlData(leaf, subNode_sql)
                 root.addLeaf(leaf)
         return root
     else:
         return None
+
+
+def genarateTreeWithNodeId(nodeIdList):
+    return None
+
 
 def getTree():
     try:
@@ -83,22 +122,24 @@ def getTree():
         print("no root node yet")
         return None
 
+
 def initNodeBySqlInfo(node, node_sql):
     node.id = node_sql.id
-    node.unit =  node_sql.unit
+    node.unit = node_sql.unit
+
 
 def getNodeInfo(node_id):
     try:
-        if (node_id == 0):
+        if node_id == 0:
             node_sql = RawMat.objects.get(parent=None)
         else:
             node_sql = RawMat.objects.get(pk=node_id)
-        if (node_sql.is_leaf == False):
+        if node_sql.is_leaf == False:
             node = Node(node_sql.name)
             initNodeBySqlInfo(node, node_sql)
 
             for subNode_sql in node_sql.rawmat_set.all():
-                if (subNode_sql.is_leaf == False):
+                if subNode_sql.is_leaf == False:
                     tmp_node = Node(subNode_sql.name)
                     initNodeBySqlInfo(tmp_node, subNode_sql)
                     node.addSubNode(tmp_node)
@@ -118,4 +159,68 @@ def getNodeInfo(node_id):
 
     except RawMat.DoesNotExist:
         print("no root node yet")
-        return None        
+        return None
+
+
+def getTreeByMaterialOrderId(id):
+    materialLeafList = []
+    for rawMatOrderItem_sql in RawMatOrder.objects.get(pk=id).rawmatorderitem_set.all():
+        rawMatItem_sql = RawMat.objects.get(pk=rawMatOrderItem_sql.rawMat_id)
+        materalLeaf = MaterialStockInfo()
+        initMaterialLeafFromSqlData(materalLeaf, rawMatItem_sql)
+        materialLeafList.append(materalLeaf)
+
+    rootTreeSql = RawMat.objects.get(parent=None)
+    rootTree = Node("")
+    rootTree.id = rootTreeSql.id
+    rootTree.name = rootTreeSql.name
+
+    for materialLeaf in materialLeafList:
+        currentNode = materialLeaf
+        while currentNode.parentId != rootTree.id:
+            currentSql = RawMat.objects.get(pk=currentNode.parentId)
+            newNode = Node(currentSql.name)
+            newNode.id = currentSql.id
+            newNode.parentId = currentSql.parent_id
+            if currentNode.__class__.__name__ == "MaterialStockInfo":
+                newNode.addLeaf(currentNode)
+            else:
+                newNode.addSubNode(currentNode)
+            currentNode = newNode
+
+        rootTree = mergeTree(rootTree, currentNode)
+
+    return rootTree
+
+
+def mergeTree(rootTree, targetTree):
+    node = findNodeFromTree(rootTree, targetTree.parentId)
+    node.addSubNode(targetTree)
+    return rootTree
+
+
+def findNodeFromTree(rootTree, id):
+    if rootTree.id != id:
+        if len(rootTree.subNodes) == 0:
+            return None
+        for node in rootTree.subNodes:
+            resultNode = findNodeFromTree(node, id)
+            if resultNode != None:
+                return resultNode
+            else:
+                return None
+    else:
+        return rootTree
+
+
+def updateMaterialInfo(materialUpdateInfo):
+    material_sql = RawMat.objects.get(pk=materialUpdateInfo.materialId)
+    rawMatOrder_sql = RawMatOrder.objects.get(
+        pk=materialUpdateInfo.procurementOrderId)
+    newRecode = CheckInRawMatRepoRecord(
+        rawMaterial=material_sql, rawMatOrderItem=rawMatOrder_sql,
+        batch_nr=materialUpdateInfo.additionalInfo, num=materialUpdateInfo.num,
+         act_date=timezone.now(), reg_date=timezone.now(),act_total_price=materialUpdateInfo.price)
+    newRecode.save()
+    print(newRecode.id)
+    materialUpdateInfo.result = 0
