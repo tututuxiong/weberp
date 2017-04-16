@@ -1,0 +1,38 @@
+<ul>
+    <li><button class="btn btn-default" (click)="expand()">{{root_node.name}}</button></li>
+    <ng-container *ngIf="isExpand">
+        <div *ngFor="let sub of root_node.subNodes">
+            <expandTree-view [root_node]="sub"></expandTree-view>
+        </div>
+        <ul>
+            <li *ngFor="let leaf of root_node.leafs">{{leaf.name}}</li>
+        </ul>
+        <ul>
+            <li><button class="btn  btn-outline-primary" (click)="addNewNode(root_node)">新增分类</button></li>
+            <ng-container *ngIf="editNewNode">
+                <div class="row">
+                    <div class="col-md-3">
+                <input class="form-control user-input" [(ngModel)]="newNode.name">
+                    </div>
+                <div class="col-md-3">
+                <button class="btn btn-sm btn-outline-primary" (click)="submitNewNode(root_node)">确定</button>
+                </div>
+                    </div>
+            </ng-container>
+            <li><button class="btn btn-outline-primary" (click)="addNewLeaf(root_node)">新增原材料</button></li>
+            <ng-container *ngIf="editNewLeaf">
+                <div class="row">
+                    <div class="col-md-3">
+                <input class="form-control user-input" [(ngModel)]="newLeaf.name">
+                    </div>
+                    <div class="col-md-3">
+                    <input class="form-control user-input" [(ngModel)]="newLeaf.unit">
+                    </div>
+                <div class="col-md-3">
+                <button class="btn btn-sm btn-outline-primary" (click)="submitNewLeaf(root_node)">确定</button>
+                </div>
+                    </div>
+            </ng-container>
+        </ul>
+    </ng-container>
+</ul>

@@ -2,6 +2,7 @@ export class Leaf{
     name: string;
     parentId: number;
     id: number;
+    unit: string;
 }
 
 
@@ -11,4 +12,5 @@ export class Node {
     name: string;
     parentId: number;
     id : number;
+    unit: string;
 }

@@ -7,6 +7,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { TreeComponent} from './tree.component'
 import { DropdownTreeComponent} from './dropdown-tree.component'
+import { ExpandTreeComponent } from './expandTree.component'
 import {TreeService} from './tree.service'
 
 @NgModule({
@@ -21,12 +22,16 @@ import {TreeService} from './tree.service'
     declarations: [
         TreeComponent,
         DropdownTreeComponent,
+        ExpandTreeComponent,
     ],
     providers: [
         TreeService,
     ],
 
-    exports:[TreeComponent,DropdownTreeComponent],
+    exports:[
+        TreeComponent,
+        DropdownTreeComponent,
+        ExpandTreeComponent],
 })
 
 export class TreeModule {}

@@ -117,3 +117,18 @@ def MaterialTree(request,procurementOrder_id='0',product_id='0'):
 def NodeInfo(request, node_id):
     if request.method == 'GET':
         return HttpResponse(getNodeInfo(int(node_id)).toJson())
+    if request.method == 'PUT':
+        dict_data = json.loads(request.body.decode())['node']
+        tmp_node = Node("")
+        tmp_node.setJson2Class(dict_data)
+        return HttpResponse(addNewMaterialNode(tmp_node).toJson())
+
+def LeafInfo(request, leaf_id):
+    if request.method == 'GET':
+        return HttpResponse(getNodeInfo(int(node_id)).toJson())
+    if request.method == 'PUT':
+        dict_data = json.loads(request.body.decode())['leaf']
+        tmp_materialStock = MaterialStockInfo()
+        tmp_materialStock.setJson2Class(dict_data)
+        print(tmp_materialStock)
+        return HttpResponse(addNewMaterialLeaf(tmp_materialStock).toJson())        

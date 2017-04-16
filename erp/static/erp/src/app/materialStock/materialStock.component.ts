@@ -7,6 +7,7 @@ import { MaterialStock } from './materialStock';
 import { Leaf, Node } from './../shared/tree/tree';
 import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalUpdateNodeContent } from './materialStock.update.comonent'
+import { NgbdModalAddNodeContent } from './materialStock.addNode.component'
 // Component definition
 @Component({
     //selector is not needed here because we use routing.
@@ -60,7 +61,10 @@ export class MaterialStockComponent implements OnInit {
     updateNode(type: number) {
         const modalRef = this.modalService.open(NgbdModalUpdateNodeContent, this.modalOptions);
         modalRef.componentInstance.type = type;
-        //modalRef.componentInstance.root_node = this.root_node;
+    }
+    addNewNode(){
+        const modalRef = this.modalService.open(NgbdModalAddNodeContent, this.modalOptions);
+        modalRef.componentInstance.root_node = this.root_node;        
     }
     onFresh(){
         this.getTree();

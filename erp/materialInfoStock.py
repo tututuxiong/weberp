@@ -35,6 +35,8 @@ class MaterialStockInfo(Leaf):
         self.internalId = ''
         self.instockNum = 0
         self.unit = ''
+        self.parentId = ''
+        self.name = ''
         self.shoppingNum = 0
 
     def setFormalId(self):
@@ -51,6 +53,9 @@ class MaterialStockInfo(Leaf):
 
     def toJson(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+    
+    def __repr__(self):
+        return repr((self.id,self.name, self.parentId, self.unit, self.instockNum, self.shoppingNum))
 
 
 class MaterialStockInfoList:
@@ -100,9 +105,9 @@ def initMaterialLeafFromSqlData(materialStock, subNode_sql):
             materialStock.shoppingNum += RawMatOrderItem_sql.num
 
 def genarateTree(root_sql):
+    root = Node(root_sql.name)
+    root.id = root_sql.id
     if root_sql.rawmat_set.count():
-        root = Node(root_sql.name)
-        root.id = root_sql.id
         for subNode_sql in root_sql.rawmat_set.all():
             if subNode_sql.is_leaf == False:
                 root.addSubNode(genarateTree(subNode_sql))
@@ -110,10 +115,8 @@ def genarateTree(root_sql):
                 leaf = MaterialStockInfo()
                 initMaterialLeafFromSqlData(leaf, subNode_sql)
                 root.addLeaf(leaf)
-        return root
-    else:
-        return None
-
+    return root
+    
 
 def genarateTreeWithNodeId(nodeIdList):
     return None
@@ -132,6 +135,29 @@ def initNodeBySqlInfo(node, node_sql):
     node.id = node_sql.id
     node.unit = node_sql.unit
 
+def addNewMaterialLeaf(materialStock):
+    try:
+        print(materialStock)
+        parentNode_sql = RawMat.objects.get(pk=materialStock.parentId)
+        node_sql = RawMat(parent=parentNode_sql,name=materialStock.name,is_leaf=True,unit=materialStock.unit)
+        node_sql.save()
+        materialStock.id = node_sql.id
+        return materialStock
+
+    except RawMat.DoesNotExist:
+        print("addNewMaterialLeaf Wront  rawMatOrderItem.rawMat_id !!!")
+
+def addNewMaterialNode(node):
+    try:
+        parentNode_sql = RawMat.objects.get(pk=node.parentId)
+        print(parentNode_sql)
+        node_sql = RawMat(parent=parentNode_sql,name=node.name,is_leaf=False,unit="")
+        node_sql.save()
+        node.id = node_sql.id
+        return node
+
+    except RawMat.DoesNotExist:
+        print("addNewMaterialNode Wront  rawMatOrderItem.rawMat_id !!!")
 
 def getNodeInfo(node_id):
     try:

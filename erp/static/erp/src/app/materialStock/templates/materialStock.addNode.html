@@ -1,0 +1,13 @@
+<div class="modal-header">
+    <h4 class="modal-title">原料列表</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <p>新增原材料和分类</p>
+    <expandTree-view [root_node]="root_node"></expandTree-view>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="activeModal.close('Cancel')">关闭</button>
+</div>

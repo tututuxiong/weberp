@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Headers, Http, Response } from '@angular/http';
+import { Headers, Http, Response ,  RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Node, Leaf } from './tree'
 import 'rxjs/add/operator/catch';
@@ -41,6 +41,23 @@ export class TreeService {
         return this.http.get(url)
             .map(res => { return res.json() })
             .catch(this.handleError);
+    }
+    addNewNode(node: Node): Observable<Node> {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        const url = `${this.nodeUrl}/${0}`;
+        return  this.http.put(url, { node }, options)
+                       .map(res => { return res.json() })
+                       .catch(this.handleError);        
+    }
+    
+    addNewLeaf(leaf: Leaf): Observable<Leaf> {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        const url = `${this.leafUrl}/${0}`;
+        return  this.http.put(url, { leaf }, options)
+                       .map(res => { return res.json() })
+                       .catch(this.handleError);        
     }
 
     getLeafById(id: number): Observable<Leaf> {
