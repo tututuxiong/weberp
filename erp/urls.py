@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'app/orders/(?P<order_id>[0-9]+)/subProducts$', views.subProductList),
     url(r'app/subProducts$', views.subProductList),
     url(r'app/subProduct/(?P<product_id>[0-9]+)$', views.subProduct),
+    url(r'app/subPorduct/(?P<product_id>[0-9]+)/materialTree$', views.MaterialTree),
     url(r'app/orders/(?P<order_id>[0-9]+)/procurementOrders$', views.materialOrderList),
     url(r'app/procurementOrder/(?P<procurementOrder_id>[0-9]+)$', views.materialOrder),
     url(r'app/procurementOrder/(?P<procurementOrder_id>[0-9]+)/materialTree$', views.MaterialTree),

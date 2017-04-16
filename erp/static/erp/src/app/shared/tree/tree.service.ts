@@ -13,6 +13,7 @@ export class TreeService {
     private nodeUrl = 'app/node';  // URL to web api
     private leafUrl = 'app/leaf';  // URL to web api    
     private procurementOrder = 'app/procurementOrder';  // URL to web api    
+    private subProduct = 'app/subPorduct';  // URL to web api    
     private materialTree = 'materialTree';  // URL to web api
 
     private handleError(error: Response | any) {
@@ -55,5 +56,11 @@ export class TreeService {
             .map(res => { return res.json() })
             .catch(this.handleError);
     }
+    getSubProductMaterialTree(id: number): Observable<Node>{
+        const url = `${this.subProduct}/${id}/${this.materialTree}`;
+        return this.http.get(url)
+            .map(res => { return res.json() })
+            .catch(this.handleError);
+    }    
 }
 

@@ -5,9 +5,11 @@
     </div>
 
     <div class="col-sm-3">
-        <button class="btn btn-primary btn-outline-primary" (click)="updateNode()">入库</button>
+        <button class="btn btn-primary btn-outline-primary" (click)="updateNode(0)">入库</button>
     </div>
-
+    <div class="col-sm-3">
+        <button class="btn btn-primary btn-outline-primary" (click)="updateNode(1)">领料</button>
+    </div>
     <div class="col-sm-3">
         <a routerLink='/dashboard' class="btn btn-primary" role="button">返回</a>
     </div>

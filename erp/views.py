@@ -106,11 +106,13 @@ def materialStock(request, material_id):
         updateMaterialInfo(tmp_materialUpdateInfo)
         return HttpResponse(tmp_materialUpdateInfo.toJson())
 
-def MaterialTree(request,procurementOrder_id='0'):
-    if (procurementOrder_id == '0'):
+def MaterialTree(request,procurementOrder_id='0',product_id='0'):
+    if procurementOrder_id == '0' and product_id == '0':
         return  HttpResponse(getTree().toJson())
-    else:
+    elif procurementOrder_id != '0':
         return  HttpResponse(getTreeByMaterialOrderId(int(procurementOrder_id)).toJson())
+    elif product_id != '0':
+        return  HttpResponse(getTreeBysubProductId(int(product_id)).toJson())
 
 def NodeInfo(request, node_id):
     if request.method == 'GET':

@@ -57,9 +57,9 @@ export class MaterialStockComponent implements OnInit {
         console.log(leaf)
         this.choose_leaf = leaf;
     }
-    updateNode() {
+    updateNode(type: number) {
         const modalRef = this.modalService.open(NgbdModalUpdateNodeContent, this.modalOptions);
-        modalRef.componentInstance.name = 'World';
+        modalRef.componentInstance.type = type;
         //modalRef.componentInstance.root_node = this.root_node;
     }
 }

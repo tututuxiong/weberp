@@ -1,30 +1,53 @@
 <div class="modal-header">
-    <h4 class="modal-title">Hi there!</h4>
+    <h4 class="modal-title">{{title}}</h4>
     <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
 </div>
 <div class="modal-body">
+    <p>{{information}}</p>
 
-    <p>Hello, {{name}}!</p>
-    <p>请选择原材料订单</p>
-    <select class="form-control" [ngModel]="materialOrderList" (ngModelChange)="onChangematerialOrder($event)">
+    <ng-container *ngIf="!type">
+        <select class="form-control" [ngModel]="materialOrderList" (ngModelChange)="onChangeOrder($event)">
         <option [ngValue]="i" *ngFor="let i of materialOrderList">{{i.name}}</option>
     </select>
-
-    <ng-container *ngIf="root_node?.id">
-
-        <dropdown-tree-view [root_node]="root_node" (choose_leaf)="onChooseLeaf($event)"></dropdown-tree-view>
-
     </ng-container>
-    <ng-container *ngIf="choose_leaf?.id">
-        <h5>数量</h5>
-        <input type="number" class="form-control user-input" [(ngModel)]="materialUpdateInfo.num">
-        <h5>金额</h5>
-        <input type="number" class="form-control user-input" [(ngModel)]="materialUpdateInfo.price">
-        <h5>备注</h5>
-        <input class="form-control user-input" [(ngModel)]="materialUpdateInfo.additionalInfo">
+    <ng-container *ngIf="type">
+        <select class="form-control" [ngModel]="orderList" (ngModelChange)="onChangeOrder($event)">
+        <option [ngValue]="i" *ngFor="let i of orderList">{{i.name}}</option>
+    </select>
+        <ng-container *ngIf="productList?.length > 0">
+            <p>请选择具体产品</p>
+            <select class="form-control" [ngModel]="productList" (ngModelChange)="onChangeSubProductOrder($event)">
+        <option [ngValue]="i" *ngFor="let i of productList">{{i.name}}</option>
+    </select>
+        </ng-container>
+        <ng-container *ngIf="productList">
+        <ng-container *ngIf="!(productList?.length > 0)">
+            <p>没有产品清单</p>
+        </ng-container>
+        </ng-container>
+    </ng-container>
+    <ng-container *ngIf="root_node?.subNodes?.length>0 || root_node?.leafs?.length>0">
+        <ng-container *ngIf="root_node?.id">
+            <dropdown-tree-view [root_node]="root_node" (choose_leaf)="onChooseLeaf($event)"></dropdown-tree-view>
+        </ng-container>
+        <ng-container *ngIf="choose_leaf?.id">
+            <h5>数量</h5>
+            <input type="number" class="form-control user-input" [(ngModel)]="materialUpdateInfo.num">
+            <h5>金额</h5>
+            <input type="number" class="form-control user-input" [(ngModel)]="materialUpdateInfo.price">
+            <h5>备注</h5>
+            <input class="form-control user-input" [(ngModel)]="materialUpdateInfo.additionalInfo">
+        </ng-container>
+    </ng-container>
+    <ng-container *ngIf="root_node">
+        <ng-container *ngIf="!(root_node?.subNodes?.length>0 || root_node?.leafs?.length>0)">
+            <p>没有原材料需求</p>
+        </ng-container>
     </ng-container>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="onSubmit()">确定</button>
+        <ng-container *ngIf="materialUpdateInfo.num">
+            <button type="button" class="btn btn-secondary" (click)="onSubmit()">确定</button>
+        </ng-container>
     </div>
