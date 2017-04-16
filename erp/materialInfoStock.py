@@ -89,11 +89,15 @@ def initMaterialLeafFromSqlData(materialStock, subNode_sql):
     materialStock.unit = subNode_sql.unit
     materialStock.id = subNode_sql.id
     materialStock.parentId = subNode_sql.parent_id
+    
     for CheckInRawMatItem_sql in CheckInRawMatRepoRecord.objects.filter(rawMaterial=subNode_sql):
         materialStock.instockNum += CheckInRawMatItem_sql.num
     for CheckOutRawMatItem_sql in CheckOutRawMatRepoRecord.objects.filter(rawMaterial=subNode_sql):
         materialStock.instockNum -= CheckOutRawMatItem_sql.num
 
+    for RawMatOrderItem_sql in RawMatOrderItem.objects.filter(rawMat=subNode_sql):
+        if RawMatOrderItem_sql.status == "BUYING":
+            materialStock.shoppingNum += RawMatOrderItem_sql.num
 
 def genarateTree(root_sql):
     if root_sql.rawmat_set.count():

@@ -62,4 +62,7 @@ export class MaterialStockComponent implements OnInit {
         modalRef.componentInstance.type = type;
         //modalRef.componentInstance.root_node = this.root_node;
     }
+    onFresh(){
+        this.getTree();
+    }
 }

@@ -14,6 +14,7 @@ class MaterialSubOrderInfo:
         self.unit_price = 0
         self.total_price = 0
         self.comment = ''
+        self.status = ''
 
     def setFormalId(self, materialOrderId):
         if self.id == -1:
@@ -107,6 +108,7 @@ def initmaterialOrderFromSql(materialOrder,materialOrderSql_item):
             materialSubOrderInfo.name = material.name
             materialSubOrderInfo.unit = material.unit
             materialSubOrderInfo.num = rawMatOrderItem.num
+            materialSubOrderInfo.status = rawMatOrderItem.status
             materialSubOrderInfo.unit_price = 0
             materialSubOrderInfo.total_price = float(rawMatOrderItem.est_total_price)
             materialSubOrderInfo.comment = ''        
