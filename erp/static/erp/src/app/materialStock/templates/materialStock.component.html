@@ -5,6 +5,10 @@
     </div>
 
     <div class="col-sm-3">
+        <button class="btn btn-primary btn-outline-primary" (click)="updateNode()">入库</button>
+    </div>
+
+    <div class="col-sm-3">
         <a routerLink='/dashboard' class="btn btn-primary" role="button">返回</a>
     </div>
 </div>
@@ -13,4 +17,4 @@
 <ng-container *ngIf="choose_leaf?.name">
     <h2>{{choose_leaf.name}}</h2>
 </ng-container>
-<dropdown-tree-view [root_node]="root_node" (choose_leaf) = "onChooseLeaf($event)"></dropdown-tree-view>
+<dropdown-tree-view [root_node]="root_node" (choose_leaf)="onChooseLeaf($event)"></dropdown-tree-view>

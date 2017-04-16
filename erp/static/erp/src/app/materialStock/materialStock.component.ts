@@ -1,11 +1,12 @@
 import { Component } from "@angular/core";
-import { OnInit } from "@angular/core";
+import { OnInit, Input } from "@angular/core";
 
 import { MaterialStockService } from './materialStock.service';
 import { TreeService } from './../shared/tree/tree.service';
 import { MaterialStock } from './materialStock';
 import { Leaf, Node } from './../shared/tree/tree';
-
+import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { NgbdModalUpdateNodeContent } from './materialStock.update.comonent'
 // Component definition
 @Component({
     //selector is not needed here because we use routing.
@@ -19,6 +20,7 @@ export class MaterialStockComponent implements OnInit {
     constructor(
         private materialStockService: MaterialStockService,
         private treeService: TreeService,
+        private modalService: NgbModal,
     ) { }
 
     ngOnInit(): void {
@@ -35,6 +37,8 @@ export class MaterialStockComponent implements OnInit {
     tree_type: string;
     choose_leaf: Leaf;
 
+    modalOptions: NgbModalOptions = { size: "lg" }
+
     getMaterialStocks(): void {
         this.materialStockService.getMaterialStocks()
             .subscribe(
@@ -47,9 +51,15 @@ export class MaterialStockComponent implements OnInit {
         this.treeService.getTreeRoot().subscribe(materialTree => {
             this.root_node = materialTree;
         },
-        error => this.errorMessage = <any>error)
+            error => this.errorMessage = <any>error)
     }
-    onChooseLeaf(leaf: Leaf){
+    onChooseLeaf(leaf: Leaf) {
+        console.log(leaf)
         this.choose_leaf = leaf;
+    }
+    updateNode() {
+        const modalRef = this.modalService.open(NgbdModalUpdateNodeContent, this.modalOptions);
+        modalRef.componentInstance.name = 'World';
+        //modalRef.componentInstance.root_node = this.root_node;
     }
 }

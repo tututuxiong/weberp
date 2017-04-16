@@ -4,6 +4,7 @@ export class Leaf{
     id: number;
 }
 
+
 export class Node {
     subNodes: Node[];
     leafs: Leaf[];

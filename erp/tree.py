@@ -15,6 +15,7 @@ class Node:
         self.name = name
         self.subNodes = []
         self.leafs = []
+        self.parentId = 0
         self.id = Node.count + 1
         Node.count = Node.count + 1
 

@@ -97,12 +97,21 @@ def materialStockList(request):
 
 
 def materialStock(request, material_id):
-    return  HttpResponse(getMaterialStockFromSql(int(material_id)).toJson())
+    if request.method == 'GET':
+        return  HttpResponse(getMaterialStockFromSql(int(material_id)).toJson())
+    if request.method == 'POST':
+        dict_data = json.loads(request.body.decode())['materialUpdateInfo']
+        tmp_materialUpdateInfo = MaterialUpdateInfo()
+        tmp_materialUpdateInfo.setJson2Class(dict_data)
+        updateMaterialInfo(tmp_materialUpdateInfo)
+        return HttpResponse(tmp_materialUpdateInfo.toJson())
 
-def MaterialTree(request):
-    return  HttpResponse(getTree().toJson())
+def MaterialTree(request,procurementOrder_id='0'):
+    if (procurementOrder_id == '0'):
+        return  HttpResponse(getTree().toJson())
+    else:
+        return  HttpResponse(getTreeByMaterialOrderId(int(procurementOrder_id)).toJson())
 
 def NodeInfo(request, node_id):
     if request.method == 'GET':
         return HttpResponse(getNodeInfo(int(node_id)).toJson())
-
