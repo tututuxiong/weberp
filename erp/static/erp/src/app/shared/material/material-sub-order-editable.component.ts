@@ -1,7 +1,10 @@
 import { Component } from "@angular/core";
-import { Input } from "@angular/core";
+import { Input, OnInit } from "@angular/core";
 
 import { MaterialSubOrder } from './material-sub-order';
+
+import { Leaf, Node } from '../tree/tree';
+import { TreeService } from '../tree/tree.service';
 
 @Component({
     selector: 'material-sub-order-editable',
@@ -9,22 +12,56 @@ import { MaterialSubOrder } from './material-sub-order';
     templateUrl: './templates/material-sub-order-editable.html'
 })
 
-export class MaterialSubOrderEditableComponent {
+export class MaterialSubOrderEditableComponent implements OnInit {
     @Input()
     materialSubOrderList: MaterialSubOrder[];
 
     @Input()
     materialOrderId: number;
 
-    newMaterial: MaterialSubOrder = new MaterialSubOrder(this.materialOrderId);
+    newMaterial: MaterialSubOrder;
+
+    material_level1: Node[];
+    material_level2: Leaf[];
+
+    selected_material: Leaf;
+
+    constructor (private treeService: TreeService) {
+
+    }
+
+    ngOnInit () {
+        this.newMaterial = new MaterialSubOrder(this.materialOrderId);
+        this.material_level1 = [];
+
+        this.treeService.getChildrenNodes(undefined).forEach(node => {
+            this.material_level1.push(node);
+        })
+    }
     
     onAddMaterial() {
-      this.materialSubOrderList.push(this.newMaterial);
-      this.newMaterial = new MaterialSubOrder(this.materialOrderId);
+
+        this.newMaterial.materialId = this.selected_material.id;
+        this.newMaterial.name = this.selected_material.name;
+
+        this.materialSubOrderList.push(this.newMaterial);
+        this.newMaterial = new MaterialSubOrder(this.materialOrderId);
     }
 
     onDeleteMaterial(material: MaterialSubOrder) : void {
         let index = this.materialSubOrderList.indexOf(material);
         this.materialSubOrderList.splice(index, 1);
+    }
+
+    onChangeLevel1(level1: Node) {
+        this.material_level2 = [];
+
+        this.treeService.getChildrenLeafs(level1).forEach(leaf => {
+            this.material_level2.push(leaf);
+        })
+    }
+
+    onChangeLevel2(level2: Leaf) {
+        this.selected_material = level2;
     }
 }

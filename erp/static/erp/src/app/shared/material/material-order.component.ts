@@ -1,10 +1,11 @@
 import { Component } from "@angular/core";
-import { Input } from "@angular/core";
-
-// import { OnInit } from '@angular/core';
+import { Input, OnInit } from "@angular/core";
 
 import { MaterialOrder } from './material-order';
 import { MaterialOrderService } from './material-order.service';
+
+import { Leaf, Node } from '../tree/tree';
+import { TreeService } from '../tree/tree.service';
 
 @Component({
     selector: 'material-order',
@@ -12,17 +13,16 @@ import { MaterialOrderService } from './material-order.service';
     templateUrl: './templates/material-order.html'
 })
 
-export class MaterialOrderComponent {
+export class MaterialOrderComponent implements OnInit {
     @Input()
     materialOrderList: MaterialOrder[];
 
-    // ngOnInit() {
-    //     this.materialOrderList.forEach(materialOrder => {
-    //         materialOrder.modifyMode = false;
-    //     })
-    // }
+    constructor (private moService: MaterialOrderService,
+                 private mtService: TreeService) {
 
-    constructor (private moService: MaterialOrderService) {
+    }
+
+    ngOnInit() {
 
     }
 
