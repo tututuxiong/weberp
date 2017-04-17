@@ -7,7 +7,6 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class TreeService {
-<<<<<<< HEAD
     constructor(private http: Http) {
             
     }

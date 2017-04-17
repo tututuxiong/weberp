@@ -35,3 +35,29 @@ python3 manage.py runserver 0.0.0.0:8000
 
 11.管理员可以设置成品和原料消耗的上限值，如果超过上限，系统需要给于提醒；
 
+开发过程及经验教训总结：
+
+#关于Routing(Angualr 2)
+1. routing url的一些限制
+    - 新增订单页面，一开始打算使用/order/add为routing url，结果发现不行，会出错；后来改为/order_add。
+
+#关于shared module(Angular 2)
+1. 如何使用shared module中的component
+    - 将该component添加到shared module的declarations和exports中；
+    - 在app module中import shared module;
+    - 在其它module中import shared module;
+
+2. 如何使用shared module中的class
+    - 直接在使用的地方import
+
+3. 如何使用shared module中的service
+    - 在其它module中将该service添加到providers中；
+    - 直接在使用的地方import，并在constructor里定义service对象
+    - 如果希望service的某些behavior尽早执行，则可以在service中定义一个init函数，并在app加载时调用该init函数
+
+#关于javascript
+1. object的拷贝
+2. array的定义和初始化
+    - 空array对象在使用前要先进行初始化，如声明了names: string[]，则对其操作前先执行names = [];
+3. json和java class object的转化
+    - 
