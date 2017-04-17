@@ -9,7 +9,9 @@
         </li>
     </ng-container>
 </ul>-->
-<h4>请选择原材料</h4>
+<div class="row title-l5">
+<h5>请选择原材料</h5>
+</div>
 <div class="row">
     <div *ngFor="let selectItem of selectTargets; let i = index">
             <select class = "form-control" [ngModel]="selectItem" (ngModelChange)="onChangeObj($event,i)" name={{selectItem.name}}>

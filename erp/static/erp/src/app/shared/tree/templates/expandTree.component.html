@@ -8,30 +8,33 @@
             <li *ngFor="let leaf of root_node.leafs">{{leaf.name}}</li>
         </ul>
         <ul>
-            <li><button class="btn  btn-outline-primary" (click)="addNewNode(root_node)">新增分类</button></li>
+            <li><button class="btn btn-outline-primary" (click)="addNewNode(root_node)">新增分类</button></li>
             <ng-container *ngIf="editNewNode">
                 <div class="row">
+                    <p>类别名称</p>
                     <div class="col-md-3">
-                <input class="form-control user-input" [(ngModel)]="newNode.name">
+                        <input class="form-control user-input" [(ngModel)]="newNode.name">
                     </div>
-                <div class="col-md-3">
-                <button class="btn btn-sm btn-outline-primary" (click)="submitNewNode(root_node)">确定</button>
+                    <div class="col-md-3">
+                        <button class="btn btn-sm btn-outline-primary" (click)="submitNewNode(root_node)">确定</button>
+                    </div>
                 </div>
-                    </div>
             </ng-container>
             <li><button class="btn btn-outline-primary" (click)="addNewLeaf(root_node)">新增原材料</button></li>
             <ng-container *ngIf="editNewLeaf">
                 <div class="row">
+                    <p>原料名称</p>
                     <div class="col-md-3">
-                <input class="form-control user-input" [(ngModel)]="newLeaf.name">
+                        <input class="form-control user-input" [(ngModel)]="newLeaf.name">
+                    </div>
+                    <p>单位</p>
+                    <div class="col-md-3">
+                        <input  class="form-control user-input" [(ngModel)]="newLeaf.unit">
                     </div>
                     <div class="col-md-3">
-                    <input class="form-control user-input" [(ngModel)]="newLeaf.unit">
+                        <button class="btn btn-sm btn-outline-primary" (click)="submitNewLeaf(root_node)">确定</button>
                     </div>
-                <div class="col-md-3">
-                <button class="btn btn-sm btn-outline-primary" (click)="submitNewLeaf(root_node)">确定</button>
                 </div>
-                    </div>
             </ng-container>
         </ul>
     </ng-container>

@@ -42,7 +42,8 @@ export class ExpandTreeComponent implements OnInit {
         this.editNewLeaf = !this.editNewLeaf;
     }
     submitNewNode() {
-        if (this.newNode.name != "") {
+        console.log(this.newNode);
+        if (this.newNode.name != "" && this.newNode.name != undefined) {
             this.newNode.id = 0;
             this.newNode.parentId = this.root_node.id;
             this.treeService.addNewNode(this.newNode).
@@ -53,10 +54,14 @@ export class ExpandTreeComponent implements OnInit {
                 },
                 error => this.errorMessage = <any>error);
         }
+        else{
+            console.log("no input");
+        }
     }
 
     submitNewLeaf() {
-        if (this.newLeaf.name != "" && this.newLeaf.unit != "") {
+        if (this.newLeaf.name != "" && this.newLeaf.unit != "" &&
+            this.newLeaf.name != undefined && this.newLeaf.unit != undefined) {
             this.newLeaf.id = 0;
             this.newLeaf.parentId = this.root_node.id;
             this.treeService.addNewLeaf(this.newLeaf).
@@ -67,5 +72,8 @@ export class ExpandTreeComponent implements OnInit {
                 },
                 error => this.errorMessage = <any>error);
         }
+        else{
+            console.log("no input");
+        }        
     }    
 }
