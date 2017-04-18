@@ -10,7 +10,7 @@
         </div>
         <ng-container *ngIf="!materialOrder.modifyMode">
           <button class="btn btn-primary" (click)="onModify(materialOrder)" style="position: absolute; top:10px; right: 10px">修改</button>
-          <button class="btn btn-danger" style="position: absolute; top:50px; right: 10px">删除</button>
+          <button class="btn btn-danger" (click)="onDelete(materialOrder)" style="position: absolute; top:50px; right: 10px">删除</button>
         </ng-container>
         <ng-container *ngIf="materialOrder.modifyMode">
           <button class="btn btn-primary" (click)="onSubmit(materialOrder)" style="position: absolute; top:10px; right: 10px">完成</button>

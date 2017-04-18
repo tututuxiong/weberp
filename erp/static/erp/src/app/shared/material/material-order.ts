@@ -4,7 +4,7 @@ export class MaterialOrder {
     id: number;
     orderId: number;
     name: string;
-    date: number;
+    date: string;
     price: number;
     comment: string;
     status: string;
@@ -12,11 +12,11 @@ export class MaterialOrder {
     materialSubOrderInfoList: MaterialSubOrder[];
     modifyMode: Boolean;
 
-    constructor(parentOrderId: number, today: number) {
+    constructor(parentOrderId: number) {
         this.id = -1;
         this.orderId = parentOrderId;
         this.name = 'New Material Order';
-        this.date = today;
+        this.date = '';
         this.price = 100;
         this.comment = '';
         this.status = 'new';

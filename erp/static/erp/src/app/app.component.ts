@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TreeService } from "./shared/tree/tree.service";
 
 @Component({
   selector: 'my-app',
@@ -6,4 +7,10 @@ import { Component } from '@angular/core';
   templateUrl: "./app.component.html" 
 })
 
-export class AppComponent  {}
+export class AppComponent  {
+
+  constructor(private ts: TreeService) {
+    ts.init();
+  }
+
+}

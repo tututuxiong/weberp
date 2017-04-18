@@ -25,9 +25,21 @@
     <tr>
       <th></th>
       <th scope="row">{{materialSubOrderList.length + 1}}</th>
-      <td><select class="custom-select">
-        <option selected>{{newMaterial.name}}</option>
+      
+      <td><select class="custom-select" [ngModel]="material_level1" (ngModelChange)="onChangeLevel1($event)">
+        <ng-container *ngIf="material_level1">
+          <option [ngValue]="l1" *ngFor="let l1 of material_level1">{{l1.name}}</option>
+        </ng-container>
         </select></td>
+      
+      
+      <td><select class="custom-select" [ngModel]="material_level2" (ngModelChange)="onChangeLevel2($event)">
+        <ng-container *ngIf="material_level2">
+          <option selected [ngValue]="l2" *ngFor="let l2 of material_level2">{{l2.name}}</option>
+        </ng-container>
+        </select></td>
+      
+
       <td><input class="form-control" [(ngModel)]="newMaterial.num"></td>
       <td><input class="form-control" [(ngModel)]="newMaterial.unit"></td>
       <td><input class="form-control" [(ngModel)]="newMaterial.unit_price"></td>

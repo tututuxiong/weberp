@@ -34,6 +34,10 @@ export class OrdersComponent implements OnInit {
         this.selected_order = order;
         this.router.navigate(['/order', order.id]);
     }
+
+    onAdd(): void {
+        this.router.navigate(['/order_add']);
+    }
 /*
     getOrders(): void {
         this.orderservice.getOrders().then(orders => this.orderList = orders);

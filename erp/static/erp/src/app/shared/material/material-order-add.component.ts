@@ -90,7 +90,7 @@ export class MaterialOrderAddComponent {
 
   open() {
     const modalRef = this.modalService.open(NgbdModalContent, this.modalOptions);
-    this.newMaterialOrder = new MaterialOrder(this.orderId, Date.now());
+    this.newMaterialOrder = new MaterialOrder(this.orderId);
     this.newMaterialOrder.modifyMode = true;
     modalRef.componentInstance.materialOrder = this.newMaterialOrder;
 

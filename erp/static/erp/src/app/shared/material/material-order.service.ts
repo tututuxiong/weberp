@@ -15,6 +15,8 @@ export class MaterialOrderService {
     private procurementOrdersUrl = 'app/procurementOrders';
 
     private createMaterialOrderUrl = 'app/procurementOrder';
+    private updateMaterialOrderUrl = this.createMaterialOrderUrl;
+    private deleteMaterialOrderUrl = this.createMaterialOrderUrl;
 
     constructor (private http: Http) {}
 
@@ -67,14 +69,14 @@ export class MaterialOrderService {
     // }
 
     
-    //  updateMaterialOrder(materialOrder: MaterialOrder): Observable<MaterialOrder>{
-    //   let headers = new Headers({ 'Content-Type': 'application/json' });
-    //   let options = new RequestOptions({ headers: headers });
-    //   const url = `${this.materialOrder}/${materialOrder.id}`;
-    //   return  this.http.post(url, { materialOrder }, options)
-    //                    .map(this.extractMaterialOrderData)
-    //                    .catch(this.handleError);
-    // }
+     updateMaterialOrder(materialOrder: MaterialOrder): Observable<MaterialOrder>{
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      const url = `${this.updateMaterialOrderUrl}/${materialOrder.id}`;
+      return  this.http.post(url, { materialOrder }, options)
+                       .map(this.extractMaterialOrderData)
+                       .catch(this.handleError);
+    }
 
      addMaterialOrder(materialOrder: MaterialOrder): Observable<MaterialOrder>{
       let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -85,14 +87,30 @@ export class MaterialOrderService {
                        .catch(this.handleError);
     }    
 
-    //  delProducts(materialOrder: MaterialOrder): Observable<MaterialOrder>{
-    //   let headers = new Headers({ 'Content-Type': 'application/json' });
-    //   let options = new RequestOptions({ headers: headers });
-    //   const url = `${this.materialOrder}/${materialOrder.id}`;
-    //   return  this.http.delete(url, options)
-    //                    .map(this.extractDelMaterialOrderData)
-    //                    .catch(this.handleError);                   
-    //  }
+     delMaterialOrder(materialOrder: MaterialOrder): Observable<MaterialOrder>{
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      const url = `${this.deleteMaterialOrderUrl}/${materialOrder.id}`;
+      return  this.http.delete(url, options)
+                       .map(this.extractDelMaterialOrderData)
+                       .catch(this.handleError);                   
+     }
+
+    objectCopy(dest: MaterialOrder, src: MaterialOrder) : void {
+        dest.id = src.id;
+        dest.orderId = src.orderId;
+        dest.name = src.name;
+        dest.date = src.date;
+        dest.price = src.price;
+        dest.comment = src.comment;
+        dest.status = src.status;
+        dest.subOrderCount = src.subOrderCount;
+        dest.materialSubOrderInfoList = [];
+
+        src.materialSubOrderInfoList.forEach(subOrder => {
+            dest.materialSubOrderInfoList.push(subOrder);
+        });
+    }
 
     private handleError (error: Response | any) {
     // In a real world app, we might use a remote logging infrastructure
