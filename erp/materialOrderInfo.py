@@ -37,7 +37,9 @@ class MaterialSubOrderInfo:
     def setJson2Class(self, dict_data):
         for name, value in dict_data.items():
             if hasattr(self, name):
+                print(self.name, name, value)
                 setattr(self, name, value)
+                print(self.id)
 
 class MaterialOrderInfo:
     count = 0
@@ -86,7 +88,6 @@ class MaterialOrderInfo:
                     for materialSubOrder in value:
                         tmp_materialSubOrder = MaterialSubOrderInfo()
                         tmp_materialSubOrder.setJson2Class(materialSubOrder)
-                        tmp_materialSubOrder.setFormalId(self.id)
                         self.materialSubOrderInfoList.append(tmp_materialSubOrder)
                 else:
                     setattr(self, name, value)
