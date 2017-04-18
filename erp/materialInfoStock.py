@@ -137,7 +137,6 @@ def initNodeBySqlInfo(node, node_sql):
 
 def addNewMaterialLeaf(materialStock):
     try:
-        print(materialStock)
         parentNode_sql = RawMat.objects.get(pk=materialStock.parentId)
         node_sql = RawMat(parent=parentNode_sql,name=materialStock.name,is_leaf=True,unit=materialStock.unit)
         node_sql.save()

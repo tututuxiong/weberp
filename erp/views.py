@@ -26,6 +26,15 @@ def index(request):
 def order(request, order_id):
     if request.method == 'GET':
         return HttpResponse(fetchOrderFromSqlById(int(order_id)).toJson())
+    elif request.method == 'PUT':
+        dict_data = json.loads(request.body.decode())['order']
+        tmp_orderInfo = OrderInfo()
+        tmp_orderInfo.setJson2Class(dict_data)
+        return HttpResponse(addSalerOrder2Sql(tmp_orderInfo).toJson())
+    elif request.method == 'DELETE':
+        return HttpResponse(deleteSalerOrder2Sql(int(order_id)))
+    elif request.method == 'POST':
+        return HttpResponse(updateSalerOrder2Sql(tmp_orderInfo).toJson())
 
 def orderList(request):
     return HttpResponse(fetchOrderListFromSql().toJson())
