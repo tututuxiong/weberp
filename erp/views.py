@@ -106,12 +106,29 @@ def materialStock(request, material_id):
         updateMaterialInfo(tmp_materialUpdateInfo)
         return HttpResponse(tmp_materialUpdateInfo.toJson())
 
-def MaterialTree(request,procurementOrder_id='0'):
-    if (procurementOrder_id == '0'):
+def MaterialTree(request,procurementOrder_id='0',product_id='0'):
+    if procurementOrder_id == '0' and product_id == '0':
         return  HttpResponse(getTree().toJson())
-    else:
+    elif procurementOrder_id != '0':
         return  HttpResponse(getTreeByMaterialOrderId(int(procurementOrder_id)).toJson())
+    elif product_id != '0':
+        return  HttpResponse(getTreeBysubProductId(int(product_id)).toJson())
 
 def NodeInfo(request, node_id):
     if request.method == 'GET':
         return HttpResponse(getNodeInfo(int(node_id)).toJson())
+    if request.method == 'PUT':
+        dict_data = json.loads(request.body.decode())['node']
+        tmp_node = Node("")
+        tmp_node.setJson2Class(dict_data)
+        return HttpResponse(addNewMaterialNode(tmp_node).toJson())
+
+def LeafInfo(request, leaf_id):
+    if request.method == 'GET':
+        return HttpResponse(getNodeInfo(int(node_id)).toJson())
+    if request.method == 'PUT':
+        dict_data = json.loads(request.body.decode())['leaf']
+        tmp_materialStock = MaterialStockInfo()
+        tmp_materialStock.setJson2Class(dict_data)
+        print(tmp_materialStock)
+        return HttpResponse(addNewMaterialLeaf(tmp_materialStock).toJson())        

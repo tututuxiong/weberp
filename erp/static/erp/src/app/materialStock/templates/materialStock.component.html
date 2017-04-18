@@ -1,20 +1,24 @@
 <div class="row title-l1">
     <!--<h3>{{title}}</h3>-->
-    <div class="col-sm-3">
+    <div class="col-sm-2">
         <h3>原料信息</h3>
     </div>
-
-    <div class="col-sm-3">
-        <button class="btn btn-primary btn-outline-primary" (click)="updateNode()">入库</button>
+    <div class="col-sm-2">
+        <button class="btn btn-primary btn-outline-primary" (click)="addNewNode()">新增原料/分类</button>
+    </div>  
+    <div class="col-sm-2">
+        <button class="btn btn-primary btn-outline-primary" (click)="updateNode(0)">入库</button>
+    </div>
+    <div class="col-sm-2">
+        <button class="btn btn-primary btn-outline-primary" (click)="updateNode(1)">领料</button>
+    </div>
+    <div class="col-sm-2">
+        <button class="btn btn-primary btn-outline-primary" (click)="onFresh()">刷新</button>
     </div>
 
-    <div class="col-sm-3">
+    <div class="col-sm-2">
         <a routerLink='/dashboard' class="btn btn-primary" role="button">返回</a>
     </div>
 </div>
 
 <tree-view [root_node]="root_node" [tree_type]="tree_type"></tree-view>
-<ng-container *ngIf="choose_leaf?.name">
-    <h2>{{choose_leaf.name}}</h2>
-</ng-container>
-<dropdown-tree-view [root_node]="root_node" (choose_leaf)="onChooseLeaf($event)"></dropdown-tree-view>
