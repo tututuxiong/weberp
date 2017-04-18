@@ -4,7 +4,6 @@ from .models import *
 scuessfullMessage = '{"value":"OK"}'
 errorMessage = '{"value":"ERROR"}'
 
-
 class OrderInfo:
     count = 0
 
@@ -79,18 +78,16 @@ def addSalerOrder2Sql(tmp_orderInfo):
 def deleteSalerOrder2Sql(order_id):
     error = {}
     error.info = "ok"
-    try:
-        salerOrder_sql = SalesOrder.objects.get(pk=order_id)
-        if salerOrder_sql.salesitem_set.count():
-            error.info = "subProduct should be delete"
-        elif salerOrder_sql.rawmatorder.count():
-             error.info = "material order should be delete"
-        else:
-            salerOrder_sql.delete()
+    salerOrder_sql = SalesOrder.objects.get(pk=order_id)
+    if salerOrder_sql.salesitem_set.count():
+        error.info = "subProduct should be delete"
+        return json.dump(error)
+    elif salerOrder_sql.rawmatorder.count():
+         error.info = "material order should be delete"
+         return json.dump(error)
 
-     except SalesOrder.DoesNotExist:
-          error.info  = "wrong order id"
-     return json.dump(error)    
+    salerOrder_sql.delete()
+    return json.dump(error)
 
 def updateSalerOrder2Sql(tmp_orderInfo):
      try:
