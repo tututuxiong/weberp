@@ -35,7 +35,6 @@ export class TreeService {
     private procurementOrder = 'app/procurementOrder';  // URL to web api    
     private materialTreeUrl = 'materialTree';  // URL to web api
     private subProduct = 'app/subPorduct';  // URL to web api    
-    private materialTree = 'materialTree';  // URL to web api
 
     private handleError(error: Response | any) {
         // In a real world app, we might use a remote logging infrastructure
@@ -164,7 +163,7 @@ export class TreeService {
             .catch(this.handleError);
     }
     getSubProductMaterialTree(id: number): Observable<Node>{
-        const url = `${this.subProduct}/${id}/${this.materialTree}`;
+        const url = `${this.subProduct}/${id}/${this.materialTreeUrl}`;
         return this.http.get(url)
             .map(res => { return res.json() })
             .catch(this.handleError);
