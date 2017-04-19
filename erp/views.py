@@ -135,7 +135,7 @@ def NodeInfo(request, node_id):
 
 def LeafInfo(request, leaf_id):
     if request.method == 'GET':
-        return HttpResponse(getNodeInfo(int(node_id)).toJson())
+        return HttpResponse(getNodeInfo(int(leaf_id)).toJson())
     if request.method == 'PUT':
         dict_data = json.loads(request.body.decode())['leaf']
         tmp_materialStock = MaterialStockInfo()
