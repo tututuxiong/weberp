@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 
 import { Order } from "./order";
-import { Headers, Http, Response } from '@angular/http';
+import { Headers, Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -54,4 +54,13 @@ export class OrderService {
                         .map(this.extractOrderInfoData)
                         .catch(this.handleError);
     };
+
+    addOrder(order: Order) : Observable<Order> {
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      const url = `${this.ordersUrl}/0`;
+      return  this.http.put(url, { order }, options)
+                       .map(this.extractOrderInfoData)
+                       .catch(this.handleError);
+    }
 }
