@@ -37,9 +37,7 @@ class MaterialSubOrderInfo:
     def setJson2Class(self, dict_data):
         for name, value in dict_data.items():
             if hasattr(self, name):
-                print(self.name, name, value)
                 setattr(self, name, value)
-                print(self.id)
 
 class MaterialOrderInfo:
     count = 0
@@ -173,10 +171,12 @@ def updateMaterialOrder2Sql(material_order):
         material_order_sql.comment = material_order.comment
         material_order_sql.status = material_order.status
         material_order_sql.save()
-
+        print(material_order)
         for materialSubOrderInfo_item in  material_order.materialSubOrderInfoList:
+            print(materialSubOrderInfo_item)
             try:
                 if (materialSubOrderInfo_item.id != -1):
+                    print("materialSubOrderInfo_item.id = ",materialSubOrderInfo_item.id)
                     RawMatOrderItem_sql = RawMatOrderItem.objects.get(pk=materialSubOrderInfo_item.id)
                     RawMatOrderItem_sql.num = materialSubOrderInfo_item.num
                     RawMatOrderItem_sql.est_total_price = materialSubOrderInfo_item.total_price

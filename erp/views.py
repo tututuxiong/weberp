@@ -81,6 +81,7 @@ def materialOrder(request, procurementOrder_id):
 
     if request.method == 'POST':
         dict_data = json.loads(request.body.decode())['materialOrder']
+        print(dict_data)
         material_order_tmp.setJson2Class(dict_data)
         if material_order_tmp.id == int(procurementOrder_id):
             updateMaterialOrder2Sql(material_order_tmp)
