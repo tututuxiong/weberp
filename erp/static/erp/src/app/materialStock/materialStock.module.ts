@@ -7,6 +7,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { MaterialStockComponent} from './materialStock.component'
 import { NgbdModalUpdateNodeContent } from './materialStock.update.comonent'
+import { NgbdModalAddNodeContent } from './materialStock.addNode.component'
 import {MaterialStockService} from './materialStock.service'
 
 import {MaterialStockRoutingModule} from './materialStock-routing.module'
@@ -25,13 +26,15 @@ import {TreeModule} from './../shared/tree/tree.module'
 
     declarations: [
         MaterialStockComponent,
-        NgbdModalUpdateNodeContent
+        NgbdModalUpdateNodeContent,
+        NgbdModalAddNodeContent
     ],
     providers: [
         MaterialStockService
     ],
     entryComponents: [
-        NgbdModalUpdateNodeContent
+        NgbdModalUpdateNodeContent,
+        NgbdModalAddNodeContent
     ],
 
 })

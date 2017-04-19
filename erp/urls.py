@@ -16,10 +16,11 @@ urlpatterns = [
     url(r'app/orders/(?P<order_id>[0-9]+)/subProducts$', views.subProductList),
     url(r'app/subProducts$', views.subProductList),
     url(r'app/subProduct/(?P<product_id>[0-9]+)$', views.subProduct),
+    url(r'app/subPorduct/(?P<product_id>[0-9]+)/materialTree$', views.MaterialTree),
     url(r'app/orders/(?P<order_id>[0-9]+)/procurementOrders$', views.materialOrderList),
     url(r'app/procurementOrder/(?P<procurementOrder_id>[0-9]+)$', views.materialOrder),
     url(r'app/procurementOrder/(?P<procurementOrder_id>[0-9]+)/materialTree$', views.MaterialTree),
     url(r'app/MaterialTree$', views.MaterialTree),
     url(r'app/node/(?P<node_id>[0-9]+)$', views.NodeInfo),
-    url(r'app/leaf/(?P<node_id>[0-9]+)$', views.NodeInfo),
+    url(r'app/leaf/(?P<leaf_id>[0-9]+)$', views.LeafInfo),
 ]

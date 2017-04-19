@@ -11,7 +11,7 @@ export class MaterialStock {
 export class MaterialUpdateInfo {
     materialId: number
     procurementOrderId: number
-    saleOrderId: number
+    saleOrderItemId: number
     additionalInfo: string;
     typeId: number
     price: number

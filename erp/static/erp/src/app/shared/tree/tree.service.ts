@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Headers, Http, Response } from '@angular/http';
+import { Headers, Http, Response ,  RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Node, Leaf } from './tree'
 import 'rxjs/add/operator/catch';
@@ -33,6 +33,7 @@ export class TreeService {
   
     private procurementOrder = 'app/procurementOrder';  // URL to web api    
     private materialTreeUrl = 'materialTree';  // URL to web api
+    private subProduct = 'app/subPorduct';  // URL to web api    
 
     private handleError(error: Response | any) {
         // In a real world app, we might use a remote logging infrastructure
@@ -129,6 +130,23 @@ export class TreeService {
             .map(res => { return res.json() })
             .catch(this.handleError);
     }
+    addNewNode(node: Node): Observable<Node> {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        const url = `${this.nodeUrl}/${0}`;
+        return  this.http.put(url, { node }, options)
+                       .map(res => { return res.json() })
+                       .catch(this.handleError);        
+    }
+    
+    addNewLeaf(leaf: Leaf): Observable<Leaf> {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        const url = `${this.leafUrl}/${0}`;
+        return  this.http.put(url, { leaf }, options)
+                       .map(res => { return res.json() })
+                       .catch(this.handleError);        
+    }
 
     getLeafById(id: number): Observable<Leaf> {
         const url = `${this.leafUrl}/${id}`;
@@ -143,5 +161,11 @@ export class TreeService {
             .map(res => { return res.json() })
             .catch(this.handleError);
     }
+    getSubProductMaterialTree(id: number): Observable<Node>{
+        const url = `${this.subProduct}/${id}/${this.materialTreeUrl}`;
+        return this.http.get(url)
+            .map(res => { return res.json() })
+            .catch(this.handleError);
+    }    
 }
 

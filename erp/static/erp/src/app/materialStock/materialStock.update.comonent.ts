@@ -9,6 +9,10 @@ import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-boot
 import { MaterialOrderService } from '../shared/material/material-order.service';
 import { MaterialStockService } from './materialStock.service';
 import { MaterialOrder } from '../shared/material/material-order';
+import { OrderService } from './../orders/order.service';
+import { Order } from './../orders/order';
+import { Product } from './../orders/products/product';
+import { ProductService } from './../orders/products/product.service';
 
 @Component({
     selector: 'ngbd-modal-content',
@@ -16,25 +20,45 @@ import { MaterialOrder } from '../shared/material/material-order';
     templateUrl: "./templates/materialStock.updatenode.html",
 })
 export class NgbdModalUpdateNodeContent implements OnInit {
-    @Input() name: string;
+    @Input() type: number;
     root_node: Node;
     choose_leaf: Leaf;
     materialOrderList: MaterialOrder[];
+    orderList: Order[];
+    productList: Product[];
     errorMessage: string;
     materialUpdateInfo: MaterialUpdateInfo;
     orderId: number;
+    title: string;
+    information: string;
 
     constructor(
         public activeModal: NgbActiveModal,
         private materialOrderService: MaterialOrderService,
         private materialStockService: MaterialStockService,
+        private product_service: ProductService,
+        private orderservice: OrderService,
         private treeService: TreeService) { }
 
     ngOnInit(): void {
         this.materialUpdateInfo = new MaterialUpdateInfo();
-        this.materialOrderService.getProcurementOrders().subscribe(
-            orders => { this.materialOrderList = this.copyMaterialOrders(orders) },
-            error => this.errorMessage = <any>error)
+        if (this.type == 0) {
+            this.title = "原材料入库单";
+            this.information = "请选择原材料订单";
+
+            this.materialOrderService.getProcurementOrders().subscribe(
+                orders => { this.materialOrderList = this.copyMaterialOrders(orders) },
+                error => this.errorMessage = <any>error)
+        }
+        else {
+            this.title = "领料单";
+            this.information = "请选择订单";
+
+            this.orderservice.getOrders()
+                .subscribe(orders => this.orderList = orders,
+                error => this.errorMessage = <any>error);
+        }
+
         console.log(this.root_node);
     }
 
@@ -43,13 +67,29 @@ export class NgbdModalUpdateNodeContent implements OnInit {
         this.choose_leaf = leaf;
     }
 
-    onChangematerialOrder(order: MaterialOrder) {
+    onChangeOrder(order: any) {
         console.log(order);
         this.root_node = null;
         this.orderId = order.id;
-        this.treeService.getProcurementOrderMaterialTree(order.id).
-            subscribe(materialTree => this.root_node = materialTree,
-            error => this.errorMessage = <any>error);
+        this.productList = []
+        if (this.type == 0) {
+            this.treeService.getProcurementOrderMaterialTree(order.id).
+                subscribe(materialTree => this.root_node = materialTree,
+                error => this.errorMessage = <any>error);
+        }
+        else {
+            this.product_service.getProducts(this.orderId)
+                .subscribe(products => {
+                    this.productList = this.copyProductList(products);
+                },
+                error => this.errorMessage = <any>error);
+        }
+    }
+    
+    onChangeSubProductOrder(product: Product){
+            this.treeService.getSubProductMaterialTree(product.id).
+                subscribe(materialTree => this.root_node = materialTree,
+                error => this.errorMessage = <any>error);
     }
 
     copyMaterialOrders(src: MaterialOrder[]): MaterialOrder[] {
@@ -64,11 +104,22 @@ export class NgbdModalUpdateNodeContent implements OnInit {
     onSubmit() {
         if (this.materialUpdateInfo.num != 0) {
             this.materialUpdateInfo.materialId = this.choose_leaf.id;
-            this.materialUpdateInfo.procurementOrderId = this.orderId;
-            this.materialUpdateInfo.typeId = 0;
+            this.materialUpdateInfo.typeId = this.type;
+            if (this.materialUpdateInfo.typeId == 0) {
+                this.materialUpdateInfo.procurementOrderId = this.orderId;
+            }
+            else {
+                this.materialUpdateInfo.saleOrderItemId = this.orderId;
+            }
             this.materialStockService.updateMaterialStock(this.materialUpdateInfo).
                 subscribe(materialUpdateInfoResult => console.log(materialUpdateInfoResult));
         }
+    }
+
+    private copyProductList(arraySrc: Product[]): Product[] {
+        var arrayDest: Product[] = [];
+        arraySrc.forEach((product) => arrayDest.push(Object.assign({}, product)));
+        return arrayDest;
     }
 }
 
