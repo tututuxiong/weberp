@@ -36,6 +36,7 @@ class MaterialSubOrderInfo:
     def setJson2Class(self, dict_data):
         for name, value in dict_data.items():
             if hasattr(self, name):
+                print(name,value)
                 setattr(self, name, value)
 
 class MaterialOrderInfo:
@@ -85,7 +86,6 @@ class MaterialOrderInfo:
                     for materialSubOrder in value:
                         tmp_materialSubOrder = MaterialSubOrderInfo()
                         tmp_materialSubOrder.setJson2Class(materialSubOrder)
-                        tmp_materialSubOrder.setFormalId(self.id)
                         self.materialSubOrderInfoList.append(tmp_materialSubOrder)
                 else:
                     setattr(self, name, value)
@@ -170,10 +170,12 @@ def updateMaterialOrder2Sql(material_order):
         material_order_sql.comment = material_order.comment
         material_order_sql.status = material_order.status
         material_order_sql.save()
-
+        print(material_order)
         for materialSubOrderInfo_item in  material_order.materialSubOrderInfoList:
+            print(materialSubOrderInfo_item)
             try:
                 if (materialSubOrderInfo_item.id != -1):
+                    print("materialSubOrderInfo_item.id = ",materialSubOrderInfo_item.id)
                     RawMatOrderItem_sql = RawMatOrderItem.objects.get(pk=materialSubOrderInfo_item.id)
                     RawMatOrderItem_sql.num = materialSubOrderInfo_item.num
                     RawMatOrderItem_sql.est_total_price = materialSubOrderInfo_item.total_price
