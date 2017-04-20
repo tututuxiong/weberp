@@ -12,4 +12,8 @@ export class Order {
     deliveryStatus: string;
     intenalId: number;
     materialStatus: string;
+
+    constructor() {
+        this.id = -1;
+    }
 }

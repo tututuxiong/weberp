@@ -24,17 +24,32 @@ export class MaterialSubOrderEditableComponent implements OnInit {
     material_level1: Node[];
     material_level2: Leaf[];
 
+    material_level1_name: string[];
+
     selected_material: Leaf;
 
-    constructor (private treeService: TreeService) {
+    constructor (private ts: TreeService) {
 
     }
 
     ngOnInit () {
+
+        this.material_level1_name = [];
+
+        this.materialSubOrderList.forEach(mso => {
+            let level1 = this.ts.getParentByLeafId(mso.materialId, undefined);
+            console.log(level1);
+            this.material_level1_name.push(level1.name);
+        });
+
+        this.material_level1_name.forEach(level1_name => {
+            console.log(level1_name);
+        })
+
         this.newMaterial = new MaterialSubOrder(this.materialOrderId);
         this.material_level1 = [];
 
-        this.treeService.getChildrenNodes(undefined).forEach(node => {
+        this.ts.getChildrenNodes(undefined).forEach(node => {
             this.material_level1.push(node);
         })
     }
@@ -56,7 +71,7 @@ export class MaterialSubOrderEditableComponent implements OnInit {
     onChangeLevel1(level1: Node) {
         this.material_level2 = [];
 
-        this.treeService.getChildrenLeafs(level1).forEach(leaf => {
+        this.ts.getChildrenLeafs(level1).forEach(leaf => {
             this.material_level2.push(leaf);
         })
     }

@@ -1,1 +1,38 @@
-<p>Add new order here!</p>
+  <div class="row title-l1">
+    <!--<h3>{{title}}</h3>-->
+    <div class="col-sm-3">
+      <h3>订单信息</h3>
+    </div>
+
+    <div class="col-sm-3">
+      <a routerLink='/orders' class="btn btn-primary" role="button">返回</a>
+    </div>
+  </div>
+
+   <table class="table">
+    <thead>
+      <tr>
+        <!--<th>编号</th>-->
+        <th>名称</th>
+        <!--<th>日期</th>-->
+        <th>描述</th>
+        <th>金额</th>
+        <th>销售</th>
+        <th>备注</th>
+        <th>状态</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <!--<th>{{new_order.id}}</th>-->
+        <td><input class="form-control" [(ngModel)]="new_order.name"></td>
+        <!--<td><input class="form-control" [(ngModel)]="new_order.date"></td>-->
+        <td><input class="form-control" [(ngModel)]="new_order.desc"></td>
+        <td><input class="form-control" [(ngModel)]="new_order.price"></td>
+        <td><input class="form-control" [(ngModel)]="new_order.sales"></td>
+        <td><input class="form-control" [(ngModel)]="new_order.comment"></td>
+        <!--<td><input class="form-control" [(ngModel)]="new_order.status"></td>-->
+        <td><button class="btn btn-success" (click)="onConfirm()">确认</button></td>
+      </tr>
+    </tbody>
+  </table>
