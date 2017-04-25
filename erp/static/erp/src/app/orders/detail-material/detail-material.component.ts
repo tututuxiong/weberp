@@ -29,8 +29,12 @@ export class DetailMaterialComponent implements OnInit {
     newMaterialUnit: string;
     errorMessage: string;
 
-    mateialTree: Node;
-    choose_leaf: Leaf;
+    // mateialTree: Node;
+    selected_material: Leaf;
+
+    material_level1: Node[];
+    material_level2: Leaf[];
+
     constructor(
         private material_stock_service: MaterialStockService,
         private product_service: ProductService,
@@ -40,17 +44,26 @@ export class DetailMaterialComponent implements OnInit {
     ngOnInit(): void {
         this.materialItemtEditable = false;
         this.newMaterialNumber = 0;
-        this.mateialTree = new Node();
+        // this.mateialTree = new Node();
+
+        this.material_level1 = [];
+
+        console.log("detail material want to get level1.")
+        this.tree_service.getChildrenNodes(undefined).forEach(node => {
+            this.material_level1.push(node);
+        });
+
+        console.log(this.material_level1);
     }
     
-    onChooseLeaf(leaf: Leaf){
-        this.choose_leaf = leaf;
-    }
+    // onChooseLeaf(leaf: Leaf){
+    //     this.selected_material = leaf;
+    // }
 
     onSubmitEdit(index: number) {
         if (!this.checkEqual(index)) {
             this.updateDetailmaterialItemInfo();
-            console.log(this.productList[index]);
+            // console.log(this.productList[index]);
             this.product_service.updateProducts(this.productList[index])
                 .subscribe(prodtct => this.productList[index] = prodtct,
                 error => this.errorMessage = <any>error)
@@ -84,7 +97,7 @@ export class DetailMaterialComponent implements OnInit {
     onEdit(index: number) {
         this.tmpProductMaterial = this.copyMaterialRequrimentArray(this.productList[index].materialRequrimentList);
         this.materialItemtEditable = !this.materialItemtEditable;
-        this.tree_service.getTreeRoot().subscribe(materialTree => this.mateialTree = materialTree)
+        // this.tree_service.getTreeRoot().subscribe(materialTree => this.mateialTree = materialTree)
     }
 
     onCancelEdit(index: any) {
@@ -96,24 +109,25 @@ export class DetailMaterialComponent implements OnInit {
         this.productList[index].materialRequrimentList.splice(materialRequrimentListIndex, 1);
     }
 
-    onAdd(name: string, unit: string, num: number, index: number) {
+    onAdd(unit: string, num: number, index: number) {
         var nameWithUnit: string;
-        nameWithUnit = name + '/' + unit;
+        nameWithUnit = this.selected_material.name + '/' + unit;
 
-        if (name == "" || unit == "") {
+        if (unit == "") {
             return;
         }
 
         for (var i = 0; i < this.productList[index].materialRequrimentList.length; i++) {
-            if (this.productList[index].materialRequrimentList[i].name == name) {
+            if (this.productList[index].materialRequrimentList[i].name == this.selected_material.name) {
                 return;
             }
         }
         var p: MaterialRequriment = new MaterialRequriment;
         p.count = num;
-        p.name = name;
+        p.name = this.selected_material.name;
         p.unit = unit;
         p.id = 0;
+        p.materialId = this.selected_material.id;
         this.productList[index].materialRequrimentList.push(p);
 
         this.newMaterialName = "";
@@ -145,6 +159,7 @@ export class DetailMaterialComponent implements OnInit {
                     var tmp_materialitem = new DetailMaterialRequriment;
                     tmp_materialitem.name = materialItem_iter.name;
                     tmp_materialitem.id = materialItem_iter.id
+                    tmp_materialitem.materialId = materialItem_iter.materialId;
                     tmp_materialitem.requrimentNum = Number(materialItem_iter.count);
                     this.materialItemList.push(tmp_materialitem);
                 }
@@ -173,5 +188,22 @@ export class DetailMaterialComponent implements OnInit {
             target.push(p)
         });
         return target;
-    }  
+    }
+
+    private getParentName(materialId: number) : string {
+        let parent = this.tree_service.getParentByLeafId(materialId, undefined);
+        return parent.name;
+    }
+
+    private onChangeLevel1(level1: Node) {
+        this.material_level2 = [];
+
+        this.tree_service.getChildrenLeafs(level1).forEach(leaf => {
+            this.material_level2.push(leaf);
+        })
+    }
+
+    private onChangeLevel2(level2: Leaf) {
+        this.selected_material = level2;
+    }
 }

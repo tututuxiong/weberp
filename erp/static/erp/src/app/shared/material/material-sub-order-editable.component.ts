@@ -38,16 +38,18 @@ export class MaterialSubOrderEditableComponent implements OnInit {
 
         this.materialSubOrderList.forEach(mso => {
             let level1 = this.ts.getParentByLeafId(mso.materialId, undefined);
-            console.log(level1);
+            // console.log(level1);
             this.material_level1_name.push(level1.name);
         });
 
         this.material_level1_name.forEach(level1_name => {
-            console.log(level1_name);
+            // console.log(level1_name);
         })
 
         this.newMaterial = new MaterialSubOrder(this.materialOrderId);
         this.material_level1 = [];
+
+        console.log("material sub order want to get level1.")
 
         this.ts.getChildrenNodes(undefined).forEach(node => {
             this.material_level1.push(node);
