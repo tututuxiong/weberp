@@ -2,9 +2,8 @@ import { Component } from "@angular/core";
 import { Input } from "@angular/core";
 import { OnInit } from "@angular/core";
 import { MaterialRequriment, Product } from './../products/product';
-import { MaterialStock } from './../../materialStock/materialStock'
 import { DetailMaterialRequriment } from './detail-material'
-import { MaterialStockService } from './../../materialStock/materialStock.service';
+import { StockService } from './../../stock/stock.service';
 import { ProductService } from './../products/product.service';
 import { TreeService } from './../../shared/tree/tree.service'
 import { Node, Leaf } from './../../shared/tree/tree'
@@ -32,7 +31,7 @@ export class DetailMaterialComponent implements OnInit {
     mateialTree: Node;
     choose_leaf: Leaf;
     constructor(
-        private material_stock_service: MaterialStockService,
+        private material_stock_service: StockService,
         private product_service: ProductService,
         private tree_service: TreeService
     ) { }

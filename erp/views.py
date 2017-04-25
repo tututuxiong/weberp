@@ -140,5 +140,4 @@ def LeafInfo(request, leaf_id):
         dict_data = json.loads(request.body.decode())['leaf']
         tmp_materialStock = MaterialStockInfo()
         tmp_materialStock.setJson2Class(dict_data)
-        print(tmp_materialStock)
         return HttpResponse(addNewMaterialLeaf(tmp_materialStock).toJson())        

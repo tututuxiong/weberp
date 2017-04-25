@@ -3,11 +3,11 @@ import { Component } from "@angular/core";
 import { OnInit, Input } from "@angular/core";
 
 import { TreeService } from './../shared/tree/tree.service';
-import { MaterialStock, MaterialUpdateInfo } from './materialStock';
+import { Stock, StockUpdateInfo } from './Stock';
 import { Leaf, Node } from './../shared/tree/tree';
 import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { MaterialOrderService } from '../shared/material/material-order.service';
-import { MaterialStockService } from './materialStock.service';
+import { StockService } from './stock.service';
 import { MaterialOrder } from '../shared/material/material-order';
 import { OrderService } from './../orders/order.service';
 import { Order } from './../orders/order';
@@ -17,7 +17,7 @@ import { ProductService } from './../orders/products/product.service';
 @Component({
     selector: 'ngbd-modal-content',
     moduleId: module.id,
-    templateUrl: "./templates/materialStock.updatenode.html",
+    templateUrl: "./templates/stock.updatenode.html",
 })
 export class NgbdModalUpdateNodeContent implements OnInit {
     @Input() type: number;
@@ -27,7 +27,7 @@ export class NgbdModalUpdateNodeContent implements OnInit {
     orderList: Order[];
     productList: Product[];
     errorMessage: string;
-    materialUpdateInfo: MaterialUpdateInfo;
+    materialUpdateInfo: StockUpdateInfo;
     orderId: number;
     title: string;
     information: string;
@@ -35,13 +35,13 @@ export class NgbdModalUpdateNodeContent implements OnInit {
     constructor(
         public activeModal: NgbActiveModal,
         private materialOrderService: MaterialOrderService,
-        private materialStockService: MaterialStockService,
+        private materialStockService: StockService,
         private product_service: ProductService,
         private orderservice: OrderService,
         private treeService: TreeService) { }
 
     ngOnInit(): void {
-        this.materialUpdateInfo = new MaterialUpdateInfo();
+        this.materialUpdateInfo = new StockUpdateInfo();
         if (this.type == 0) {
             this.title = "原材料入库单";
             this.information = "请选择原材料订单";

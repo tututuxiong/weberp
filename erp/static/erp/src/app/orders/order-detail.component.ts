@@ -12,7 +12,7 @@ import { MaterialOrderService } from '../shared/material/material-order.service'
 // import { MaterialOrderComponent } from '../shared/material/material-order.component';
 
 import { DetailMaterialRequriment } from './detail-material/detail-material'
-import { MaterialStockService } from './../materialStock/materialStock.service';
+import { StockService } from './../stock/stock.service';
 
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
@@ -31,7 +31,7 @@ export class OrderDetailComponent implements OnInit {
         private order_service: OrderService,
         private product_service: ProductService,
         private material_order_service: MaterialOrderService,
-        private material_stock_service: MaterialStockService,
+        private material_stock_service: StockService,
     ) {}
 
     title: string; //Initialization must be put in ngOnInit; otherwise there is no effect. Don't know why.

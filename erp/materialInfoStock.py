@@ -6,7 +6,7 @@ import django.utils.timezone as timezone
 from datetime import datetime
 
 
-class MaterialUpdateInfo:
+class UpdateInfo:
     def __init__(self):
         self.materialId = 0
         self.procurementOrderId = 0
@@ -27,7 +27,7 @@ class MaterialUpdateInfo:
                 setattr(self, name, value)
 
 
-class MaterialStockInfo(Leaf):
+class StockInfo(Leaf):
     count = 0
 
     def __init__(self):
@@ -38,11 +38,6 @@ class MaterialStockInfo(Leaf):
         self.parentId = ''
         self.name = ''
         self.shoppingNum = 0
-
-    def setFormalId(self):
-        if self.id == 0:
-            self.id = MaterialStockInfo.count + 1
-            MaterialStockInfo.count = MaterialStockInfo.count + 1
 
     def setValue(self, name, internalId, instockNum, unit, shoppingNum):
         self.name = name
@@ -58,21 +53,21 @@ class MaterialStockInfo(Leaf):
         return repr((self.id,self.name, self.parentId, self.unit, self.instockNum, self.shoppingNum))
 
 
-class MaterialStockInfoList:
+class StockInfoList:
     def __init__(self):
         self.count = 0
-        self.materialStockInfoList = []
+        self.stockInfoList = []
 
     def __repr__(self):
-        return repr((self.count, self.materialStockInfoList))
+        return repr((self.count, self.stockInfoList))
 
     def toJson(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
-    def addMaterialStockInfo(self, materialStockInfo):
-        if materialStockInfo.id != 0:
+    def addStockInfo(self, stockInfo):
+        if stockInfo.id != 0:
             self.count = self.count + 1
-            self.materialStockInfoList.append(materialStockInfo)
+            self.stockInfoList.append(stockInfo)
             return True
         else:
             return False
@@ -81,7 +76,7 @@ class MaterialStockInfoList:
 def getMaterialStockFromSql(material_id):
     try:
         material_sql = RawMat.objects.get(pk=material_id)
-        materialStock = MaterialStockInfo()
+        materialStock = StockInfo()
         initMaterialLeafFromSqlData(materialStock, material_sql)
 
         return materialStock
@@ -112,7 +107,7 @@ def genarateTree(root_sql):
             if subNode_sql.is_leaf == False:
                 root.addSubNode(genarateTree(subNode_sql))
             else:
-                leaf = MaterialStockInfo()
+                leaf = StockInfo()
                 initMaterialLeafFromSqlData(leaf, subNode_sql)
                 root.addLeaf(leaf)
     return root
@@ -212,7 +207,7 @@ def findoutMaterialBysubProductId(id):
         if isExist == False:
             rawMatItem_sql = RawMat.objects.get(
                 pk=rawMatRequirement_sql.rawMaterial_id)
-            materalLeaf = MaterialStockInfo()
+            materalLeaf = StockInfo()
             initMaterialLeafFromSqlData(materalLeaf, rawMatItem_sql)
             materialLeafList.append(materalLeaf)
     return materialLeafList
@@ -222,7 +217,7 @@ def findoutMaterialByMaterialOrderId(id):
     materialLeafList = []
     for rawMatOrderItem_sql in RawMatOrder.objects.get(pk=id).rawmatorderitem_set.all():
         rawMatItem_sql = RawMat.objects.get(pk=rawMatOrderItem_sql.rawMat_id)
-        materalLeaf = MaterialStockInfo()
+        materalLeaf = StockInfo()
         initMaterialLeafFromSqlData(materalLeaf, rawMatItem_sql)
         materialLeafList.append(materalLeaf)
     return materialLeafList
