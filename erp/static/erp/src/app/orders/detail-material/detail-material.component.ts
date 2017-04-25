@@ -83,7 +83,7 @@ export class DetailMaterialComponent implements OnInit {
     onEdit(index: number) {
         this.tmpProductMaterial = this.copyMaterialRequrimentArray(this.productList[index].materialRequrimentList);
         this.materialItemtEditable = !this.materialItemtEditable;
-        this.tree_service.getTreeRoot().subscribe(materialTree => this.mateialTree = materialTree)
+        this.tree_service.getMaterialRootTree().subscribe(materialTree => this.mateialTree = materialTree)
     }
 
     onCancelEdit(index: any) {

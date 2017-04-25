@@ -9,7 +9,7 @@ export class Stock {
 }
 
 export class StockUpdateInfo {
-    materialId: number
+    stockId: number
     procurementOrderId: number
     saleOrderItemId: number
     additionalInfo: string;

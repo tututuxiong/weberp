@@ -17,7 +17,7 @@ import { NgbdModalAddNodeContent } from './stock.addNode.component'
     //styleUrls: ["./styles/orders.component.css"]
 })
 
-export class MaterialStockComponent implements OnInit {
+export class ProductStockComponent implements OnInit {
     constructor(
         private materialStockService: StockService,
         private treeService: TreeService,
@@ -49,8 +49,8 @@ export class MaterialStockComponent implements OnInit {
     }
 
     getTree(): void{
-        this.treeService.getMaterialRootTree().subscribe(materialTree => {
-            this.root_node = materialTree;
+        this.treeService.getProductRootTree().subscribe(tree => {
+            this.root_node = tree;
         },
             error => this.errorMessage = <any>error)
     }
@@ -61,7 +61,7 @@ export class MaterialStockComponent implements OnInit {
     updateNode(type: number) {
         const modalRef = this.modalService.open(NgbdModalUpdateNodeContent, this.modalOptions);
         modalRef.componentInstance.type = type;
-        modalRef.componentInstance.node_type = 0;
+        modalRef.componentInstance.node_type = 1;
     }
     addNewNode(){
         const modalRef = this.modalService.open(NgbdModalAddNodeContent, this.modalOptions);

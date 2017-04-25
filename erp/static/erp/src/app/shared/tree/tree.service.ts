@@ -13,7 +13,7 @@ export class TreeService {
 
     /* Called when app is loaded to secure material tree is cached before any feature component loaded. */
     init(): void {
-        this.getTreeRoot().subscribe(rootNode => {
+        this.getMaterialRootTree().subscribe(rootNode => {
 
             this.materialTree = rootNode;
             this.getSubTree(this.materialTree);
@@ -27,12 +27,14 @@ export class TreeService {
     materialTree: Node;
     initialized: Boolean = false;
     
-    private treeUrl = 'app/MaterialTree';  // URL to web api
+    private materialRootTreeUrl = 'app/MaterialTree';  // URL to web api
+    private productRootTreeUrl = 'app/ProductTree';  // URL to web api
     private nodeUrl = 'app/node';  // URL to web api
     private leafUrl = 'app/leaf';  // URL to web api
   
     private procurementOrder = 'app/procurementOrder';  // URL to web api    
     private materialTreeUrl = 'materialTree';  // URL to web api
+    private productTreeUrl = 'productTree';  // URL to web api
     private subProduct = 'app/subPorduct';  // URL to web api    
 
     private handleError(error: Response | any) {
@@ -50,9 +52,14 @@ export class TreeService {
     }
 
 // --- Frank refactor start ---
-
-    getTreeRoot(): Observable<Node> {
-        return this.http.get(this.treeUrl)
+    getProductRootTree(): Observable<Node> {
+        return this.http.get(this.productRootTreeUrl)
+            .map(res => { return res.json() })
+            .catch(this.handleError);
+    }
+    
+    getMaterialRootTree(): Observable<Node> {
+        return this.http.get(this.materialRootTreeUrl)
             .map(res => { return res.json() })
             .catch(this.handleError);
     }
@@ -166,6 +173,13 @@ export class TreeService {
         return this.http.get(url)
             .map(res => { return res.json() })
             .catch(this.handleError);
-    }    
+    }
+
+    getSubProductTree(id: number): Observable<Node>{
+        const url = `${this.subProduct}/${id}/${this.productTreeUrl}`;
+        return this.http.get(url)
+            .map(res => { return res.json() })
+            .catch(this.handleError);
+    }       
 }
 

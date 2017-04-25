@@ -6,11 +6,12 @@ import { HttpModule, JsonpModule }    from '@angular/http';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { MaterialStockComponent} from './materialStock.component'
+import { ProductStockComponent} from './productStock.component'
 import { NgbdModalUpdateNodeContent } from './stock.update.comonent'
 import { NgbdModalAddNodeContent } from './stock.addNode.component'
 import { StockService} from './stock.service'
 
-import {MaterialStockRoutingModule} from './stock-routing.module'
+import { StockRoutingModule } from './stock-routing.module'
 import {TreeModule} from './../shared/tree/tree.module'
 
 @NgModule({
@@ -20,12 +21,13 @@ import {TreeModule} from './../shared/tree/tree.module'
         HttpModule,
         JsonpModule,
         NgbModule,
-        MaterialStockRoutingModule,
+        StockRoutingModule,
         TreeModule,
     ],
 
     declarations: [
         MaterialStockComponent,
+        ProductStockComponent,
         NgbdModalUpdateNodeContent,
         NgbdModalAddNodeContent
     ],
