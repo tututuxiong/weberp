@@ -151,6 +151,9 @@ export class NgbdModalUpdateNodeContent implements OnInit {
             this.materialStockService.updateMaterialStock(this.materialUpdateInfo).
                 subscribe(materialUpdateInfoResult => {
                     console.log(materialUpdateInfoResult);
+                    if (materialUpdateInfoResult.result == 0){
+                        this.activeModal.close();
+                    }
                 });
         }
     }

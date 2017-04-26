@@ -53,7 +53,7 @@ export class StockService {
             .catch(this.handleError);
     }    
 
-    updateMaterialStock(materialUpdateInfo:StockUpdateInfo): Observable<StockUpdateInfo[]> {
+    updateMaterialStock(materialUpdateInfo:StockUpdateInfo): Observable<StockUpdateInfo> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
         const url = `${this.materialsStockUrl}/${materialUpdateInfo.stockId}`;
