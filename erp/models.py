@@ -17,18 +17,6 @@ class SalesOrder(models.Model):
     def __str__(self):
         return self.name
 
-
-class SalesItem(models.Model):
-    salesOrder = models.ForeignKey(SalesOrder, on_delete=models.CASCADE)
-    name = models.CharField(max_length=200)
-    unit = models.CharField(max_length=200,default=None)
-    comment = models.CharField(max_length=200,default="")
-    est_num = models.IntegerField()
-    est_total_price = models.DecimalField(max_digits=12, decimal_places=2)
-    def __str__(self):
-        return self.name    
-
-
 class RawMat(models.Model):
     name = models.CharField(max_length=200)
     unit = models.CharField(max_length=200,default=None)
@@ -37,6 +25,15 @@ class RawMat(models.Model):
     is_leaf = models.BooleanField(default=True)
     def __str__(self):
         return self.name
+
+class SalesItem(models.Model):
+    salesOrder = models.ForeignKey(SalesOrder, on_delete=models.CASCADE)
+    product = models.ForeignKey(RawMat, on_delete=models.CASCADE, default=None)
+    # name = models.CharField(max_length=200)
+    # unit = models.CharField(max_length=200,default=None)
+    comment = models.CharField(max_length=200,default="")
+    est_num = models.IntegerField()
+    est_total_price = models.DecimalField(max_digits=12, decimal_places=2)
 
 class RawMatRequirement(models.Model):
     salesItem = models.ForeignKey(SalesItem, on_delete=models.CASCADE)
@@ -73,4 +70,10 @@ class CheckInRawMatRepoRecord(RawMatRepoRecord):
     rawMatOrderItem = models.ForeignKey(RawMatOrder, on_delete=models.CASCADE)
 
 class CheckOutRawMatRepoRecord(RawMatRepoRecord):
+    salesItem = models.ForeignKey(SalesItem, on_delete=models.CASCADE)
+
+class CheckInProductRepoRecord(RawMatRepoRecord):
+    salesItem = models.ForeignKey(SalesItem, on_delete=models.CASCADE)
+
+class CheckOutProductRepoRecord(RawMatRepoRecord):
     salesItem = models.ForeignKey(SalesItem, on_delete=models.CASCADE)

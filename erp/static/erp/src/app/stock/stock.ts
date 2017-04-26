@@ -14,6 +14,7 @@ export class StockUpdateInfo {
     saleOrderItemId: number
     additionalInfo: string;
     typeId: number
+    productType: number
     price: number
     result: number
     num: number

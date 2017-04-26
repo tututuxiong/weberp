@@ -1,8 +1,9 @@
 import json
 from .orderInfo import *
 
+
 class MaterialRequiment:
-    def __init__(self,name,unit,count):
+    def __init__(self, name, unit, count):
         self.name = name
         self.count = count
         self.unit = unit
@@ -13,6 +14,7 @@ class MaterialRequiment:
         for name, value in dict_data.items():
             if hasattr(self, name):
                 setattr(self, name, value)
+
 
 class SubProductInfo:
     count = 0
@@ -26,6 +28,7 @@ class SubProductInfo:
         self.price = 0
         self.total = ''
         self.comment = ''
+        self.stockId = 0
         self.materialRequrimentList = []
 
     def setFormalId(self, orderId):
@@ -43,13 +46,14 @@ class SubProductInfo:
         self.comment = comment
 
     def __repr__(self):
-        return repr((self.id, self.orderId, self.name, self.count, self.unit, self.price, self.total, self.comment, self.materialRequrimentList))
+        return repr((self.id, self.orderId, self.name, self.count, self.unit, self.price, self.total, self.comment, self.stockId, self.materialRequrimentList))
 
     def toJson(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
     def addsubProductMaterial(self, name, unit, count):
-        self.materialRequrimentList.append(MaterialRequiment(name,unit,count))
+        self.materialRequrimentList.append(
+            MaterialRequiment(name, unit, count))
 
     def setJson2Class(self, dict_data):
         for name, value in dict_data.items():
@@ -58,27 +62,30 @@ class SubProductInfo:
                     setattr(self, name, value)
                 else:
                     for materialRequiment_item in value:
-                        tmp_materialRequiment = MaterialRequiment("","",0)
-                        tmp_materialRequiment.setJson2Class(materialRequiment_item)
-                        self.materialRequrimentList.append(tmp_materialRequiment)
+                        tmp_materialRequiment = MaterialRequiment("", "", 0)
+                        tmp_materialRequiment.setJson2Class(
+                            materialRequiment_item)
+                        self.materialRequrimentList.append(
+                            tmp_materialRequiment)
 
 
 def getSubProductFromSqlById(id):
     try:
-        subproduct_sql = SalesItem.objects.get(pk = id)
+        subproduct_sql = SalesItem.objects.get(pk=id)
         tmp_subProductInfo = SubProductInfo()
         initSubProductFromSql(tmp_subProductInfo, subproduct_sql)
         return tmp_subProductInfo
 
     except SalesItem.DoesNotExist:
         print("Wront  SubProduct Id !!!")
-        
+
+
 def deleteSubProductFromSqlById(id):
     scuessfullMessage = '{"value":"OK"}'
     errorMessage = '{"value":"ERROR"}'
     try:
-        subproduct_sql = SalesItem.objects.get(pk = id)
-            
+        subproduct_sql = SalesItem.objects.get(pk=id)
+
         for materialRequimentSql_item in subproduct_sql.rawmatrequirement_set.all():
             materialRequimentSql_item.delete()
         subproduct_sql.delete()
@@ -86,24 +93,31 @@ def deleteSubProductFromSqlById(id):
 
     except SalesItem.DoesNotExist:
         print("Wront  SubProduct Id !!!")
-        return  errorMessage
+        return errorMessage
 
-def initSubProductFromSql(tmp_subProductInfo,subproduct_sql):
+
+def initSubProductFromSql(tmp_subProductInfo, subproduct_sql):
     tmp_subProductInfo.id = subproduct_sql.id
     tmp_subProductInfo.orderId = subproduct_sql.salesOrder_id
-    tmp_subProductInfo.name = subproduct_sql.name
+    # tmp_subProductInfo.name = subproduct_sql.name
     tmp_subProductInfo.count = subproduct_sql.est_num
-    tmp_subProductInfo.unit = subproduct_sql.unit
+    # tmp_subProductInfo.unit = subproduct_sql.unit
     tmp_subProductInfo.comment = subproduct_sql.comment
     tmp_subProductInfo.price = float(subproduct_sql.est_total_price)
-    tmp_subProductInfo.total = float(subproduct_sql.est_total_price) * subproduct_sql.est_num
+    tmp_subProductInfo.total = float(
+        subproduct_sql.est_total_price) * subproduct_sql.est_num
+
+    product_sql = RawMat.objects.get(pk=subproduct_sql.product_id)
+    tmp_subProductInfo.name = product_sql.name
+    tmp_subProductInfo.unit = product_sql.unit
+    tmp_subProductInfo.stockId = product_sql.id
 
     for mr in subproduct_sql.rawmatrequirement_set.all():
-        tmp_mr = MaterialRequiment("","",0)
+        tmp_mr = MaterialRequiment("", "", 0)
         tmp_mr.count = mr.num
 
         rawmat_id = mr.rawMaterial_id
-        if (rawmat_id !=0 ):
+        if (rawmat_id != 0):
             rawMat = RawMat.objects.get(pk=rawmat_id)
             tmp_mr.unit = rawMat.unit
             tmp_mr.name = rawMat.name
@@ -115,8 +129,9 @@ def initSubProductFromSql(tmp_subProductInfo,subproduct_sql):
 
 def addSubProduct2Sql(subProductI):
     try:
-        order = SalesOrder.objects.get(pk = subProductI.orderId)
-        sales_item = order.salesitem_set.create(est_num = subProductI.count, est_total_price = subProductI.price, unit = subProductI.unit)
+        order = SalesOrder.objects.get(pk=subProductI.orderId)
+        sales_item = order.salesitem_set.create(
+            est_num=subProductI.count, est_total_price=subProductI.price, unit=subProductI.unit)
         sales_item.name = subProductI.name
         sales_item.comment = subProductI.comment
         sales_item.save()
@@ -124,23 +139,25 @@ def addSubProduct2Sql(subProductI):
 
         for material_requiment_item in subProductI.materialRequrimentList:
             try:
-                materialSql = RawMat.objects.get(pk = material_requiment_item.materialId)
-                material_item = sales_item.rawmatrequirement_set.create(rawMaterial = materialSql,num = material_requiment_item.count)
+                materialSql = RawMat.objects.get(
+                    pk=material_requiment_item.materialId)
+                material_item = sales_item.rawmatrequirement_set.create(
+                    rawMaterial=materialSql, num=material_requiment_item.count)
                 material_item.save()
                 material_requiment_item.id = material_item.id
 
             except SalesOrder.DoesNotExist:
                 print("Wront  subProductI.orderId !!!")
-        
-        pass 
+
+        pass
 
     except SalesOrder.DoesNotExist:
         print("Wront  subProductI.orderId !!!")
-        
 
-def updateSubProduct2Sql(salesItem_id,subProductI):
+
+def updateSubProduct2Sql(salesItem_id, subProductI):
     try:
-        salesItem = SalesItem.objects.get(pk = salesItem_id)
+        salesItem = SalesItem.objects.get(pk=salesItem_id)
         salesItem.est_num = subProductI.count
         salesItem.unit = subProductI.unit
         RawMatRequirement.comment = subProductI.comment
@@ -150,13 +167,15 @@ def updateSubProduct2Sql(salesItem_id,subProductI):
         for material_requiment_item in subProductI.materialRequrimentList:
             try:
                 if (material_requiment_item != 0):
-                    rawMatRequirement = RawMatRequirement.objects.get(pk = material_requiment_item.id)
+                    rawMatRequirement = RawMatRequirement.objects.get(
+                        pk=material_requiment_item.id)
                     rawMatRequirement.num = material_requiment_item.count
                     rawMatRequirement.save()
                 else:
-                    AddnewRawMatRequirement2Sql(salesItem,material_requiment_item)
+                    AddnewRawMatRequirement2Sql(
+                        salesItem, material_requiment_item)
             except RawMatRequirement.DoesNotExist:
-                print("Wront  material_requiment_item.id !!!")                
+                print("Wront  material_requiment_item.id !!!")
 
         #check whether need delete some material_requiment_item#
         for sql_rawMatRequriment_item in salesItem.rawmatrequirement_set.all():
@@ -171,9 +190,11 @@ def updateSubProduct2Sql(salesItem_id,subProductI):
     except SalesItem.DoesNotExist:
         print("Wront salesItem_id !!!")
 
-def AddnewRawMatRequirement2Sql(sales_item,material_requiment_item):
+
+def AddnewRawMatRequirement2Sql(sales_item, material_requiment_item):
     try:
-        material = RawMat.objects.get(pk = material_requiment_item.materialId)
-        tmp_rawMatRequirement = RawMatRequirement(salesItem = sales_item, rawMaterial = materialId, num = material_requiment_item.count)
+        material = RawMat.objects.get(pk=material_requiment_item.materialId)
+        tmp_rawMatRequirement = RawMatRequirement(
+            salesItem=sales_item, rawMaterial=materialId, num=material_requiment_item.count)
     except RawMat.DoesNotExist:
         print("Wront material_requiment_item.materialId !!!")

@@ -27,7 +27,7 @@ export class NgbdModalUpdateNodeContent implements OnInit {
     root_node: Node;
     choose_leaf: Leaf;
     choose_product: boolean;
-    choose_product_id: number;
+    choose_product_stock_id: number;
     materialOrderList: MaterialOrder[];
     orderList: Order[];
     productList: Product[];
@@ -116,7 +116,7 @@ export class NgbdModalUpdateNodeContent implements OnInit {
         }
         else {
             this.choose_product = true;
-            this.choose_product_id = product.id;
+            this.choose_product_stock_id = product.stockId;
         }
     }
 
@@ -132,7 +132,9 @@ export class NgbdModalUpdateNodeContent implements OnInit {
     onSubmit() {
         if (this.materialUpdateInfo.num != 0) {
             this.materialUpdateInfo.typeId = this.type;
+            this.materialUpdateInfo.productType = this.node_type;
             if (this.node_type == 0) {
+                
                 if (this.materialUpdateInfo.typeId == 0) {
                     this.materialUpdateInfo.procurementOrderId = this.orderId;
                 }
@@ -142,12 +144,16 @@ export class NgbdModalUpdateNodeContent implements OnInit {
                 this.materialUpdateInfo.stockId = this.choose_leaf.id;
             }
             else {
-                this.materialUpdateInfo.stockId = this.choose_product_id;
+                this.materialUpdateInfo.stockId = this.choose_product_stock_id;
+                this.materialUpdateInfo.saleOrderItemId = this.orderId;
             }
 
             this.materialStockService.updateMaterialStock(this.materialUpdateInfo).
                 subscribe(materialUpdateInfoResult => {
                     console.log(materialUpdateInfoResult);
+                    if (materialUpdateInfoResult.result == 0){
+                        this.activeModal.close();
+                    }
                 });
         }
     }
