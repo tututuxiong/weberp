@@ -8,12 +8,12 @@
     <div class="row title-l5">
     <h5>{{information}}</h5>
     </div>
-    <ng-container *ngIf="!type">
+    <ng-container *ngIf="!show_type">
         <select class="form-control" [ngModel]="materialOrderList" (ngModelChange)="onChangeOrder($event)">
         <option [ngValue]="i" *ngFor="let i of materialOrderList">{{i.name}}</option>
     </select>
     </ng-container>
-    <ng-container *ngIf="type">
+    <ng-container *ngIf="show_type">
         <select class="form-control" [ngModel]="orderList" (ngModelChange)="onChangeOrder($event)">
         <option [ngValue]="i" *ngFor="let i of orderList">{{i.name}}</option>
     </select>
@@ -31,11 +31,11 @@
         </ng-container>
         </ng-container>
     </ng-container>
-    <ng-container *ngIf="root_node?.subNodes?.length>0 || root_node?.leafs?.length>0">
+    <ng-container *ngIf="root_node?.subNodes?.length>0 || root_node?.leafs?.length>0 || choose_product">
         <ng-container *ngIf="root_node?.id">
             <dropdown-tree-view [root_node]="root_node" (choose_leaf)="onChooseLeaf($event)"></dropdown-tree-view>
         </ng-container>
-        <ng-container *ngIf="choose_leaf?.id">
+        <ng-container *ngIf="choose_leaf?.id || choose_product">
             <div class="row title-l2">
             <h5>数量</h5>
             <div class="col-md-2">

@@ -1,13 +1,13 @@
 import { Component } from "@angular/core";
 import { OnInit, Input } from "@angular/core";
 
-import { MaterialStockService } from './materialStock.service';
+import { StockService } from './stock.service';
 import { TreeService } from './../shared/tree/tree.service';
-import { MaterialStock } from './materialStock';
+import { Stock } from './Stock';
 import { Leaf, Node } from './../shared/tree/tree';
 import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
-import { NgbdModalUpdateNodeContent } from './materialStock.update.comonent'
-import { NgbdModalAddNodeContent } from './materialStock.addNode.component'
+import { NgbdModalUpdateNodeContent } from './stock.update.comonent'
+import { NgbdModalAddNodeContent } from './stock.addNode.component'
 // Component definition
 @Component({
     //selector is not needed here because we use routing.
@@ -17,9 +17,9 @@ import { NgbdModalAddNodeContent } from './materialStock.addNode.component'
     //styleUrls: ["./styles/orders.component.css"]
 })
 
-export class MaterialStockComponent implements OnInit {
+export class ProductStockComponent implements OnInit {
     constructor(
-        private materialStockService: MaterialStockService,
+        private materialStockService: StockService,
         private treeService: TreeService,
         private modalService: NgbModal,
     ) { }
@@ -31,7 +31,7 @@ export class MaterialStockComponent implements OnInit {
         this.root_path = "/";
         this.tree_type = "M";
     }
-    materialStockList: MaterialStock[];
+    materialStockList: Stock[];
     root_node: Node;
     errorMessage: string;
     root_path: string;
@@ -49,8 +49,8 @@ export class MaterialStockComponent implements OnInit {
     }
 
     getTree(): void{
-        this.treeService.getTreeRoot().subscribe(materialTree => {
-            this.root_node = materialTree;
+        this.treeService.getProductRootTree().subscribe(tree => {
+            this.root_node = tree;
         },
             error => this.errorMessage = <any>error)
     }
@@ -61,6 +61,7 @@ export class MaterialStockComponent implements OnInit {
     updateNode(type: number) {
         const modalRef = this.modalService.open(NgbdModalUpdateNodeContent, this.modalOptions);
         modalRef.componentInstance.type = type;
+        modalRef.componentInstance.node_type = 1;
     }
     addNewNode(){
         const modalRef = this.modalService.open(NgbdModalAddNodeContent, this.modalOptions);

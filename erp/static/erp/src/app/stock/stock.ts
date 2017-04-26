@@ -1,5 +1,5 @@
 
-export class MaterialStock {
+export class Stock {
     id: number;
     name: string;
     internalId: number;
@@ -8,8 +8,8 @@ export class MaterialStock {
     shoppingNum: number;
 }
 
-export class MaterialUpdateInfo {
-    materialId: number
+export class StockUpdateInfo {
+    stockId: number
     procurementOrderId: number
     saleOrderItemId: number
     additionalInfo: string;

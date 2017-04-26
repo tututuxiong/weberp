@@ -6,7 +6,7 @@ import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-boot
 @Component({
     selector: 'ngbd-modal-content',
     moduleId: module.id,
-    templateUrl: "./templates/materialStock.addNode.html",
+    templateUrl: "./templates/stock.addNode.html",
 })
 export class NgbdModalAddNodeContent {
     @Input() root_node: Node;

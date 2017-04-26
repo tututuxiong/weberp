@@ -14,7 +14,7 @@ import { DetailMaterialComponent } from "./detail-material/detail-material.compo
 /* Services */
 import { OrderService } from "./order.service";
 import { ProductService } from "./products/product.service";
-import { MaterialStockService } from './../materialStock/materialStock.service';
+import { StockService } from './../stock/stock.service';
 
 /* Routing */
 import { OrderRoutingModule } from "./orders-routing.module";
@@ -48,7 +48,7 @@ import { TreeModule } from '../shared/tree/tree.module'
     providers: [
         OrderService,
         ProductService,
-        MaterialStockService,
+        StockService,
     ]
 })
 

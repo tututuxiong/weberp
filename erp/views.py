@@ -11,7 +11,7 @@ from .subProductInfo import *
 from .materialOrderInfo import *
 from .materialOrderInfoList import *
 
-from .materialInfoStock import *
+from .stockInfo import *
 from .tree import Leaf, Node
 
 import json
@@ -111,18 +111,26 @@ def materialStock(request, material_id):
         return  HttpResponse(getMaterialStockFromSql(int(material_id)).toJson())
     if request.method == 'POST':
         dict_data = json.loads(request.body.decode())['materialUpdateInfo']
-        tmp_materialUpdateInfo = MaterialUpdateInfo()
+        tmp_materialUpdateInfo = StockUpdateInfo()
         tmp_materialUpdateInfo.setJson2Class(dict_data)
         updateMaterialInfo(tmp_materialUpdateInfo)
         return HttpResponse(tmp_materialUpdateInfo.toJson())
 
+def productTree(request,product_id='0'):
+    tree_name = "成品"
+    if product_id == '0':
+        return  HttpResponse(getTree(tree_name).toJson())
+    else:
+        return  HttpResponse(getTreeBysubProductId(int(product_id),tree_name).toJson())
+    
 def MaterialTree(request,procurementOrder_id='0',product_id='0'):
+    tree_name = "原材料"
     if procurementOrder_id == '0' and product_id == '0':
-        return  HttpResponse(getTree().toJson())
+        return  HttpResponse(getTree(tree_name).toJson())
     elif procurementOrder_id != '0':
-        return  HttpResponse(getTreeByMaterialOrderId(int(procurementOrder_id)).toJson())
+        return  HttpResponse(getTreeByMaterialOrderId(int(procurementOrder_id),tree_name).toJson())
     elif product_id != '0':
-        return  HttpResponse(getTreeBysubProductId(int(product_id)).toJson())
+        return  HttpResponse(getMaterialTreeBysubProductId(int(product_id),tree_name).toJson())
 
 def NodeInfo(request, node_id):
     if request.method == 'GET':
@@ -138,7 +146,6 @@ def LeafInfo(request, leaf_id):
         return HttpResponse(getNodeInfo(int(leaf_id)).toJson())
     if request.method == 'PUT':
         dict_data = json.loads(request.body.decode())['leaf']
-        tmp_materialStock = MaterialStockInfo()
+        tmp_materialStock = StockInfo()
         tmp_materialStock.setJson2Class(dict_data)
-        print(tmp_materialStock)
         return HttpResponse(addNewMaterialLeaf(tmp_materialStock).toJson())        
