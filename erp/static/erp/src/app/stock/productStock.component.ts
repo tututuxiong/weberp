@@ -3,7 +3,7 @@ import { OnInit, Input } from "@angular/core";
 
 import { StockService } from './stock.service';
 import { TreeService } from './../shared/tree/tree.service';
-import { Stock } from './Stock';
+import { Stock } from './stock';
 import { Leaf, Node } from './../shared/tree/tree';
 import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalUpdateNodeContent } from './stock.update.comonent'

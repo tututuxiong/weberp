@@ -13,7 +13,7 @@ import { SharedModule } from './shared/shared.module';
 
 import { InventoryComponent } from './inventory/inventory.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { StockModule } from './Stock/stock.module'
+import { StockModule } from './stock/stock.module'
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
