@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
-import { Input } from "@angular/core";
+import { Input, Output } from "@angular/core";
+import { EventEmitter } from "@angular/core";
 
 import {MaterialRequriment, Product } from './product';
 
@@ -32,6 +33,12 @@ export class ProductsEditableComponent {
     @Input()
     deletedProductList: Product[];
 
+    @Output()
+    onSubmitEditProducts = new EventEmitter<void>();
+
+    @Output()
+    onCancelEditProducts = new EventEmitter<void>();
+
     newProduct: Product = Object.assign({}, NEWPRODUCT);
 
     onAddProduct(): void {
@@ -45,5 +52,13 @@ export class ProductsEditableComponent {
         this.deletedProductList.push(product);
         let index = this.productList.indexOf(product);
         this.productList.splice(index, 1);
+    }
+
+    onSubmitEdit() : void {
+        this.onSubmitEditProducts.emit();
+    }
+
+    onCancelEdit() : void {
+        this.onCancelEditProducts.emit();
     }
 }

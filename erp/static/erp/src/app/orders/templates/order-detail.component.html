@@ -37,7 +37,7 @@
     </tbody>
   </table>
 
-  <div class="row title-l2">
+  <!--<div class="row title-l2">
     <div class="col-sm-4">
       <h4>产品清单</h4>
     </div>
@@ -49,13 +49,13 @@
     <div class="col-sm-2" *ngIf="!productListEditable">
       <button class="btn btn-primary" (click)="onEditProducts()">编辑</button>
     </div>
-  </div>
+  </div>-->
 
   <ng-container *ngIf="productListEditable">
-    <products-editable [productList]="productList" [addedProductList]="addedProductList" [deletedProductList]="deletedProductList"></products-editable>
+    <products-editable [productList]="productList" [addedProductList]="addedProductList" [deletedProductList]="deletedProductList" (onSubmitEditProducts)="onSubmitEdit()" (onCancelEditProducts)="onCancelEdit()"></products-editable>
   </ng-container>
   <ng-container *ngIf="!productListEditable">
-    <products [productList]="productList"></products>
+    <products [productList]="productList" (onEditProducts)="onEditProducts()"></products>
   </ng-container>
 
   <div class="row title-l2">
