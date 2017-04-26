@@ -21,6 +21,8 @@ export class TreeService {
             this.initialized = true;
 
             console.log("Tree initialized!");
+
+            console.log(this.materialTree);
         });
     }
 
@@ -105,16 +107,16 @@ export class TreeService {
     }
 
     getParentByLeafId(id: number, root: Node): Node {
-        console.log(root);
+        // console.log(root);
         if (root == undefined){
             root = this.materialTree;
         }
-        console.log(root);
+        // console.log(root);
 
         for (var i=0; i<root.leafs.length; i++) {
             if (root.leafs[i].id == id){
-                console.log("Parent is found!");
-                console.log(root);
+                // console.log("Parent is found!");
+                // console.log(root);
                 return root;
             }
         }
@@ -125,7 +127,7 @@ export class TreeService {
            if (res != undefined) return res;
         }
 
-        console.log("Should NOT happen!");
+        // console.log("Should NOT happen!");
         return undefined;
     }
 

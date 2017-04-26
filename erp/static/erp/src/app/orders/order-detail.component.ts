@@ -196,6 +196,7 @@ export class OrderDetailComponent implements OnInit {
                     var tmp_materialitem = new DetailMaterialRequriment;
                     tmp_materialitem.name = materialItem_iter.name;
                     tmp_materialitem.id = materialItem_iter.id;
+                    tmp_materialitem.materialId = materialItem_iter.materialId;
                     tmp_materialitem.requrimentNum = Number(materialItem_iter.count);
                     this.materialItemList.push(tmp_materialitem);
                 }
