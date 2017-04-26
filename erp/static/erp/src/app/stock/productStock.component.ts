@@ -28,16 +28,21 @@ export class ProductStockComponent implements OnInit {
         this.root_node = new Node();
         //this.getMaterialStocks();
         this.getTree();
-        this.root_path = "/";
-        this.tree_type = "M";
+
+        this.titleName = "产品信息";
+        this.buttonAddName = "新增产品/分类";
+        this.buttonInName = "产品入库"; 
+        this.buttonOutName = "产品发货";        
     }
     materialStockList: Stock[];
     root_node: Node;
     errorMessage: string;
-    root_path: string;
-    tree_type: string;
     choose_leaf: Leaf;
-
+    /*show data*/
+    titleName: string;
+    buttonAddName: string;
+    buttonInName: string;
+    buttonOutName: string;
 
     modalOptions: NgbModalOptions = { size: "lg" }
 
