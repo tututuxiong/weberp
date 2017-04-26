@@ -128,6 +128,7 @@ export class DetailMaterialComponent implements OnInit {
         p.unit = unit;
         p.id = 0;
         p.materialId = this.selected_material.id;
+        console.log("on add material id:",p.materialId)
         this.productList[index].materialRequrimentList.push(p);
 
         this.newMaterialName = "";
@@ -146,9 +147,6 @@ export class DetailMaterialComponent implements OnInit {
                 isExist = false;
                 for (var m in this.materialItemList) {
                     if (this.materialItemList[m].name == materialItem_iter.name) {
-                        console.log( materialItem_iter.name);
-                        console.log( this.materialItemList[m].requrimentNum);
-                        console.log( materialItem_iter.count);
                         this.materialItemList[m].requrimentNum += Number(materialItem_iter.count);
                         console.log( this.materialItemList[m].requrimentNum);
                         isExist = true;
@@ -160,6 +158,7 @@ export class DetailMaterialComponent implements OnInit {
                     tmp_materialitem.name = materialItem_iter.name;
                     tmp_materialitem.id = materialItem_iter.id
                     tmp_materialitem.materialId = materialItem_iter.materialId;
+                    console.log("zha test send",tmp_materialitem.materialId);
                     tmp_materialitem.requrimentNum = Number(materialItem_iter.count);
                     this.materialItemList.push(tmp_materialitem);
                 }
@@ -170,7 +169,8 @@ export class DetailMaterialComponent implements OnInit {
     private updateDetailmaterialItemInfo() {
         this.updatematerialItemList();
         this.materialItemList.forEach(meterialItem => {
-            this.material_stock_service.getMaterialStockById(meterialItem.id).
+            console.log("zha test send",meterialItem.materialId);
+            this.material_stock_service.getMaterialStockById(meterialItem.materialId).
                 subscribe(material_stock => {
                     meterialItem.shoppingNum = material_stock.shoppingNum;
                     meterialItem.instockNum = material_stock.instockNum;
