@@ -127,10 +127,9 @@ def addMaterialOrder2Sql(material_order):
         if material_order.orderId != 0:
             order = SalesOrder.objects.get(pk=material_order.orderId)
             materialOrderSql = RawMatOrder(
-                salesOrder=order, order=material_order.name, comment=material_order.comment)
+                salesOrder=order, name=material_order.name, comment=material_order.comment)
         else:
-            materialOrderSql = RawMatOrder(
-                salesOrder=None, order=material_order.name, comment=material_order.comment)
+            materialOrderSql = RawMatOrder(name=material_order.name, comment=material_order.comment)
         materialOrderSql.save()
         material_order.id = materialOrderSql.id
         material_order.date = materialOrderSql.act_date.strftime(

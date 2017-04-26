@@ -38,6 +38,7 @@ export class ProductStockComponent implements OnInit {
     tree_type: string;
     choose_leaf: Leaf;
 
+
     modalOptions: NgbModalOptions = { size: "lg" }
 
     getMaterialStocks(): void {

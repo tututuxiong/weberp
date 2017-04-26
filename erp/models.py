@@ -42,7 +42,7 @@ class RawMatRequirement(models.Model):
 
 
 class RawMatOrder(models.Model):
-    salesOrder = models.ForeignKey(SalesOrder)
+    salesOrder = models.ForeignKey(SalesOrder,null=True)
     act_date = models.DateTimeField(default=date.today)
     status = models.CharField(max_length=50,default="INIT") # INIT, BUYING, DONE
     comment = models.TextField(default='')

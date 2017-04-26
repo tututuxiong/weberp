@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body">
     <div class="row title-l5">
-    <h5>{{information}}</h5>
+        <h5>{{information}}</h5>
     </div>
     <ng-container *ngIf="!show_type">
         <select class="form-control" [ngModel]="materialOrderList" (ngModelChange)="onChangeOrder($event)">
@@ -19,16 +19,16 @@
     </select>
         <ng-container *ngIf="productList?.length > 0">
             <div class="row title-l5">
-            <h5>请选择具体产品</h5>
+                <h5>请选择具体产品</h5>
             </div>
             <select class="form-control" [ngModel]="productList" (ngModelChange)="onChangeSubProductOrder($event)">
         <option [ngValue]="i" *ngFor="let i of productList">{{i.name}}</option>
     </select>
         </ng-container>
         <ng-container *ngIf="productList">
-        <ng-container *ngIf="!(productList?.length > 0)">
-            <p>没有产品清单</p>
-        </ng-container>
+            <ng-container *ngIf="!(productList?.length > 0)">
+                <p>没有产品清单</p>
+            </ng-container>
         </ng-container>
     </ng-container>
     <ng-container *ngIf="root_node?.subNodes?.length>0 || root_node?.leafs?.length>0 || choose_product">
@@ -37,18 +37,18 @@
         </ng-container>
         <ng-container *ngIf="choose_leaf?.id || choose_product">
             <div class="row title-l2">
-            <h5>数量</h5>
-            <div class="col-md-2">
-            <input type="number" class="form-control user-input" [(ngModel)]="materialUpdateInfo.num">
-            </div>
-            <h5>金额</h5>
-            <div class="col-md-2">
-            <input type="number" class="form-control user-input" [(ngModel)]="materialUpdateInfo.price">
-            </div>
-            <h5>备注</h5>
-            <div class="col-md-2">
-            <input class="form-control user-input" [(ngModel)]="materialUpdateInfo.additionalInfo">
-            </div>
+                <h5>数量</h5>
+                <div class="col-md-2">
+                    <input type="number" class="form-control user-input" [(ngModel)]="materialUpdateInfo.num">
+                </div>
+                <h5>金额</h5>
+                <div class="col-md-2">
+                    <input type="number" class="form-control user-input" [(ngModel)]="materialUpdateInfo.price">
+                </div>
+                <h5>备注</h5>
+                <div class="col-md-2">
+                    <input class="form-control user-input" [(ngModel)]="materialUpdateInfo.additionalInfo">
+                </div>
             </div>
         </ng-container>
     </ng-container>
