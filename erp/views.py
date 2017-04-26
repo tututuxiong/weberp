@@ -111,10 +111,10 @@ def materialStock(request, material_id):
         return  HttpResponse(getMaterialStockFromSql(int(material_id)).toJson())
     if request.method == 'POST':
         dict_data = json.loads(request.body.decode())['materialUpdateInfo']
-        tmp_materialUpdateInfo = StockUpdateInfo()
-        tmp_materialUpdateInfo.setJson2Class(dict_data)
-        updateMaterialInfo(tmp_materialUpdateInfo)
-        return HttpResponse(tmp_materialUpdateInfo.toJson())
+        tmp_stockUpdateInfo = StockUpdateInfo()
+        tmp_stockUpdateInfo.setJson2Class(dict_data)
+        updateMaterialInfo(tmp_stockUpdateInfo)
+        return HttpResponse(tmp_stockUpdateInfo.toJson())
 
 def productTree(request,product_id='0'):
     tree_name = "成品"

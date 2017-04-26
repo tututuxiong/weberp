@@ -6,6 +6,7 @@ import {MaterialRequriment, Product } from './product';
 const NEWPRODUCT: Product = {
     id: 0,
     orderId: 0,
+    stockId: 0,
     name: 'My Product',
     count: 0,
     unit: 'suite',

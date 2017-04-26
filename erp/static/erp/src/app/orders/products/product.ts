@@ -7,6 +7,7 @@ export class MaterialRequriment{
 
 export class Product {
     id: number;
+    stockId: number;
     orderId: number;
     name: string;
     count: number;
@@ -19,6 +20,7 @@ export class Product {
      constructor(source: Product) {
         this.id = source.id;
         this.name = source.name;
+        this.stockId = source.stockId;
         this.orderId = source.orderId;
         this.count = source.count;
         this.unit = source.unit;
