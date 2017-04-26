@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Http, Response, Headers, RequestOptions} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Stock, StockUpdateInfo } from './Stock'
+import { Stock, StockUpdateInfo } from './stock'
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
