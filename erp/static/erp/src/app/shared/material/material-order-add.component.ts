@@ -85,7 +85,8 @@ export class MaterialOrderAddComponent {
   newMaterialOrder: MaterialOrder;
 
   modalOptions: NgbModalOptions = {
-    size: "lg"
+    size: "lg",
+    // windowClass: "my-modal"
   }
 
   open() {
