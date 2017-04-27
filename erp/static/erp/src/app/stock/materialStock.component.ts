@@ -3,7 +3,7 @@ import { OnInit, Input } from "@angular/core";
 
 import { StockService } from './stock.service';
 import { TreeService } from './../shared/tree/tree.service';
-import { Stock } from './Stock';
+import { Stock } from './stock';
 import { Leaf, Node } from './../shared/tree/tree';
 import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalUpdateNodeContent } from './stock.update.comonent'
@@ -22,24 +22,30 @@ export class MaterialStockComponent implements OnInit {
         private materialStockService: StockService,
         private treeService: TreeService,
         private modalService: NgbModal,
-    ) { }
+    ) {}
+    materialStockList: Stock[];
+    root_node: Node;
+    errorMessage: string;
+    choose_leaf: Leaf;
+    
+    /*show data*/
+    titleName: string;
+    buttonAddName: string;
+    buttonInName: string;
+    buttonOutName: string;
 
+    modalOptions: NgbModalOptions = { size: "lg" }
+    
     ngOnInit(): void {
         this.root_node = new Node();
         //this.getMaterialStocks();
         this.getTree();
-        this.root_path = "/";
-        this.tree_type = "M";
+        
+        this.titleName = "原料信息";
+        this.buttonAddName = "新增原料/分类";
+        this.buttonInName = "入库"; 
+        this.buttonOutName = "领料";
     }
-    materialStockList: Stock[];
-    root_node: Node;
-    errorMessage: string;
-    root_path: string;
-    tree_type: string;
-    choose_leaf: Leaf;
-
-    modalOptions: NgbModalOptions = { size: "lg" }
-
     getMaterialStocks(): void {
         this.materialStockService.getMaterialStocks()
             .subscribe(

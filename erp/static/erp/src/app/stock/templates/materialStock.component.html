@@ -1,16 +1,16 @@
 <div class="row title-l1">
     <!--<h3>{{title}}</h3>-->
     <div class="col-sm-2">
-        <h3>原料信息</h3>
+        <h3>{{titleName}}</h3>
     </div>
     <div class="col-sm-2">
-        <button class="btn btn-primary btn-outline-primary" (click)="addNewNode()">新增原料/分类</button>
+        <button class="btn btn-primary btn-outline-primary" (click)="addNewNode()">{{buttonAddName}}</button>
     </div>
     <div class="col-sm-2">
-        <button class="btn btn-primary btn-outline-primary" (click)="updateNode(0)">入库</button>
+        <button class="btn btn-primary btn-outline-primary" (click)="updateNode(0)">{{buttonInName}}</button>
     </div>
     <div class="col-sm-2">
-        <button class="btn btn-primary btn-outline-primary" (click)="updateNode(1)">领料</button>
+        <button class="btn btn-primary btn-outline-primary" (click)="updateNode(1)">{{buttonOutName}}</button>
     </div>
     <div class="col-sm-2">
         <button class="btn btn-primary btn-outline-primary" (click)="onFresh()">刷新</button>

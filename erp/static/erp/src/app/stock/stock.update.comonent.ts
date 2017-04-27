@@ -3,7 +3,7 @@ import { Component } from "@angular/core";
 import { OnInit, Input } from "@angular/core";
 
 import { TreeService } from './../shared/tree/tree.service';
-import { Stock, StockUpdateInfo } from './Stock';
+import { Stock, StockUpdateInfo } from './stock';
 import { Leaf, Node } from './../shared/tree/tree';
 import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { MaterialOrderService } from '../shared/material/material-order.service';
