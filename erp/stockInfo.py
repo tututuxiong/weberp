@@ -180,10 +180,11 @@ def getNodeInfo(node_id):
                 if subNode_sql.is_leaf == False:
                     tmp_node = Node(subNode_sql.name)
                     initNodeBySqlInfo(tmp_node, subNode_sql)
+                    tmp_node.parentId = node.id
                     node.addSubNode(tmp_node)
                 else:
                     tmp_leaf = Leaf(subNode_sql.name)
-                    tmp_leaf.id = subNode_sql.id
+                    initNodeBySqlInfo(tmp_leaf,subNode_sql)
                     tmp_leaf.parentId = node.id
                     node.addLeaf(tmp_leaf)
 
