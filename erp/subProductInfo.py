@@ -130,10 +130,12 @@ def initSubProductFromSql(tmp_subProductInfo, subproduct_sql):
 def addSubProduct2Sql(subProductI):
     try:
         order = SalesOrder.objects.get(pk=subProductI.orderId)
+        material_sql = RawMat.objects.get(pk=subProductI.stockId)
         sales_item = order.salesitem_set.create(
-            est_num=subProductI.count, est_total_price=subProductI.price, unit=subProductI.unit)
+            est_num=subProductI.count, est_total_price=subProductI.price)
         sales_item.name = subProductI.name
         sales_item.comment = subProductI.comment
+        sales_item.product = material_sql
         sales_item.save()
         subProductI.id = sales_item.id
 
@@ -151,6 +153,8 @@ def addSubProduct2Sql(subProductI):
 
         pass
 
+    except RawMat.DoesNotExist:
+        print("Wront  subProductI.stockId !!!")
     except SalesOrder.DoesNotExist:
         print("Wront  subProductI.orderId !!!")
 
