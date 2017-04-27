@@ -14,7 +14,6 @@ export class Product {
     count: number;
     unit: string;
     price: number;
-    total: number;
     comment: string;
     materialRequrimentList: MaterialRequriment[];
 
@@ -26,7 +25,6 @@ export class Product {
         this.count = source.count;
         this.unit = source.unit;
         this.price = source.price;
-        this.total = source.total;
         this.comment = source.comment;
         this.materialRequrimentList = source.materialRequrimentList;
     }

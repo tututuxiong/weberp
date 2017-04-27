@@ -1,12 +1,12 @@
-  <div class="row title-l2">
+<div class="row title-l2">
     <div class="col-sm-4">
-      <h4>产品清单</h4>
+        <h4>产品清单</h4>
     </div>
 
     <div class="col-sm-2">
-      <button class="btn btn-primary" (click)="onEdit()">编辑</button>
+        <button class="btn btn-primary" (click)="onEdit()">编辑</button>
     </div>
-  </div>
+</div>
 
 <table class="table">
     <thead class="thead-inverse">
@@ -27,7 +27,7 @@
             <td>{{product.count}}</td>
             <td>{{product.unit}}</td>
             <td>{{product.price}}</td>
-            <td>{{product.total}}</td>
+            <td>{{product.price * product.count}}</td>
             <td>{{product.comment}}</td>
         </tr>
     </tbody>

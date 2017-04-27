@@ -182,6 +182,6 @@ export class TreeService {
         return this.http.get(url)
             .map(res => { return res.json() })
             .catch(this.handleError);
-    }       
+    }
 }
 

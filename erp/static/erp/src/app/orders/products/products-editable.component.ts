@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
-import { Input, Output } from "@angular/core";
+import { Input, Output, OnInit } from "@angular/core";
 import { EventEmitter } from "@angular/core";
+import { TreeService } from './../../shared/tree/tree.service'
+import { Node, Leaf } from './../../shared/tree/tree'
 
 import {MaterialRequriment, Product } from './product';
 
@@ -10,9 +12,8 @@ const NEWPRODUCT: Product = {
     stockId: 0,
     name: 'My Product',
     count: 0,
-    unit: 'suite',
+    unit: 'N/A',
     price: 0,
-    total: 0,
     comment: '',
     materialRequrimentList: [],
 };
@@ -23,7 +24,7 @@ const NEWPRODUCT: Product = {
     templateUrl: './templates/products-editable.html'
 }) 
 
-export class ProductsEditableComponent {
+export class ProductsEditableComponent implements OnInit{
     @Input()
     productList: Product[];
 
@@ -38,6 +39,23 @@ export class ProductsEditableComponent {
 
     @Output()
     onCancelEditProducts = new EventEmitter<void>();
+
+    productStockList: Leaf[];
+
+    constructor(
+        private tree_service: TreeService,
+    ){}
+
+    ngOnInit(): void {
+        this.productStockList = [];
+        
+        this.tree_service.getProductRootTree().subscribe(productTree =>{
+            productTree.leafs.forEach( product =>{
+                this.productStockList.push(product);
+            });
+            
+        });
+    }
 
     newProduct: Product = Object.assign({}, NEWPRODUCT);
 
@@ -60,5 +78,11 @@ export class ProductsEditableComponent {
 
     onCancelEdit() : void {
         this.onCancelEditProducts.emit();
+    }
+
+    onChange(leaf: Leaf){
+        this.newProduct.stockId = leaf.id;
+        this.newProduct.unit = leaf.unit;
+        this.newProduct.name = leaf.name;
     }
 }
