@@ -66,7 +66,7 @@ export class DetailMaterialComponent implements OnInit {
             // console.log(this.productList[index]);
             this.product_service.updateProducts(this.productList[index])
                 .subscribe(prodtct => this.productList[index] = prodtct,
-                error => this.errorMessage = <any>error)
+                error => this.errorMessage = <any>error);
         }
 
         this.materialItemtEditable = !this.materialItemtEditable;

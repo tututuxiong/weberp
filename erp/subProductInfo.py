@@ -26,7 +26,6 @@ class SubProductInfo:
         self.count = 0
         self.unit = ''
         self.price = 0
-        self.total = ''
         self.comment = ''
         self.stockId = 0
         self.materialRequrimentList = []
@@ -42,11 +41,10 @@ class SubProductInfo:
         self.count = count
         self.unit = unit
         self.price = price
-        self.total = self.count * self.price
         self.comment = comment
 
     def __repr__(self):
-        return repr((self.id, self.orderId, self.name, self.count, self.unit, self.price, self.total, self.comment, self.stockId, self.materialRequrimentList))
+        return repr((self.id, self.orderId, self.name, self.count, self.unit, self.price, self.comment, self.stockId, self.materialRequrimentList))
 
     def toJson(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
@@ -103,9 +101,7 @@ def initSubProductFromSql(tmp_subProductInfo, subproduct_sql):
     tmp_subProductInfo.count = subproduct_sql.est_num
     # tmp_subProductInfo.unit = subproduct_sql.unit
     tmp_subProductInfo.comment = subproduct_sql.comment
-    tmp_subProductInfo.price = float(subproduct_sql.est_total_price)
-    tmp_subProductInfo.total = float(
-        subproduct_sql.est_total_price) * subproduct_sql.est_num
+    tmp_subProductInfo.price = float(subproduct_sql.est_total_price)/subproduct_sql.est_num
 
     product_sql = RawMat.objects.get(pk=subproduct_sql.product_id)
     tmp_subProductInfo.name = product_sql.name
@@ -130,8 +126,9 @@ def initSubProductFromSql(tmp_subProductInfo, subproduct_sql):
 def addSubProduct2Sql(subProductI):
     try:
         order = SalesOrder.objects.get(pk=subProductI.orderId)
+        material_sql = RawMat.objects.get(pk=subProductI.stockId)
         sales_item = order.salesitem_set.create(
-            est_num=subProductI.count, est_total_price=subProductI.price, unit=subProductI.unit)
+            est_num=subProductI.count, est_total_price=(subProductI.price * subProductI.count),product=material_sql)
         sales_item.name = subProductI.name
         sales_item.comment = subProductI.comment
         sales_item.save()
@@ -151,6 +148,8 @@ def addSubProduct2Sql(subProductI):
 
         pass
 
+    except RawMat.DoesNotExist:
+        print("Wront  subProductI.stockId !!!")
     except SalesOrder.DoesNotExist:
         print("Wront  subProductI.orderId !!!")
 
@@ -161,12 +160,12 @@ def updateSubProduct2Sql(salesItem_id, subProductI):
         salesItem.est_num = subProductI.count
         salesItem.unit = subProductI.unit
         RawMatRequirement.comment = subProductI.comment
-        salesItem.est_total_price = subProductI.price
+        salesItem.est_total_price = subProductI.price * subProductI.count
         salesItem.save()
 
         for material_requiment_item in subProductI.materialRequrimentList:
             try:
-                if (material_requiment_item != 0):
+                if (material_requiment_item.id != 0):
                     rawMatRequirement = RawMatRequirement.objects.get(
                         pk=material_requiment_item.id)
                     rawMatRequirement.num = material_requiment_item.count
@@ -194,7 +193,10 @@ def updateSubProduct2Sql(salesItem_id, subProductI):
 def AddnewRawMatRequirement2Sql(sales_item, material_requiment_item):
     try:
         material = RawMat.objects.get(pk=material_requiment_item.materialId)
-        tmp_rawMatRequirement = RawMatRequirement(
-            salesItem=sales_item, rawMaterial=materialId, num=material_requiment_item.count)
+        rawMatRequirement_sql = RawMatRequirement(
+            salesItem=sales_item, rawMaterial=material, num=material_requiment_item.count)
+        rawMatRequirement_sql.save()
+        material_requiment_item.id = rawMatRequirement_sql.id
+        
     except RawMat.DoesNotExist:
         print("Wront material_requiment_item.materialId !!!")

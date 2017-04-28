@@ -94,6 +94,7 @@ export class OrderDetailComponent implements OnInit {
         this.productListEditable = !this.productListEditable;
 
         this.addedProductList.forEach(newProduct => {
+            newProduct.orderId = this.orderDetail.id;
             // let result: Product;
             this.product_service.addProducts(newProduct)
                 .subscribe(product => {
