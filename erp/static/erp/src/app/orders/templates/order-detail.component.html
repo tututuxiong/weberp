@@ -1,3 +1,4 @@
+<ng-container *ngIf="treeServiceReady">
 <div *ngIf="orderDetail">
   <div class="row title-l1">
     <!--<h3>{{title}}</h3>-->
@@ -76,3 +77,8 @@
   </div>
   <material-order [materialOrderList]="materialOrderList"></material-order>
 </div>
+</ng-container>
+
+<ng-container *ngIf="!treeServiceReady">
+  <p>Loading...</p>
+</ng-container>

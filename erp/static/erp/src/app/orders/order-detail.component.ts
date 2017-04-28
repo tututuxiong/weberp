@@ -17,6 +17,8 @@ import { StockService } from './../stock/stock.service';
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
 
+import { TreeService } from '../shared/tree/tree.service';
+
 @Component({
     //selector is not needed here because we use routing.
     //selector: 'order-detail',
@@ -32,7 +34,10 @@ export class OrderDetailComponent implements OnInit {
         private product_service: ProductService,
         private material_order_service: MaterialOrderService,
         private material_stock_service: StockService,
-    ) {}
+        private ts: TreeService
+    ) {
+        this.treeServiceReady = false;
+    }
 
     title: string; //Initialization must be put in ngOnInit; otherwise there is no effect. Don't know why.
 
@@ -51,6 +56,8 @@ export class OrderDetailComponent implements OnInit {
     materialOrderList: MaterialOrder[];
 
     closeResult: string;
+
+    treeServiceReady: Boolean;
 
     ngOnInit(): void {
         this.route.params
@@ -78,6 +85,10 @@ export class OrderDetailComponent implements OnInit {
         this.productListBeforeEdit = [];
         this.addedProductList = [];
         this.deletedProductList = [];
+
+        this.ts.subscribe().then(res => {
+            this.treeServiceReady = true;
+        })
     }
 
     private onEditProducts(): void {
