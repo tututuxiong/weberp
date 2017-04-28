@@ -23,9 +23,7 @@ export class DetailMaterialComponent implements OnInit {
 
     materialItemtEditable: Boolean;
     tmpProductMaterial: MaterialRequriment[];
-    newMaterialName: string;
     newMaterialNumber: number;
-    newMaterialUnit: string;
     errorMessage: string;
 
     // mateialTree: Node;
@@ -109,14 +107,7 @@ export class DetailMaterialComponent implements OnInit {
         this.productList[index].materialRequrimentList.splice(materialRequrimentListIndex, 1);
     }
 
-    onAdd(unit: string, num: number, index: number) {
-        var nameWithUnit: string;
-        nameWithUnit = this.selected_material.name + '/' + unit;
-
-        if (unit == "") {
-            return;
-        }
-
+    onAdd(num: number, index: number) {
         for (var i = 0; i < this.productList[index].materialRequrimentList.length; i++) {
             if (this.productList[index].materialRequrimentList[i].name == this.selected_material.name) {
                 return;
@@ -125,14 +116,12 @@ export class DetailMaterialComponent implements OnInit {
         var p: MaterialRequriment = new MaterialRequriment;
         p.count = num;
         p.name = this.selected_material.name;
-        p.unit = unit;
+        p.unit = this.selected_material.unit;
         p.id = 0;
         p.materialId = this.selected_material.id;
         console.log("on add material id:",p.materialId)
         this.productList[index].materialRequrimentList.push(p);
 
-        this.newMaterialName = "";
-        this.newMaterialUnit = "";
         this.newMaterialNumber = 0;
     }
 
