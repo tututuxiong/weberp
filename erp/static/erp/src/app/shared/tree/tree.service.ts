@@ -7,8 +7,11 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class TreeService {
+
+    private ready_for_serve: Boolean;
+
     constructor(private http: Http) {
-            
+        this.ready_for_serve = false;
     }
 
     /* Called when app is loaded to secure material tree is cached before any feature component loaded. */
@@ -20,12 +23,18 @@ export class TreeService {
             // this.getSubTree(this.materialTree);
 
            this.initialized = Promise.resolve(true);
-           console.log("Tree initialized!");
+           this.ready_for_serve = true;
+
+           console.log("Tree Service initialized!");
         });
     }
 
     public subscribe() : Promise<Boolean> {
         return this.initialized;
+    }
+
+    public readyForServe() : Boolean {
+        return this.ready_for_serve;
     }
 
     materialTree: Node;
