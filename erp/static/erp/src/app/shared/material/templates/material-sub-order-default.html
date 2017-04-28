@@ -9,18 +9,20 @@
       <th scope="col">单价</th>
       <th scope="col">小计</th>
       <th scope="col">备注</th>
+      <th>状态</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let material of materialSubOrderList; let i = index">
       <th scope="row">{{i+1}}</th>
-      <td>{{material_level1_name[i]}}</td>
+      <td>{{getParentName(material.materialId)}}</td>
       <td>{{material.name}}</td>
       <td>{{material.num}}</td>
       <td>{{material.unit}}</td>
       <td>{{material.unit_price}}</td>
       <td>{{material.total_price}}</td>
       <td>{{material.comment}}</td>
+      <td>{{material.status}}</td>
     </tr>
   </tbody>
 </table>

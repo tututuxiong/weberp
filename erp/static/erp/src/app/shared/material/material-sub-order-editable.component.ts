@@ -24,7 +24,7 @@ export class MaterialSubOrderEditableComponent implements OnInit {
     material_level1: Node[];
     material_level2: Leaf[];
 
-    material_level1_name: string[];
+    // material_level1_name: string[];
 
     selected_material: Leaf;
 
@@ -34,32 +34,37 @@ export class MaterialSubOrderEditableComponent implements OnInit {
 
     ngOnInit () {
 
-        this.material_level1_name = [];
+        // this.material_level1_name = [];
 
-        this.materialSubOrderList.forEach(mso => {
-            let level1 = this.ts.getParentByLeafId(mso.materialId, undefined);
-            // console.log(level1);
-            this.material_level1_name.push(level1.name);
-        });
+        this.selected_material = undefined;
 
-        this.material_level1_name.forEach(level1_name => {
-            // console.log(level1_name);
-        })
+        // this.materialSubOrderList.forEach(mso => {
+        //     let level1 = this.ts.getParentByLeafId(mso.materialId, undefined);
+        //     this.material_level1_name.push(level1.name);
+        // });
+
+        // this.material_level1_name.forEach(level1_name => {
+        //  })
 
         this.newMaterial = new MaterialSubOrder(this.materialOrderId);
         this.material_level1 = [];
 
-        console.log("material sub order want to get level1.")
-
         this.ts.getChildrenNodes(undefined).forEach(node => {
             this.material_level1.push(node);
         })
+    }
+
+
+    private getParentName(materialId: number) : string {
+        let parent = this.ts.getParentByLeafId(materialId, undefined);
+        return parent.name;
     }
     
     onAddMaterial() {
 
         this.newMaterial.materialId = this.selected_material.id;
         this.newMaterial.name = this.selected_material.name;
+        this.newMaterial.unit = this.selected_material.unit;
 
         this.materialSubOrderList.push(this.newMaterial);
         this.newMaterial = new MaterialSubOrder(this.materialOrderId);

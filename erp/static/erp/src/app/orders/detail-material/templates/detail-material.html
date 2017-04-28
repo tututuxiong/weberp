@@ -97,7 +97,13 @@
         </select></td>
 
             <!--<td><input class="form-control user-input" [(ngModel)]="newMaterialName"></td>-->
-            <td><input class="form-control user-input" [(ngModel)]="newMaterialUnit"></td>
+            <!--<td><input class="form-control user-input" [(ngModel)]="newMaterialUnit"></td>-->
+      <ng-container *ngIf="selected_material != undefined">
+        <td>{{selected_material.unit}}</td>
+      </ng-container>
+      <ng-container *ngIf="selected_material == undefined">
+        <td>N/A</td>
+      </ng-container>
             <td><input class="form-control user-input" [(ngModel)]="newMaterialNumber"></td>
             <td><button type="button" class="btn btn-success btn-sm" (click)="onAdd(newMaterialUnit,newMaterialNumber,i)"><i class="fa fa-plus"></i></button></td>
           </tr>

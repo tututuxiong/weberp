@@ -46,6 +46,7 @@ export class DetailMaterialComponent implements OnInit {
         // this.mateialTree = new Node();
 
         this.material_level1 = [];
+        this.selected_material = undefined;
 
         console.log("detail material want to get level1.")
         this.tree_service.getChildrenNodes(undefined).forEach(node => {
@@ -204,5 +205,6 @@ export class DetailMaterialComponent implements OnInit {
 
     private onChangeLevel2(level2: Leaf) {
         this.selected_material = level2;
+        console.log(this.selected_material);
     }
 }

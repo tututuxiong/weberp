@@ -1,4 +1,7 @@
 import { Component } from "@angular/core";
+import { OnInit } from "@angular/core";
+
+import { TreeService } from '../shared/tree/tree.service';
 
 @Component({
     // selector: 'erp-dashboard',
@@ -19,6 +22,18 @@ import { Component } from "@angular/core";
 
 })
 
-export class DashboardComponent {
-    title = 'ERP Dashboard';
+export class DashboardComponent implements OnInit {
+    private title: string = 'ERP Dashboard';
+
+    private serviceReady: Boolean = false;
+
+    constructor(private ts: TreeService){
+
+    }
+
+    ngOnInit() : void {
+        this.ts.subscribe().then(res => {
+            this.serviceReady = true;
+        })
+    }
 }

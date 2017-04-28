@@ -8,6 +8,7 @@ export class MaterialSubOrder {
     unit_price: number;
     total_price: number;
     comment: string;
+    status: number;
 
     constructor(parentId: number) {
         this.id = -1;
