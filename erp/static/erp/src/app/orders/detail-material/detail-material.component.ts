@@ -71,20 +71,20 @@ export class DetailMaterialComponent implements OnInit {
     }
 
     private checkEqual(index: number): boolean {
-        var isExist: Boolean;
+        var isSame = true;
         if (this.tmpProductMaterial.length != this.productList[index].materialRequrimentList.length) {
             return false;
         }
         else {
             for (var i = 0; i < this.tmpProductMaterial.length; i++) {
                 for (var j = 0; j < this.productList[index].materialRequrimentList.length; j++) {
-                    if (this.tmpProductMaterial[i].name == this.productList[index].materialRequrimentList[j].name
-                        && this.tmpProductMaterial[i].count == this.productList[index].materialRequrimentList[j].count) {
-                        isExist = true;
+                    if (this.tmpProductMaterial[i].materialId != this.productList[index].materialRequrimentList[j].materialId
+                        || this.tmpProductMaterial[i].count != this.productList[index].materialRequrimentList[j].count) {
+                        isSame = false;
                         break;
                     }
                 }
-                if (isExist != true) {
+                if (isSame != true) {
                     return false;
                 }
             }
@@ -119,7 +119,6 @@ export class DetailMaterialComponent implements OnInit {
         p.unit = this.selected_material.unit;
         p.id = 0;
         p.materialId = this.selected_material.id;
-        console.log("on add material id:",p.materialId)
         this.productList[index].materialRequrimentList.push(p);
 
         this.newMaterialNumber = 0;
@@ -135,7 +134,7 @@ export class DetailMaterialComponent implements OnInit {
                 var materialItem_iter = product_iter.materialRequrimentList[i];
                 isExist = false;
                 for (var m in this.materialItemList) {
-                    if (this.materialItemList[m].name == materialItem_iter.name) {
+                    if (this.materialItemList[m].materialId == materialItem_iter.materialId) {
                         this.materialItemList[m].requrimentNum += Number(materialItem_iter.count);
                         console.log( this.materialItemList[m].requrimentNum);
                         isExist = true;
@@ -147,7 +146,6 @@ export class DetailMaterialComponent implements OnInit {
                     tmp_materialitem.name = materialItem_iter.name;
                     tmp_materialitem.id = materialItem_iter.id
                     tmp_materialitem.materialId = materialItem_iter.materialId;
-                    console.log("zha test send",tmp_materialitem.materialId);
                     tmp_materialitem.requrimentNum = Number(materialItem_iter.count);
                     this.materialItemList.push(tmp_materialitem);
                 }
@@ -158,7 +156,6 @@ export class DetailMaterialComponent implements OnInit {
     private updateDetailmaterialItemInfo() {
         this.updatematerialItemList();
         this.materialItemList.forEach(meterialItem => {
-            console.log("zha test send",meterialItem.materialId);
             this.material_stock_service.getMaterialStockById(meterialItem.materialId).
                 subscribe(material_stock => {
                     meterialItem.shoppingNum = material_stock.shoppingNum;
@@ -174,7 +171,9 @@ export class DetailMaterialComponent implements OnInit {
             p.count = iter.count;
             p.name = iter.name;
             p.unit = iter.unit;
-            target.push(p)
+            p.materialId = iter.materialId;
+            p.id = iter.id;
+            target.push(p);
         });
         return target;
     }
