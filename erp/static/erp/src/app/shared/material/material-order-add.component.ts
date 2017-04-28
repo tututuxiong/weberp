@@ -20,7 +20,8 @@ export class NgbdModalContent implements OnInit {
     materialOrderOld: MaterialOrder;
 
     ngOnInit() {
-      this.materialOrderOld = this.copyMaterialOrder(this.materialOrder);
+      this.materialOrderOld = new MaterialOrder(0);
+      this.copyMaterialOrder(this.materialOrderOld, this.materialOrder);
     }
 
     constructor(public activeModal: NgbActiveModal,
@@ -33,25 +34,27 @@ export class NgbdModalContent implements OnInit {
     }
 
     onAbort() : void {
-      this.materialOrder = this.copyMaterialOrder(this.materialOrderOld);
+      this.copyMaterialOrder(this.materialOrder, this.materialOrderOld);
       this.materialOrder.modifyMode = false;
     }
 
     onModify() : void {
       this.materialOrder.modifyMode = true;
-      this.materialOrderOld = this.copyMaterialOrder(this.materialOrder);
+      this.copyMaterialOrder(this.materialOrderOld, this.materialOrder);
     }
 
     onSubmitOrder() : void {
       this.materialService.addMaterialOrder(this.materialOrder).subscribe(mo => {
-        this.materialOrder = this.copyMaterialOrder(mo);
+        this.copyMaterialOrder(this.materialOrder, mo);
+        console.log(this.materialOrder);
         this.materialOrder.modifyMode = false;
+        this.activeModal.close('Confirm');
       });
-      this.activeModal.close('Confirm');
+      
     }
 
-    private copyMaterialOrder(src: MaterialOrder) : MaterialOrder {
-      let dest: MaterialOrder;
+    private copyMaterialOrder(dest: MaterialOrder, src: MaterialOrder) : MaterialOrder {
+      // let dest: MaterialOrder;
 
       let temp: MaterialSubOrder[] = [];
 
@@ -59,7 +62,18 @@ export class NgbdModalContent implements OnInit {
         temp.push(subOrder);
       })
 
-      dest = Object.assign({}, src);
+      dest.comment = src.comment;
+      dest.date = src.date;
+      dest.name = src.name;
+      dest.orderId = src.orderId;
+      dest.price = src.price;
+      dest.status = src.status;
+      dest.id = src.id;
+
+      // dest = Object.assign({}, src);
+
+      // console.log(src.id);
+      // console.log(dest.id);
 
       dest.materialSubOrderInfoList = temp;
 
@@ -100,6 +114,7 @@ export class MaterialOrderAddComponent {
 
   private handleResult(result: string) : void {
     if (result == 'Confirm') {
+      console.log(this.newMaterialOrder);
       this.materialOrderList.push(this.newMaterialOrder);
     }
   }

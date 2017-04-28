@@ -16,18 +16,22 @@ export class TreeService {
         this.getMaterialRootTree().subscribe(rootNode => {
 
             this.materialTree = rootNode;
-            this.getSubTree(this.materialTree);
 
-            this.initialized = true;
+            // this.getSubTree(this.materialTree);
 
-            console.log("Tree initialized!");
-
-            console.log(this.materialTree);
+           this.initialized = Promise.resolve(true);
+           console.log("Tree initialized!");
         });
     }
 
+    public subscribe() : Promise<Boolean> {
+        return this.initialized;
+    }
+
     materialTree: Node;
-    initialized: Boolean = false;
+    private initialized: Promise<Boolean> = new Promise<Boolean>((resolve, reject) => {
+        resolve(true);
+    });
     
     private materialRootTreeUrl = 'app/MaterialTree';  // URL to web api
     private productRootTreeUrl = 'app/ProductTree';  // URL to web api
@@ -72,6 +76,7 @@ export class TreeService {
                 leaf.id = res.id;
                 leaf.name = res.name;
                 leaf.parentId = res.parentId;
+                leaf.unit = res.unit;
             })
         })
     }

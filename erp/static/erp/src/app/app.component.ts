@@ -12,5 +12,4 @@ export class AppComponent  {
   constructor(private ts: TreeService) {
     ts.init();
   }
-
 }

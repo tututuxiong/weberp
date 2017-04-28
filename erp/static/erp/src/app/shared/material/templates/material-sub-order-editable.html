@@ -23,7 +23,7 @@
     <tr *ngFor="let material of materialSubOrderList; let i = index">
       <th ><button type="button" class="btn btn-danger btn-sm" (click)="onDeleteMaterial(material)"><i class="fa fa-minus"></i></button></th>
       <th scope="row">{{i+1}}</th>
-      <td>{{material_level1_name[i]}}</td>
+      <td>{{getParentName(material.materialId)}}</td>
       <td>{{material.name}}</td>
       <td>{{material.num}}</td>
       <td>{{material.unit}}</td>
