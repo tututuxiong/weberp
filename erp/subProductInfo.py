@@ -165,7 +165,7 @@ def updateSubProduct2Sql(salesItem_id, subProductI):
 
         for material_requiment_item in subProductI.materialRequrimentList:
             try:
-                if (material_requiment_item != 0):
+                if (material_requiment_item.id != 0):
                     rawMatRequirement = RawMatRequirement.objects.get(
                         pk=material_requiment_item.id)
                     rawMatRequirement.num = material_requiment_item.count
@@ -193,7 +193,10 @@ def updateSubProduct2Sql(salesItem_id, subProductI):
 def AddnewRawMatRequirement2Sql(sales_item, material_requiment_item):
     try:
         material = RawMat.objects.get(pk=material_requiment_item.materialId)
-        tmp_rawMatRequirement = RawMatRequirement(
-            salesItem=sales_item, rawMaterial=materialId, num=material_requiment_item.count)
+        rawMatRequirement_sql = RawMatRequirement(
+            salesItem=sales_item, rawMaterial=material, num=material_requiment_item.count)
+        rawMatRequirement_sql.save()
+        material_requiment_item.id = rawMatRequirement_sql.id
+        
     except RawMat.DoesNotExist:
         print("Wront material_requiment_item.materialId !!!")
