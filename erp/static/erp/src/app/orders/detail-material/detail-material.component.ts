@@ -36,9 +36,16 @@ export class DetailMaterialComponent implements OnInit {
         private material_stock_service: StockService,
         private product_service: ProductService,
         private tree_service: TreeService
-    ) { }
+    ) {
+        // Debug. Remove later...
+        console.log("detail-material construct!");
+    }
 
     ngOnInit(): void {
+
+        // Debug. Remove later...
+        console.log("detail-material init!");
+
         this.materialItemtEditable = false;
         this.newMaterialNumber = 0;
         // this.mateialTree = new Node();
@@ -46,12 +53,9 @@ export class DetailMaterialComponent implements OnInit {
         this.material_level1 = [];
         this.selected_material = undefined;
 
-        console.log("detail material want to get level1.")
         this.tree_service.getChildrenNodes(undefined).forEach(node => {
             this.material_level1.push(node);
         });
-
-        console.log(this.material_level1);
     }
     
     // onChooseLeaf(leaf: Leaf){

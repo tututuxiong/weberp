@@ -48,7 +48,7 @@ export class MaterialOrderComponent implements OnInit {
 
     onDelete(materialOrder: MaterialOrder) : void {
         this.moService.delMaterialOrder(materialOrder).subscribe(mo => {
-            this.materialOrderList.splice(this.materialOrderList.indexOf(materialOrder));
+            this.materialOrderList.splice(this.materialOrderList.indexOf(materialOrder), 1);
         })
     }
 }

@@ -21,4 +21,16 @@ export class MaterialSubOrder {
         this.total_price = 100;
         this.comment = 'xxx';
     }
+
+    deserialize(jsonObj: MaterialSubOrder) {
+        this.id = jsonObj.id;
+        this.materialId = jsonObj.materialId;
+        this.name = jsonObj.name;
+        this.num = jsonObj.num;
+        this.unit = jsonObj.unit;
+        this.unit_price = jsonObj.unit_price;
+        this.total_price = jsonObj.total_price;
+        this.comment = jsonObj.comment;
+        this.status = jsonObj.status;
+    }
 }
