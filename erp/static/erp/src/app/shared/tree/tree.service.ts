@@ -154,6 +154,27 @@ export class TreeService {
         return undefined;
     }
 
+
+    getParentPathInfo(root_node:Node, targetLeaf: Leaf):string{
+        let isExist = false;
+        let tmp_name = "";
+        for (let tmp_leaf of root_node.leafs){
+            if (tmp_leaf.id == targetLeaf.id){
+                isExist = true;
+                return root_node.name;
+            }
+        }
+        
+        for (let tmp_node of root_node.subNodes){
+            tmp_name = this.getParentPathInfo(tmp_node,targetLeaf);
+             if ( tmp_name != "")
+             {
+                 return root_node.name + "-" + tmp_name ;
+             }
+        }
+        return "";
+    }
+// --- Frank refactor end ---
     getNodeById(id: number): Observable<Node> {
         const url = `${this.nodeUrl}/${id}`;
         return this.http.get(url)
