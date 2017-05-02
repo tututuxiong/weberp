@@ -52,9 +52,7 @@ export class ProductsEditableComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.tree_service.getProductRootTree().subscribe(productTree => {
-            this.product_root_node = productTree;
-        });
+        this.product_root_node = this.tree_service.getProductRootTreeInMemory();
     }
 
     getParentPathInfo(product: Product): string {

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Headers, Http, Response ,  RequestOptions } from '@angular/http';
+import { Headers, Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Node, Leaf } from './tree'
 import 'rxjs/add/operator/catch';
@@ -10,15 +10,16 @@ export class TreeService {
 
     /* Class Member declarations */
     private materialTree: Node;
+    private productTree: Node;
     private ready_for_serve: Boolean;
-    private cbList : {() : void;} [];
+    private cbList: { (): void; }[];
 
 
     private materialRootTreeUrl = 'app/MaterialTree';  // URL to web api
     private productRootTreeUrl = 'app/ProductTree';  // URL to web api
     private nodeUrl = 'app/node';  // URL to web api
     private leafUrl = 'app/leaf';  // URL to web api
-  
+
     private procurementOrder = 'app/procurementOrder';  // URL to web api    
     private materialTreeUrl = 'materialTree';  // URL to web api
     private productTreeUrl = 'productTree';  // URL to web api
@@ -32,34 +33,37 @@ export class TreeService {
 
     /* Called when AppComponent is inited in favor of ealier service ready time. */
     init(): void {
+        this.getProductRootTree().subscribe(productRoot => {
+            this.productTree = productRoot;
 
-        this.getMaterialRootTree().subscribe(rootNode => {
+            this.getMaterialRootTree().subscribe(rootNode => {
 
-            this.materialTree = rootNode;
+                this.materialTree = rootNode;
 
-            console.log("Tree Service initialized!");
+                console.log("Tree Service initialized!");
 
-            this.ready_for_serve = true;
+                this.ready_for_serve = true;
 
-            this.cbList.forEach(fn => {
-                fn();
-            })
+                this.cbList.forEach(fn => {
+                    fn();
+                })
 
+            });
         });
     }
 
     /* Interface for feature component to check if tree is cached or not. */
-    public readyForServe() : Boolean {
+    public readyForServe(): Boolean {
         return this.ready_for_serve;
     }
 
     /* Interface for feature components to register callback function when tree is cached. */
-    public regCallBack(fn: {():void} ) : void {
+    public regCallBack(fn: { (): void }): void {
         console.log("Reg callback function!");
         this.cbList.push(fn);
     }
 
- 
+
     /* Error Handling */
     private handleError(error: Response | any) {
         // In a real world app, we might use a remote logging infrastructure
@@ -78,10 +82,20 @@ export class TreeService {
     /* Tree Services */
     getProductRootTree(): Observable<Node> {
         return this.http.get(this.productRootTreeUrl)
-            .map(res => { return res.json() })
+            .map(res => {
+                this.productTree = res.json();
+                return this.productTree;
+            })
             .catch(this.handleError);
     }
-    
+
+    getProductRootTreeInMemory(): Node {
+        return this.productTree;
+    }
+
+    getMaterialRootTreeInMemory(): Node {
+        return this.materialTree;
+    }
     getMaterialRootTree(): Observable<Node> {
         return this.http.get(this.materialRootTreeUrl)
             .map(res => { return res.json() })
@@ -101,7 +115,7 @@ export class TreeService {
 
     getSubTree(subTreeRoot: Node) {
         this.getNodeLeafs(subTreeRoot.leafs);
-        
+
         subTreeRoot.subNodes.forEach(node => {
             this.getNodeById(node.id).subscribe(res => {
                 node.id = res.id;
@@ -131,23 +145,23 @@ export class TreeService {
 
     getParentByLeafId(id: number, root: Node): Node {
         // console.log(root);
-        if (root == undefined){
+        if (root == undefined) {
             root = this.materialTree;
         }
         // console.log(root);
 
-        for (var i=0; i<root.leafs.length; i++) {
-            if (root.leafs[i].id == id){
+        for (var i = 0; i < root.leafs.length; i++) {
+            if (root.leafs[i].id == id) {
                 // console.log("Parent is found!");
                 // console.log(root);
                 return root;
             }
         }
 
-        for (var j=0; j<root.subNodes.length; j++) {
-           let res = this.getParentByLeafId(id, root.subNodes[j]);
+        for (var j = 0; j < root.subNodes.length; j++) {
+            let res = this.getParentByLeafId(id, root.subNodes[j]);
 
-           if (res != undefined) return res;
+            if (res != undefined) return res;
         }
 
         // console.log("Should NOT happen!");
@@ -155,26 +169,29 @@ export class TreeService {
     }
 
 
-    getParentPathInfo(root_node:Node, targetLeaf: Leaf):string{
-        let isExist = false;
+    getParentPathInfo(root_node: Node, targetLeaf: Leaf): string {
         let tmp_name = "";
-        for (let tmp_leaf of root_node.leafs){
-            if (tmp_leaf.id == targetLeaf.id){
-                isExist = true;
-                return root_node.name;
+        for (let tmp_leaf of root_node.leafs) {
+            if (tmp_leaf.id == targetLeaf.id) {
+                if (root_node.name == "成品" || root_node.name == "原材料")
+                    return "";
+                else
+                    return root_node.name
             }
         }
-        
-        for (let tmp_node of root_node.subNodes){
-            tmp_name = this.getParentPathInfo(tmp_node,targetLeaf);
-             if ( tmp_name != "")
-             {
-                 return root_node.name + "-" + tmp_name ;
-             }
+
+        for (let tmp_node of root_node.subNodes) {
+            tmp_name = this.getParentPathInfo(tmp_node, targetLeaf);
+            if (tmp_name != "") {
+                if (root_node.name == "成品" || root_node.name == "原材料")
+                    return tmp_name;
+                else
+                    return root_node.name + "-" + tmp_name;
+            }
         }
         return "";
     }
-// --- Frank refactor end ---
+    // --- Frank refactor end ---
     getNodeById(id: number): Observable<Node> {
         const url = `${this.nodeUrl}/${id}`;
         return this.http.get(url)
@@ -186,18 +203,18 @@ export class TreeService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
         const url = `${this.nodeUrl}/${0}`;
-        return  this.http.put(url, { node }, options)
-                       .map(res => { return res.json() })
-                       .catch(this.handleError);        
+        return this.http.put(url, { node }, options)
+            .map(res => { return res.json() })
+            .catch(this.handleError);
     }
-    
+
     addNewLeaf(leaf: Leaf): Observable<Leaf> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
         const url = `${this.leafUrl}/${0}`;
-        return  this.http.put(url, { leaf }, options)
-                       .map(res => { return res.json() })
-                       .catch(this.handleError);        
+        return this.http.put(url, { leaf }, options)
+            .map(res => { return res.json() })
+            .catch(this.handleError);
     }
 
     getLeafById(id: number): Observable<Leaf> {
@@ -206,21 +223,21 @@ export class TreeService {
             .map(res => { return res.json() })
             .catch(this.handleError);
     }
-    
-    getProcurementOrderMaterialTree(id: number): Observable<Node>{
+
+    getProcurementOrderMaterialTree(id: number): Observable<Node> {
         const url = `${this.procurementOrder}/${id}/${this.materialTreeUrl}`;
         return this.http.get(url)
             .map(res => { return res.json() })
             .catch(this.handleError);
     }
-    getSubProductMaterialTree(id: number): Observable<Node>{
+    getSubProductMaterialTree(id: number): Observable<Node> {
         const url = `${this.subProduct}/${id}/${this.materialTreeUrl}`;
         return this.http.get(url)
             .map(res => { return res.json() })
             .catch(this.handleError);
     }
 
-    getSubProductTree(id: number): Observable<Node>{
+    getSubProductTree(id: number): Observable<Node> {
         const url = `${this.subProduct}/${id}/${this.productTreeUrl}`;
         return this.http.get(url)
             .map(res => { return res.json() })
