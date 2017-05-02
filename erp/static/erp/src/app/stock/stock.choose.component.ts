@@ -10,7 +10,6 @@ export class  NgbdModalChooseNodeContent_Output{
     choosed_leaf: Leaf;
     parentInfo: string;
     num: number;
-    unit_price: number;
 }
 
 @Component({
@@ -33,7 +32,6 @@ export class NgbdModalChooseNodeContent implements OnInit {
         this.title = "请选择产品/原材料";
         this.return_value = new NgbdModalChooseNodeContent_Output();
         this.return_value.num = 0;
-        this.return_value.unit_price = 0;
     }
 
     onChooseLeaf(leaf: Leaf) {
@@ -42,8 +40,7 @@ export class NgbdModalChooseNodeContent implements OnInit {
     }
 
     onSubmit(){
-        if (this.return_value.unit_price == 0 ||
-        this.return_value.num == 0){
+        if (this.return_value.num == 0){
             console.log("please input price and num")
             return;
         }

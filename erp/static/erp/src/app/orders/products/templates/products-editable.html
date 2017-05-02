@@ -28,12 +28,7 @@
         <tr *ngFor="let product of productList; let i = index">
             <th><button type="button" class="btn btn-danger btn-sm" (click)="onDeleteProduct(product)"><i class="fa fa-minus"></i></button></th>
             <th>{{i+1}}</th>
-            <ng-container *ngIf="product_root_node">
-                <td>{{getParentPathInfo(product)}}</td>
-            </ng-container>
-            <ng-container *ngIf="!product_root_node">
-                <td>N/A</td>
-            </ng-container>
+            <td>{{getParentPathInfo(product)}}</td>
             <td>{{product.name}}</td>
             <td><input type="number" class="form-control user-input" [(ngModel)]="product.count"></td>
             <td>{{product.unit}}</td>

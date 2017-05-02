@@ -5,15 +5,15 @@
         <tr>
           <th scope="col"></th>
           <!--<th>名称/单位</th>-->
-          <th>一级</th>
-          <th>二级</th>
+          <th>分类</th>
+          <th>名称</th>
           <th>总计需求</th>
           <th>在库数量</th>
           <th>未入库(采购中)</th>
         </tr>
         <tr *ngFor="let material of materialItemList; let i = index">
           <th>{{i+1}}</th>
-          <td>{{getParentName(material.materialId)}}</td>
+          <td>{{getParentPathInfo(material)}}</td>
           <td>{{material.name}}</td>
           <td>{{material.requrimentNum}}</td>
           <td>{{material.instockNum}}</td>
@@ -40,8 +40,8 @@
         <tr>
           <ng-container *ngIf="!materialItemtEditable">
             <th scope="col"></th>
-            <th>一级</th>
-            <th>二级</th>
+            <th>分类</th>
+            <th>名称</th>
             <th>单位</th>
             <th>数量</th>
           </ng-container>
@@ -49,8 +49,8 @@
           <ng-container *ngIf="materialItemtEditable">
             <th scope="col"></th>
             <th></th>
-            <th>一级</th>
-            <th>二级</th>
+            <th>分类</th>
+            <th>名称</th>
             <th>单位</th>
             <th>数量</th>
             <th></th>
@@ -59,7 +59,7 @@
         <ng-container *ngIf="!materialItemtEditable">
           <tr *ngFor="let material of product.materialRequrimentList; let j = index">
             <th>{{j+1}}</th>
-            <td>{{getParentName(material.materialId)}}</td>
+            <td>{{getParentPathInfo(material)}}</td>
             <td>{{material.name}}</td>
             <td>{{material.unit}}</td>
             <td>{{material.count}}</td>
@@ -69,45 +69,16 @@
           <tr *ngFor="let material of product.materialRequrimentList; let j = index">
             <th><button type="button" class="btn btn-danger btn-sm" (click)="onDelete(i,j)"><i class="fa fa-minus"></i></button></th>
             <th>{{j+1}}</th>
-            <td>{{getParentName(material.materialId)}}</td>
+            <td>{{getParentPathInfo(material)}}</td>
             <td>{{material.name}}</td>
             <td>{{material.unit}}</td>
             <td><input class="form-control user-input" [(ngModel)]="material.count"></td>
           </tr>
           <tr>
             <th></th>
-            <!--<td>
-              <ng-container *ngIf="choose_leaf?.name">
-                <td><h2>{{choose_leaf.name}}</h2></td>
-              </ng-container>
-              <dropdown-tree-view [root_node]="mateialTree" (choose_leaf)="onChooseLeaf($event)"></dropdown-tree-view>
-            </td>-->
             <th>{{product.materialRequrimentList.length + 1}}</th>
-
-            <td><select class="custom-select" [ngModel]="material_level1" (ngModelChange)="onChangeLevel1($event)">
-        <ng-container *ngIf="material_level1">
-          <option [ngValue]="l1" *ngFor="let l1 of material_level1">{{l1.name}}</option>
-        </ng-container>
-        </select></td>
-
-              <td><select class="custom-select" [ngModel]="material_level2" (ngModelChange)="onChangeLevel2($event)">
-        <ng-container *ngIf="material_level2">
-          <option selected [ngValue]="l2" *ngFor="let l2 of material_level2">{{l2.name}}</option>
-        </ng-container>
-        </select></td>
-
-            <!--<td><input class="form-control user-input" [(ngModel)]="newMaterialName"></td>-->
-            <!--<td><input class="form-control user-input" [(ngModel)]="newMaterialUnit"></td>-->
-      <ng-container *ngIf="selected_material != undefined">
-        <td>{{selected_material.unit}}</td>
-      </ng-container>
-      <ng-container *ngIf="selected_material == undefined">
-        <td>N/A</td>
-      </ng-container>
-            <td><input class="form-control user-input" [(ngModel)]="newMaterialNumber"></td>
-            <td><button type="button" class="btn btn-success btn-sm" (click)="onAdd(newMaterialNumber,i)"><i class="fa fa-plus"></i></button></td>
+            <td><button type="button" class="btn btn-success btn-sm" (click)="onAdd(i)"><i class="fa fa-plus"></i></button></td>
           </tr>
-
         </ng-container>
       </table>
     </template>
