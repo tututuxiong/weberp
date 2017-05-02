@@ -45,8 +45,11 @@ export class NgbdModalContent implements OnInit {
 
     onSubmitOrder() : void {
       this.materialService.addMaterialOrder(this.materialOrder).subscribe(mo => {
-        this.copyMaterialOrder(this.materialOrder, mo);
-        console.log(this.materialOrder);
+        // this.copyMaterialOrder(this.materialOrder, mo);
+        // console.log(this.materialOrder);
+
+        this.materialOrder.deserialize(mo);
+
         this.materialOrder.modifyMode = false;
         this.activeModal.close('Confirm');
       });

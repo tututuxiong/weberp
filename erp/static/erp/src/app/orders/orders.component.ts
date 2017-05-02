@@ -45,9 +45,17 @@ export class OrdersComponent implements OnInit {
 */
 
     getOrders(): void {
+
+        this.orderList = [];    // orderList must be initialized to empty list
+
         this.orderservice.getOrders()
                          .subscribe(
-                           orders => this.orderList = orders,
+                           orders => {orders.forEach(order => {
+                               let tmpOrder = new Order();
+                               tmpOrder.deserialize(order);
+                               this.orderList.push(tmpOrder);
+                           })
+                           },
                            error => this.errorMessage = <any>error);
     }
 }

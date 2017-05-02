@@ -8,40 +8,30 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class TreeService {
 
-    private ready_for_serve: Boolean;
-
     constructor(private http: Http) {
         this.ready_for_serve = false;
     }
 
     /* Called when app is loaded to secure material tree is cached before any feature component loaded. */
     init(): void {
+
         this.getMaterialRootTree().subscribe(rootNode => {
 
             this.materialTree = rootNode;
 
-            // this.getSubTree(this.materialTree);
+            console.log("Tree Service initialized!");
 
-           this.initialized = Promise.resolve(true);
-           this.ready_for_serve = true;
+            this.ready_for_serve = true;
 
-           console.log("Tree Service initialized!");
         });
-    }
-
-    public subscribe() : Promise<Boolean> {
-        return this.initialized;
     }
 
     public readyForServe() : Boolean {
         return this.ready_for_serve;
     }
 
-    materialTree: Node;
-    private initialized: Promise<Boolean> = new Promise<Boolean>((resolve, reject) => {
-        resolve(true);
-    });
-    
+    private materialTree: Node;
+    private ready_for_serve: Boolean;
     private materialRootTreeUrl = 'app/MaterialTree';  // URL to web api
     private productRootTreeUrl = 'app/ProductTree';  // URL to web api
     private nodeUrl = 'app/node';  // URL to web api

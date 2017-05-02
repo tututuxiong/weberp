@@ -1,3 +1,5 @@
+const statusList: string[] = ["新订单", "进行中", "已关闭"];
+
 export class MaterialSubOrder {
     id: number;
     materialOrderId: number;
@@ -20,6 +22,7 @@ export class MaterialSubOrder {
         this.unit_price = 100;
         this.total_price = 100;
         this.comment = 'xxx';
+        this.status = this.getStatusList[0];
     }
 
     deserialize(jsonObj: MaterialSubOrder) {
@@ -32,5 +35,9 @@ export class MaterialSubOrder {
         this.total_price = jsonObj.total_price;
         this.comment = jsonObj.comment;
         this.status = jsonObj.status;
+    }
+
+    getStatusList() : string[] {
+        return statusList;
     }
 }

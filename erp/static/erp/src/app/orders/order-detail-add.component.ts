@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Order, OrderStatus } from './order';
+import { Order} from './order';
 import { OrderService } from "./order.service";
 import { Product } from './products/product';
 import { ProductService } from './products/product.service';

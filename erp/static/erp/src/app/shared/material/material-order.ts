@@ -1,5 +1,7 @@
 import { MaterialSubOrder } from './material-sub-order';
 
+const statusList: string[] = ["新订单", "进行中", "已关闭"];
+
 export class MaterialOrder {
     id: number;
     orderId: number;
@@ -19,7 +21,7 @@ export class MaterialOrder {
         this.date = '';
         this.price = 100;
         this.comment = '';
-        this.status = 'new';
+        this.status = this.getStatusList[0];
         this.subOrderCount = 0;
         this.materialSubOrderInfoList = [];
         this.modifyMode = false;
@@ -34,11 +36,16 @@ export class MaterialOrder {
         this.comment = jsonObj.comment;
         this.status = jsonObj.status;
         this.subOrderCount = jsonObj.subOrderCount;
+        this.materialSubOrderInfoList = [];
 
         jsonObj.materialSubOrderInfoList.forEach(element => {
             let tmpMSO: MaterialSubOrder = new MaterialSubOrder(this.id);
             tmpMSO.deserialize(element);
             this.materialSubOrderInfoList.push(tmpMSO);
         });
+    }
+
+    getStatusList() : string[] {
+        return statusList;
     }
 }
