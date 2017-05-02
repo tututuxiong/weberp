@@ -37,6 +37,15 @@ export class OrderDetailComponent implements OnInit {
         private ts: TreeService
     ) {
         this.treeServiceReady = false;
+
+        this.ts.subscribe().then(res => {
+            this.treeServiceReady = true;
+            // Debug. Remove later...
+            console.log("Underlying service is ready!");
+        });
+
+        // Debug. Remove later...
+        console.log("detail-order construct!");
     }
 
     title: string; //Initialization must be put in ngOnInit; otherwise there is no effect. Don't know why.
@@ -86,9 +95,8 @@ export class OrderDetailComponent implements OnInit {
         this.addedProductList = [];
         this.deletedProductList = [];
 
-        this.ts.subscribe().then(res => {
-            this.treeServiceReady = true;
-        })
+        // Debug. Remove later...
+        console.log("detail-order init!");
     }
 
     private onEditProducts(): void {
@@ -151,8 +159,15 @@ export class OrderDetailComponent implements OnInit {
     }
 
     private copyMaterialOrders(arraySrc: MaterialOrder[]): MaterialOrder[] {
-        var arrayDest: MaterialOrder[] = [];
-        arraySrc.forEach((materialOrder) => arrayDest.push(Object.assign({}, materialOrder)));
+        let arrayDest: MaterialOrder[] = [];
+        arraySrc.forEach((materialOrder) => {
+
+        // arrayDest.push(Object.assign({}, materialOrder));
+
+        let tmpMO: MaterialOrder = new MaterialOrder(0);
+        tmpMO.deserialize(materialOrder);
+        arrayDest.push(tmpMO);
+    });
         return arrayDest;
     }
 

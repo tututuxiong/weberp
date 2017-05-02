@@ -24,4 +24,21 @@ export class MaterialOrder {
         this.materialSubOrderInfoList = [];
         this.modifyMode = false;
     }
+
+    deserialize(jsonObj: MaterialOrder) {
+        this.id = jsonObj.id;
+        this.orderId = jsonObj.orderId;
+        this.name = jsonObj.name;
+        this.date = jsonObj.date;
+        this.price = jsonObj.price;
+        this.comment = jsonObj.comment;
+        this.status = jsonObj.status;
+        this.subOrderCount = jsonObj.subOrderCount;
+
+        jsonObj.materialSubOrderInfoList.forEach(element => {
+            let tmpMSO: MaterialSubOrder = new MaterialSubOrder(this.id);
+            tmpMSO.deserialize(element);
+            this.materialSubOrderInfoList.push(tmpMSO);
+        });
+    }
 }
