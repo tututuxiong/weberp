@@ -8,11 +8,29 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class TreeService {
 
+    /* Class Member declarations */
+    private materialTree: Node;
+    private ready_for_serve: Boolean;
+    private cbList : {() : void;} [];
+
+
+    private materialRootTreeUrl = 'app/MaterialTree';  // URL to web api
+    private productRootTreeUrl = 'app/ProductTree';  // URL to web api
+    private nodeUrl = 'app/node';  // URL to web api
+    private leafUrl = 'app/leaf';  // URL to web api
+  
+    private procurementOrder = 'app/procurementOrder';  // URL to web api    
+    private materialTreeUrl = 'materialTree';  // URL to web api
+    private productTreeUrl = 'productTree';  // URL to web api
+    private subProduct = 'app/subPorduct';  // URL to web api   
+
+    /* Constructor */
     constructor(private http: Http) {
         this.ready_for_serve = false;
+        this.cbList = [];
     }
 
-    /* Called when app is loaded to secure material tree is cached before any feature component loaded. */
+    /* Called when AppComponent is inited in favor of ealier service ready time. */
     init(): void {
 
         this.getMaterialRootTree().subscribe(rootNode => {
@@ -23,25 +41,26 @@ export class TreeService {
 
             this.ready_for_serve = true;
 
+            this.cbList.forEach(fn => {
+                fn();
+            })
+
         });
     }
 
+    /* Interface for feature component to check if tree is cached or not. */
     public readyForServe() : Boolean {
         return this.ready_for_serve;
     }
 
-    private materialTree: Node;
-    private ready_for_serve: Boolean;
-    private materialRootTreeUrl = 'app/MaterialTree';  // URL to web api
-    private productRootTreeUrl = 'app/ProductTree';  // URL to web api
-    private nodeUrl = 'app/node';  // URL to web api
-    private leafUrl = 'app/leaf';  // URL to web api
-  
-    private procurementOrder = 'app/procurementOrder';  // URL to web api    
-    private materialTreeUrl = 'materialTree';  // URL to web api
-    private productTreeUrl = 'productTree';  // URL to web api
-    private subProduct = 'app/subPorduct';  // URL to web api    
+    /* Interface for feature components to register callback function when tree is cached. */
+    public regCallBack(fn: {():void} ) : void {
+        console.log("Reg callback function!");
+        this.cbList.push(fn);
+    }
 
+ 
+    /* Error Handling */
     private handleError(error: Response | any) {
         // In a real world app, we might use a remote logging infrastructure
         let errMsg: string;
@@ -56,7 +75,7 @@ export class TreeService {
         return Observable.throw(errMsg);
     }
 
-// --- Frank refactor start ---
+    /* Tree Services */
     getProductRootTree(): Observable<Node> {
         return this.http.get(this.productRootTreeUrl)
             .map(res => { return res.json() })
@@ -135,14 +154,13 @@ export class TreeService {
         return undefined;
     }
 
-// --- Frank refactor end ---
-
     getNodeById(id: number): Observable<Node> {
         const url = `${this.nodeUrl}/${id}`;
         return this.http.get(url)
             .map(res => { return res.json() })
             .catch(this.handleError);
     }
+
     addNewNode(node: Node): Observable<Node> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });

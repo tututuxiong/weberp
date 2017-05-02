@@ -27,6 +27,29 @@ import { TreeService } from '../shared/tree/tree.service';
 })
 
 export class OrderDetailComponent implements OnInit {
+
+    /* Class Member Declarations */
+    title: string; //Initialization must be put in constructor; otherwise there is no effect. Don't know why.
+
+    orderDetail: Order;
+
+    productList: Product[];
+    materialItemList: DetailMaterialRequriment[];
+    productListBeforeEdit: Product[];
+
+    addedProductList: Product[];
+    deletedProductList: Product[];
+
+    productListEditable: Boolean;
+    errorMessage: string;
+
+    materialOrderList: MaterialOrder[];
+
+    closeResult: string;
+
+    serviceReady: Boolean;
+
+    /* Constructor */
     constructor(
         private route: ActivatedRoute,  //Inject ActivatedRoute to pull params from routing
         private router: Router,
@@ -46,25 +69,9 @@ export class OrderDetailComponent implements OnInit {
         this.materialItemList = [];
         this.materialOrderList = [];
 
+        this.serviceReady = false;
+
     }
-
-    title: string; //Initialization must be put in constructor; otherwise there is no effect. Don't know why.
-
-    orderDetail: Order;
-
-    productList: Product[];
-    materialItemList: DetailMaterialRequriment[];
-    productListBeforeEdit: Product[];
-
-    addedProductList: Product[];
-    deletedProductList: Product[];
-
-    productListEditable: Boolean;
-    errorMessage: string;
-
-    materialOrderList: MaterialOrder[];
-
-    closeResult: string;
 
     ngOnInit(): void {
         this.route.params
@@ -92,12 +99,18 @@ export class OrderDetailComponent implements OnInit {
                     error => this.errorMessage = <any>error,
                 );
             });
-    }
 
-    // tsReadyCallBack() : void {
-    //     this.treeServiceReady = true;
-    //     console.log("Order detail tsReadyCallBack is called!");
-    // }
+            if (!this.ts.readyForServe()){
+                let that = this;
+                this.ts.regCallBack(function() {
+                    console.log("Callback function is called!");
+                    that.serviceReady = true;
+                })
+            }
+            else {
+                this.serviceReady = true;
+            }
+    }
 
     private onEditProducts(): void {
 
@@ -157,19 +170,6 @@ export class OrderDetailComponent implements OnInit {
         arraySrc.forEach((product) => arrayDest.push(Object.assign({}, product)));
         return arrayDest;
     }
-
-    // private copyMaterialOrders(arraySrc: MaterialOrder[]): MaterialOrder[] {
-    //     let arrayDest: MaterialOrder[] = [];
-    //     arraySrc.forEach((materialOrder) => {
-
-    //     // arrayDest.push(Object.assign({}, materialOrder));
-
-    //     let tmpMO: MaterialOrder = new MaterialOrder(0);
-    //     tmpMO.deserialize(materialOrder);
-    //     arrayDest.push(tmpMO);
-    // });
-    //     return arrayDest;
-    // }
 
     private getUpdatedProducts(): Product[] {
         let updatedProductList: Product[] = [];
