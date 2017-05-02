@@ -2,8 +2,8 @@
   <thead class="thead-inverse">
     <tr>
       <th scope="col">序号</th>
-      <th scope="col">一级</th>
-      <th scope="col">二级</th>
+      <th scope="col">分类</th>
+      <th scope="col">名称</th>
       <th scope="col">数量</th>
       <th scope="col">单位</th>
       <th scope="col">单价</th>
@@ -15,12 +15,12 @@
   <tbody>
     <tr *ngFor="let material of materialSubOrderList; let i = index">
       <th scope="row">{{i+1}}</th>
-      <td>{{getParentName(material.materialId)}}</td>
+      <td>{{getParentPathInfo(material)}}</td>
       <td>{{material.name}}</td>
       <td>{{material.num}}</td>
       <td>{{material.unit}}</td>
       <td>{{material.unit_price}}</td>
-      <td>{{material.total_price}}</td>
+      <td>{{material.unit_price * material.num}}</td>
       <td>{{material.comment}}</td>
       <td>{{material.status}}</td>
     </tr>

@@ -25,11 +25,7 @@ export class DetailMaterialComponent implements OnInit {
 
     materialItemtEditable: Boolean;
     tmpProductMaterial: MaterialRequriment[];
-    newMaterialNumber: number;
     errorMessage: string;
-
-    // mateialTree: Node;
-    selected_material: Leaf;
 
     material_root_node: Node;
 
@@ -40,8 +36,6 @@ export class DetailMaterialComponent implements OnInit {
         private modalService: NgbModal,
     ) {
         this.materialItemtEditable = false;
-        this.newMaterialNumber = 0;
-        this.selected_material = undefined;
     }
 
     ngOnInit(): void {

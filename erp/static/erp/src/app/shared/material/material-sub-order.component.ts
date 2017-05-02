@@ -14,29 +14,19 @@ import { Leaf, Node } from '../tree/tree';
 export class MaterialSubOrderComponent implements OnInit {
     @Input()
     materialSubOrderList: MaterialSubOrder[];
-    
-    // material_level1_name: string[];
 
+    material_root_node: Node;
     constructor(private ts: TreeService) {
 
     }
 
     ngOnInit() {
-        // this.material_level1_name = [];
-
-        // this.materialSubOrderList.forEach(mso => {
-        //     let level1 = this.ts.getParentByLeafId(mso.materialId, undefined);
-        //     console.log(level1);
-        //     this.material_level1_name.push(level1.name);
-        // });
-
-        // this.material_level1_name.forEach(level1_name => {
-        //     console.log(level1_name);
-        // })
+        this.material_root_node = this.ts.getMaterialRootTreeInMemory();
     }
 
-    private getParentName(materialId: number) : string {
-        let parent = this.ts.getParentByLeafId(materialId, undefined);
-        return parent.name;
+    getParentPathInfo(material: any): string {
+        let leaf = new Leaf();
+        leaf.id = material.materialId;
+        return this.ts.getParentPathInfo(this.material_root_node, leaf);
     }
 }

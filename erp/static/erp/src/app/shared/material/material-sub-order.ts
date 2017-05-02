@@ -8,7 +8,6 @@ export class MaterialSubOrder {
     num: number;
     unit: string;
     unit_price: number;
-    total_price: number;
     comment: string;
     status: number;
 
@@ -19,9 +18,8 @@ export class MaterialSubOrder {
         this.name = '新原料';
         this.num = 100;
         this.unit = '个';
-        this.unit_price = 100;
-        this.total_price = 100;
-        this.comment = 'xxx';
+        this.unit_price = 0;
+        this.comment = '';
         this.status = this.getStatusList[0];
     }
 
@@ -32,7 +30,6 @@ export class MaterialSubOrder {
         this.num = jsonObj.num;
         this.unit = jsonObj.unit;
         this.unit_price = jsonObj.unit_price;
-        this.total_price = jsonObj.total_price;
         this.comment = jsonObj.comment;
         this.status = jsonObj.status;
     }

@@ -5,6 +5,8 @@ import { MaterialSubOrder } from './material-sub-order';
 
 import { Leaf, Node } from '../tree/tree';
 import { TreeService } from '../tree/tree.service';
+import { NgbdModalChooseNodeContent, NgbdModalChooseNodeContent_Output } from './../../stock/stock.choose.component'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'material-sub-order-editable',
@@ -19,71 +21,41 @@ export class MaterialSubOrderEditableComponent implements OnInit {
     @Input()
     materialOrderId: number;
 
-    newMaterial: MaterialSubOrder;
-
-    material_level1: Node[];
-    material_level2: Leaf[];
-
-    // material_level1_name: string[];
-
-    selected_material: Leaf;
-
-    constructor (private ts: TreeService) {
+    material_root_node: Node;
+    constructor(private ts: TreeService,
+        private modalService: NgbModal, ) {
 
     }
 
-    ngOnInit () {
-
-        // this.material_level1_name = [];
-
-        this.selected_material = undefined;
-
-        // this.materialSubOrderList.forEach(mso => {
-        //     let level1 = this.ts.getParentByLeafId(mso.materialId, undefined);
-        //     this.material_level1_name.push(level1.name);
-        // });
-
-        // this.material_level1_name.forEach(level1_name => {
-        //  })
-
-        this.newMaterial = new MaterialSubOrder(this.materialOrderId);
-        this.material_level1 = [];
-
-        this.ts.getChildrenNodes(undefined).forEach(node => {
-            this.material_level1.push(node);
-        })
+    ngOnInit() {
+        this.material_root_node = this.ts.getMaterialRootTreeInMemory();
     }
 
-
-    private getParentName(materialId: number) : string {
-        let parent = this.ts.getParentByLeafId(materialId, undefined);
-        return parent.name;
+    getParentPathInfo(material: any): string {
+        let leaf = new Leaf();
+        leaf.id = material.materialId;
+        return this.ts.getParentPathInfo(this.material_root_node, leaf);
     }
-    
+
     onAddMaterial() {
+        const modalRef = this.modalService.open(NgbdModalChooseNodeContent);
+        modalRef.componentInstance.root_node = this.material_root_node;
 
-        this.newMaterial.materialId = this.selected_material.id;
-        this.newMaterial.name = this.selected_material.name;
-        this.newMaterial.unit = this.selected_material.unit;
-
-        this.materialSubOrderList.push(this.newMaterial);
-        this.newMaterial = new MaterialSubOrder(this.materialOrderId);
+        modalRef.result.then(result => this.handleResult(result));
     }
 
-    onDeleteMaterial(material: MaterialSubOrder) : void {
+    private handleResult(result: NgbdModalChooseNodeContent_Output): void {
+        let newMaterial = new MaterialSubOrder(this.materialOrderId);
+        newMaterial.materialId = result.choosed_leaf.id;
+        newMaterial.name = result.choosed_leaf.name;
+        newMaterial.unit = result.choosed_leaf.unit;
+        newMaterial.num = result.num;
+        newMaterial.unit_price = 0;
+        this.materialSubOrderList.push(newMaterial);
+    }
+
+    onDeleteMaterial(material: MaterialSubOrder): void {
         let index = this.materialSubOrderList.indexOf(material);
         this.materialSubOrderList.splice(index, 1);
-    }
-
-    onChangeLevel1(level1: Node) {
-        this.material_level2 = [];
-
-        this.ts.getChildrenLeafs(level1).forEach(leaf => {
-            this.material_level2.push(leaf);
-        })
-    }
-
-    onChangeLevel2(level2: Leaf) {
-        this.selected_material = level2;
     }
 }
