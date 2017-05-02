@@ -12,6 +12,7 @@
     <thead class="thead-inverse">
         <tr>
             <th scope="col">序号</th>
+            <th scope="col">类别</th>
             <th scope="col">名称</th>
             <th scope="col">数量</th>
             <th scope="col">单位</th>
@@ -23,6 +24,12 @@
     <tbody>
         <tr *ngFor="let product of productList; let i = index">
             <th scope="row">{{i+1}}</th>
+            <ng-container *ngIf="product_root_node">
+                <td>{{getParentPathInfo(product)}}</td>
+            </ng-container>
+            <ng-container *ngIf="!product_root_node">
+                <td>N/A</td>
+            </ng-container>
             <td>{{product.name}}</td>
             <td>{{product.count}}</td>
             <td>{{product.unit}}</td>

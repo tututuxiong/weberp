@@ -15,6 +15,7 @@
         <tr>
             <th scope="col"></th>
             <th scope="col">序号</th>
+            <th scope="col">类别</th>
             <th scope="col">名称</th>
             <th scope="col">数量</th>
             <th scope="col">单位</th>
@@ -27,6 +28,12 @@
         <tr *ngFor="let product of productList; let i = index">
             <th><button type="button" class="btn btn-danger btn-sm" (click)="onDeleteProduct(product)"><i class="fa fa-minus"></i></button></th>
             <th>{{i+1}}</th>
+            <ng-container *ngIf="product_root_node">
+                <td>{{getParentPathInfo(product)}}</td>
+            </ng-container>
+            <ng-container *ngIf="!product_root_node">
+                <td>N/A</td>
+            </ng-container>
             <td>{{product.name}}</td>
             <td><input type="number" class="form-control user-input" [(ngModel)]="product.count"></td>
             <td>{{product.unit}}</td>
@@ -37,16 +44,6 @@
         <tr>
             <th></th>
             <th>{{productList.length + 1}}</th>
-            <td><select class="custom-select" [ngModel]="productStockList" (ngModelChange)="onChange($event)">
-              <ng-container *ngIf="productStockList?.length">
-                <option [ngValue]="product" *ngFor="let product of productStockList">{{product.name}}</option>
-              </ng-container>
-            </select></td>
-            <td><input type="number" class="form-control user-input" [(ngModel)]="newProduct.count"></td>
-            <td>{{newProduct.unit}}</td>
-            <td><input type="number" class="form-control user-input" [(ngModel)]="newProduct.price"></td>
-            <td>{{newProduct.price * newProduct.count}}</td>
-            <td><input class="form-control user-input" [(ngModel)]="newProduct.comment"></td>
             <td><button type="button" class="btn btn-success btn-sm" (click)="onAddProduct()"><i class="fa fa-plus"></i></button></td>
         </tr>
 
