@@ -31,10 +31,8 @@
         <td><input class="form-control" [(ngModel)]="new_order.price"></td>
         <td><input class="form-control" [(ngModel)]="new_order.sales"></td>
         <td><input class="form-control" [(ngModel)]="new_order.comment"></td>
-        <td><select class="custom-select">
-          <option selected>"新订单"</option>
-          <option>进行中</option>
-          <option>已关闭</option>
+        <td><select class="custom-select" [(ngModel)]="new_order.status">
+          <option *ngFor="let status of new_order.getStatusList()">{{status}}</option>
           </select></td>
         <!--<td><input class="form-control" [(ngModel)]="new_order.status"></td>-->
         <td><button class="btn btn-success" (click)="onConfirm()">确认</button></td>

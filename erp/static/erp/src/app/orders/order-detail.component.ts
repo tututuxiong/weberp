@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { OnInit } from "@angular/core";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 
-import { Order, OrderStatus } from './order';
+import { Order } from './order';
 import { OrderService } from "./order.service";
 import { Product } from './products/product';
 import { ProductService } from './products/product.service';
@@ -27,28 +27,9 @@ import { TreeService } from '../shared/tree/tree.service';
 })
 
 export class OrderDetailComponent implements OnInit {
-    constructor(
-        private route: ActivatedRoute,  //Inject ActivatedRoute to pull params from routing
-        private router: Router,
-        private order_service: OrderService,
-        private product_service: ProductService,
-        private material_order_service: MaterialOrderService,
-        private material_stock_service: StockService,
-        private ts: TreeService
-    ) {
-        this.treeServiceReady = false;
 
-        this.ts.subscribe().then(res => {
-            this.treeServiceReady = true;
-            // Debug. Remove later...
-            console.log("Underlying service is ready!");
-        });
-
-        // Debug. Remove later...
-        console.log("detail-order construct!");
-    }
-
-    title: string; //Initialization must be put in ngOnInit; otherwise there is no effect. Don't know why.
+    /* Class Member Declarations */
+    title: string; //Initialization must be put in constructor; otherwise there is no effect. Don't know why.
 
     orderDetail: Order;
 
@@ -66,13 +47,37 @@ export class OrderDetailComponent implements OnInit {
 
     closeResult: string;
 
-    treeServiceReady: Boolean;
+    serviceReady: Boolean;
+
+    /* Constructor */
+    constructor(
+        private route: ActivatedRoute,  //Inject ActivatedRoute to pull params from routing
+        private router: Router,
+        private order_service: OrderService,
+        private product_service: ProductService,
+        private material_order_service: MaterialOrderService,
+        private material_stock_service: StockService,
+        private ts: TreeService
+    ) {
+
+        this.orderDetail = new Order();
+        this.title = 'Order Detail';    //Initialize title attribute here!!!
+        this.productListEditable = false;
+        this.productListBeforeEdit = [];
+        this.addedProductList = [];
+        this.deletedProductList = [];
+        this.materialItemList = [];
+        this.materialOrderList = [];
+
+        this.serviceReady = false;
+
+    }
 
     ngOnInit(): void {
         this.route.params
             .switchMap((params: Params) => this.order_service.getOrder(+params['id']))
             .subscribe((order: Order) => {
-                this.orderDetail = order;
+                this.orderDetail.deserialize(order);
                 this.product_service.getProducts(this.orderDetail.id)
                     .subscribe(products => {
                         this.productList = this.copyProductList(products);
@@ -82,21 +87,29 @@ export class OrderDetailComponent implements OnInit {
 
                 this.material_order_service.getMaterialOrders(this.orderDetail.id)
                     .subscribe(materialOrders => {
-                        this.materialOrderList = this.copyMaterialOrders(materialOrders);
-                        this.materialOrderList.forEach(mo => mo.modifyMode = false);
+                        // this.materialOrderList = this.copyMaterialOrders(materialOrders);
+                        materialOrders.forEach(mo => {
+                            let tmpMO = new MaterialOrder(0);
+                            tmpMO.deserialize(mo);
+                            tmpMO.modifyMode = false;
+                            this.materialOrderList.push(tmpMO);
+                        })
+                        // this.materialOrderList.forEach(mo => mo.modifyMode = false);
                     },
                     error => this.errorMessage = <any>error,
                 );
             });
 
-        this.title = 'Order Detail';    //Initialize title attribute here!!!
-        this.productListEditable = false;
-        this.productListBeforeEdit = [];
-        this.addedProductList = [];
-        this.deletedProductList = [];
-
-        // Debug. Remove later...
-        console.log("detail-order init!");
+            if (!this.ts.readyForServe()){
+                let that = this;
+                this.ts.regCallBack(function() {
+                    console.log("Callback function is called!");
+                    that.serviceReady = true;
+                })
+            }
+            else {
+                this.serviceReady = true;
+            }
     }
 
     private onEditProducts(): void {
@@ -155,19 +168,6 @@ export class OrderDetailComponent implements OnInit {
     private copyProductList(arraySrc: Product[]): Product[] {
         var arrayDest: Product[] = [];
         arraySrc.forEach((product) => arrayDest.push(Object.assign({}, product)));
-        return arrayDest;
-    }
-
-    private copyMaterialOrders(arraySrc: MaterialOrder[]): MaterialOrder[] {
-        let arrayDest: MaterialOrder[] = [];
-        arraySrc.forEach((materialOrder) => {
-
-        // arrayDest.push(Object.assign({}, materialOrder));
-
-        let tmpMO: MaterialOrder = new MaterialOrder(0);
-        tmpMO.deserialize(materialOrder);
-        arrayDest.push(tmpMO);
-    });
         return arrayDest;
     }
 

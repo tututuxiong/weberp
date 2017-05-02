@@ -6,7 +6,6 @@
     <a routerLink="/inventory">Inventory Management</a>
   </li>
 </ul>-->
-<ng-container *ngIf="serviceReady">
 <div class="row">
     <div class="col-sm-5 dashboard-item">
         <a routerLink="/orders">订单管理</a>
@@ -31,8 +30,3 @@
 <router-outlet></router-outlet>
 <router-outlet></router-outlet>
 <router-outlet></router-outlet>
-</ng-container>
-
-<ng-container *ngIf="!serviceReady">
-    <p>Loading...</p>
-</ng-container>

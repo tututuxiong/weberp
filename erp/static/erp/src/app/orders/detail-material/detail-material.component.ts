@@ -37,31 +37,18 @@ export class DetailMaterialComponent implements OnInit {
         private product_service: ProductService,
         private tree_service: TreeService
     ) {
-        // Debug. Remove later...
-        console.log("detail-material construct!");
+        this.materialItemtEditable = false;
+        this.newMaterialNumber = 0;
+        this.material_level1 = [];
+        this.selected_material = undefined;
     }
 
     ngOnInit(): void {
-
-        // Debug. Remove later...
-        console.log("detail-material init!");
-
-        this.materialItemtEditable = false;
-        this.newMaterialNumber = 0;
-        // this.mateialTree = new Node();
-
-        this.material_level1 = [];
-        this.selected_material = undefined;
-
         this.tree_service.getChildrenNodes(undefined).forEach(node => {
             this.material_level1.push(node);
         });
     }
     
-    // onChooseLeaf(leaf: Leaf){
-    //     this.selected_material = leaf;
-    // }
-
     onSubmitEdit(index: number) {
         if (!this.checkEqual(index)) {
             this.updateDetailmaterialItemInfo();

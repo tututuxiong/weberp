@@ -14,13 +14,28 @@
         </ng-container>
         <ng-container *ngIf="materialOrder.modifyMode">
           <button class="btn btn-primary" (click)="onSubmit(materialOrder)" style="position: absolute; top:10px; right: 10px">完成</button>
-           <button class="btn btn-primary" (click)="onAbort(materialOrder)" style="position: absolute; top:50px; right: 10px">撤销</button>
+          <button class="btn btn-primary" (click)="onAbort(materialOrder)" style="position: absolute; top:50px; right: 10px">撤销</button>
         </ng-container>
       </div>
       <div class="row">
         <div class="col-sm-6">
           总价：{{materialOrder.price}}
         </div>
+
+        <ng-container *ngIf="!materialOrder.modifyMode">
+          <div class="col-sm-6">
+            状态: {{materialOrder.status}}
+          </div>
+        </ng-container>
+        <ng-container *ngIf="materialOrder.modifyMode">
+          <div class="col-sm-6">
+            状态: <select class="custom-select">
+            <option *ngFor="let status of materialOrder.getStatusList()">
+              {{status}}
+            </option>
+          </select>
+          </div>
+        </ng-container>
       </div>
       <div class="row">
         <div class="col-sm-6">

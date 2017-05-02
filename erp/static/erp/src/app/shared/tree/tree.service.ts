@@ -8,40 +8,12 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class TreeService {
 
+    /* Class Member declarations */
+    private materialTree: Node;
     private ready_for_serve: Boolean;
+    private cbList : {() : void;} [];
 
-    constructor(private http: Http) {
-        this.ready_for_serve = false;
-    }
 
-    /* Called when app is loaded to secure material tree is cached before any feature component loaded. */
-    init(): void {
-        this.getMaterialRootTree().subscribe(rootNode => {
-
-            this.materialTree = rootNode;
-
-            // this.getSubTree(this.materialTree);
-
-           this.initialized = Promise.resolve(true);
-           this.ready_for_serve = true;
-
-           console.log("Tree Service initialized!");
-        });
-    }
-
-    public subscribe() : Promise<Boolean> {
-        return this.initialized;
-    }
-
-    public readyForServe() : Boolean {
-        return this.ready_for_serve;
-    }
-
-    materialTree: Node;
-    private initialized: Promise<Boolean> = new Promise<Boolean>((resolve, reject) => {
-        resolve(true);
-    });
-    
     private materialRootTreeUrl = 'app/MaterialTree';  // URL to web api
     private productRootTreeUrl = 'app/ProductTree';  // URL to web api
     private nodeUrl = 'app/node';  // URL to web api
@@ -50,8 +22,45 @@ export class TreeService {
     private procurementOrder = 'app/procurementOrder';  // URL to web api    
     private materialTreeUrl = 'materialTree';  // URL to web api
     private productTreeUrl = 'productTree';  // URL to web api
-    private subProduct = 'app/subPorduct';  // URL to web api    
+    private subProduct = 'app/subPorduct';  // URL to web api   
 
+    /* Constructor */
+    constructor(private http: Http) {
+        this.ready_for_serve = false;
+        this.cbList = [];
+    }
+
+    /* Called when AppComponent is inited in favor of ealier service ready time. */
+    init(): void {
+
+        this.getMaterialRootTree().subscribe(rootNode => {
+
+            this.materialTree = rootNode;
+
+            console.log("Tree Service initialized!");
+
+            this.ready_for_serve = true;
+
+            this.cbList.forEach(fn => {
+                fn();
+            })
+
+        });
+    }
+
+    /* Interface for feature component to check if tree is cached or not. */
+    public readyForServe() : Boolean {
+        return this.ready_for_serve;
+    }
+
+    /* Interface for feature components to register callback function when tree is cached. */
+    public regCallBack(fn: {():void} ) : void {
+        console.log("Reg callback function!");
+        this.cbList.push(fn);
+    }
+
+ 
+    /* Error Handling */
     private handleError(error: Response | any) {
         // In a real world app, we might use a remote logging infrastructure
         let errMsg: string;
@@ -66,7 +75,7 @@ export class TreeService {
         return Observable.throw(errMsg);
     }
 
-// --- Frank refactor start ---
+    /* Tree Services */
     getProductRootTree(): Observable<Node> {
         return this.http.get(this.productRootTreeUrl)
             .map(res => { return res.json() })
@@ -145,6 +154,7 @@ export class TreeService {
         return undefined;
     }
 
+
     getParentPathInfo(root_node:Node, targetLeaf: Leaf):string{
         let isExist = false;
         let tmp_name = "";
@@ -165,13 +175,13 @@ export class TreeService {
         return "";
     }
 // --- Frank refactor end ---
-
     getNodeById(id: number): Observable<Node> {
         const url = `${this.nodeUrl}/${id}`;
         return this.http.get(url)
             .map(res => { return res.json() })
             .catch(this.handleError);
     }
+
     addNewNode(node: Node): Observable<Node> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });

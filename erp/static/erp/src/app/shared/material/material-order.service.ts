@@ -96,21 +96,21 @@ export class MaterialOrderService {
                        .catch(this.handleError);                   
      }
 
-    objectCopy(dest: MaterialOrder, src: MaterialOrder) : void {
-        dest.id = src.id;
-        dest.orderId = src.orderId;
-        dest.name = src.name;
-        dest.date = src.date;
-        dest.price = src.price;
-        dest.comment = src.comment;
-        dest.status = src.status;
-        dest.subOrderCount = src.subOrderCount;
-        dest.materialSubOrderInfoList = [];
+    // objectCopy(dest: MaterialOrder, src: MaterialOrder) : void {
+    //     dest.id = src.id;
+    //     dest.orderId = src.orderId;
+    //     dest.name = src.name;
+    //     dest.date = src.date;
+    //     dest.price = src.price;
+    //     dest.comment = src.comment;
+    //     dest.status = src.status;
+    //     dest.subOrderCount = src.subOrderCount;
+    //     dest.materialSubOrderInfoList = [];
 
-        src.materialSubOrderInfoList.forEach(subOrder => {
-            dest.materialSubOrderInfoList.push(subOrder);
-        });
-    }
+    //     src.materialSubOrderInfoList.forEach(subOrder => {
+    //         dest.materialSubOrderInfoList.push(subOrder);
+    //     });
+    // }
 
     private handleError (error: Response | any) {
     // In a real world app, we might use a remote logging infrastructure

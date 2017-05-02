@@ -7,6 +7,7 @@ import { MaterialOrderService } from '../shared/material/material-order.service'
 
 // Import from SharedModule
 import { MaterialOrder } from '../shared/material/material-order';
+import { TreeService } from '../shared/tree/tree.service';
 
 @Component({
     moduleId: module.id,
@@ -15,36 +16,47 @@ import { MaterialOrder } from '../shared/material/material-order';
 
 export class ProcurementComponent implements OnInit {
 
-    constructor(private materialOrderService: MaterialOrderService){
-
-    }
-
     materialOrderList: MaterialOrder[];  //全部采购订单
     errorMessage: string;
+    serviceReady: Boolean;
+
+    constructor(private materialOrderService: MaterialOrderService,
+                private ts: TreeService)
+    {
+        this.materialOrderList = [];
+        this.errorMessage = '';
+        this.serviceReady = false;
+    }
 
     ngOnInit() {
+
+        if(!this.ts.readyForServe()) {
+
+            let that = this;
+
+            this.ts.regCallBack(function() {
+                that.serviceReady = true;
+            });
+        }
+        else {
+            this.serviceReady = true;
+        }
+
         this.getProcurementOrders();
     }
 
     //获取全部采购订单
     getProcurementOrders() : void {
         this.materialOrderService.getProcurementOrders().subscribe(
-            orders => {this.materialOrderList = this.copyMaterialOrders(orders);
-                console.log("orders: ", orders);
-                console.log("materialOrderList: ", this.materialOrderList);
-                // this.procurementService.setMaterialOrders(this.materialOrderList);
+            moList => {
+                moList.forEach(mo => {
+                    let tmpMO = new MaterialOrder(0);
+
+                    tmpMO.deserialize(mo);
+                    this.materialOrderList.push(tmpMO);
+                })
             },
             error => this.errorMessage = <any>error
         )
-    }
-
-    copyMaterialOrders(src: MaterialOrder[]) : MaterialOrder[] {
-        let dest: MaterialOrder[] = [];
-
-        src.forEach(materialOrder => {
-            dest.push(materialOrder);
-        });
-
-        return dest;
     }
 }

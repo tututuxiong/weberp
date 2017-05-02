@@ -37,7 +37,8 @@ export class MaterialOrderComponent implements OnInit {
         }
 
         this.moService.updateMaterialOrder(materialOrder).subscribe(mo => {
-            this.moService.objectCopy(materialOrder, mo);
+            // this.moService.objectCopy(materialOrder, mo);
+            materialOrder.deserialize(mo);
             materialOrder.modifyMode = false;
         })
     }

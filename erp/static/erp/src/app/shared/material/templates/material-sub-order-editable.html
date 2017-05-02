@@ -17,6 +17,7 @@
       <th >单价</th>
       <th >小计</th>
       <th >备注</th>
+      <th >状态</th>
     </tr>
   </thead>
   <tbody>
@@ -30,6 +31,7 @@
       <td>{{material.unit_price}}</td>
       <td>{{material.total_price}}</td>
       <td>{{material.comment}}</td>
+      <td>{{material.status}}</td>
     </tr>
     <tr>
       <th></th>
@@ -61,6 +63,9 @@
       <td><input class="form-control" [(ngModel)]="newMaterial.unit_price"></td>
       <td><input class="form-control" [(ngModel)]="newMaterial.total_price"></td>
       <td><input class="form-control" [(ngModel)]="newMaterial.comment"></td>
+      <td><select class="custom-select" [(ngModel)]="newMaterial.status">
+        <option *ngFor="let status of newMaterial.getStatusList()">{{status}}</option>
+        </select></td>
       <td><button type="button" class="btn btn-success btn-sm" (click)="onAddMaterial()"><i class="fa fa-plus"></i></button></td>
     </tr>
   </tbody>
