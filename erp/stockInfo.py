@@ -39,6 +39,7 @@ class StockInfo(Leaf):
         self.parentId = ''
         self.name = ''
         self.shoppingNum = 0
+        self.patchInfos = []
 
     def setValue(self, name, internalId, instockNum, unit, shoppingNum):
         self.name = name
@@ -93,6 +94,9 @@ def initMaterialLeafFromSqlData(materialStock, subNode_sql):
 
     for CheckInRawMatItem_sql in CheckInRawMatRepoRecord.objects.filter(rawMaterial=subNode_sql):
         materialStock.instockNum += CheckInRawMatItem_sql.num
+        if CheckInRawMatItem_sql.batch_nr != "":
+            materialStock.patchInfos.append(CheckInRawMatItem_sql.batch_nr)
+            
     for CheckOutRawMatItem_sql in CheckOutRawMatRepoRecord.objects.filter(rawMaterial=subNode_sql):
         materialStock.instockNum -= CheckOutRawMatItem_sql.num
 

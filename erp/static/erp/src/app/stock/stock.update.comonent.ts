@@ -84,8 +84,12 @@ export class NgbdModalUpdateNodeContent implements OnInit {
     }
 
     onChooseLeaf(leaf: Leaf) {
-        console.log(leaf)
         this.choose_leaf = leaf;
+    }
+    
+    onChangePatchInfo(info: string)
+    {
+        this.materialUpdateInfo.additionalInfo = info;
     }
 
     onChangeOrder(order: any) {
@@ -133,6 +137,7 @@ export class NgbdModalUpdateNodeContent implements OnInit {
         if (this.materialUpdateInfo.num != 0) {
             this.materialUpdateInfo.typeId = this.type;
             this.materialUpdateInfo.productType = this.node_type;
+            this.materialUpdateInfo.price = 0;
             if (this.node_type == 0) {
                 
                 if (this.materialUpdateInfo.typeId == 0) {
