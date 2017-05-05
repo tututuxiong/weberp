@@ -101,5 +101,3 @@ def updateSalerOrder2Sql(tmp_orderInfo):
          return tmp_orderInfo
      except SalesOrder.DoesNotExist:
          return errorMessage
-
-                
