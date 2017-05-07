@@ -158,7 +158,16 @@ export class NgbdModalUpdateNodeContent implements OnInit {
                 subscribe(materialUpdateInfoResult => {
                     console.log(materialUpdateInfoResult);
                     if (materialUpdateInfoResult.result == 0) {
-                        this.activeModal.close();
+                        let result = new NgbdModalUpdateNodeContent_Output();
+                        result.type = this.type;
+                        result.num = this.materialUpdateInfo.num;
+                        if (this.node_type == 0){
+                            result.leafId = this.choose_leaf.id;
+                        }
+                        else{
+                             result.leafId = this.choose_product_stock_id;
+                        }
+                        this.activeModal.close(result);
                     }
                 });
         }
@@ -171,3 +180,8 @@ export class NgbdModalUpdateNodeContent implements OnInit {
     }
 }
 
+export class  NgbdModalUpdateNodeContent_Output{
+    leafId: number;
+    type: number;
+    num: number;
+}

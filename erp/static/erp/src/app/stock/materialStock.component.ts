@@ -6,7 +6,7 @@ import { TreeService } from './../shared/tree/tree.service';
 import { Stock } from './stock';
 import { Leaf, Node } from './../shared/tree/tree';
 import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
-import { NgbdModalUpdateNodeContent } from './stock.update.comonent'
+import { NgbdModalUpdateNodeContent, NgbdModalUpdateNodeContent_Output } from './stock.update.comonent'
 import { NgbdModalAddNodeContent } from './stock.addNode.component'
 // Component definition
 @Component({
@@ -22,12 +22,12 @@ export class MaterialStockComponent implements OnInit {
         private materialStockService: StockService,
         private treeService: TreeService,
         private modalService: NgbModal,
-    ) {}
+    ) { }
     materialStockList: Stock[];
     root_node: Node;
     errorMessage: string;
     choose_leaf: Leaf;
-    
+
     /*show data*/
     titleName: string;
     buttonAddName: string;
@@ -35,15 +35,15 @@ export class MaterialStockComponent implements OnInit {
     buttonOutName: string;
 
     modalOptions: NgbModalOptions = { size: "lg" }
-    
+
     ngOnInit(): void {
         this.root_node = new Node();
         //this.getMaterialStocks();
         this.getTree();
-        
+
         this.titleName = "原料信息";
         this.buttonAddName = "新增原料/分类";
-        this.buttonInName = "入库"; 
+        this.buttonInName = "入库";
         this.buttonOutName = "领料";
     }
     getMaterialStocks(): void {
@@ -54,7 +54,7 @@ export class MaterialStockComponent implements OnInit {
 
     }
 
-    getTree(): void{
+    getTree(): void {
         this.treeService.getMaterialRootTree().subscribe(materialTree => {
             this.root_node = materialTree;
             console.log(this.root_node);
@@ -69,12 +69,25 @@ export class MaterialStockComponent implements OnInit {
         const modalRef = this.modalService.open(NgbdModalUpdateNodeContent, this.modalOptions);
         modalRef.componentInstance.type = type;
         modalRef.componentInstance.node_type = 0;
+
+        modalRef.result.then(result => this.handleResult(result));
     }
-    addNewNode(){
+
+    private handleResult(result: NgbdModalUpdateNodeContent_Output): void {
+        let stockInfo = this.treeService.findNodeInTree(this.root_node, result.leafId);
+        if (result.type == 0) {
+            stockInfo.instockNum += result.num;
+        }
+        else {
+            stockInfo.instockNum -= result.num;
+        }
+    }
+
+    addNewNode() {
         const modalRef = this.modalService.open(NgbdModalAddNodeContent, this.modalOptions);
-        modalRef.componentInstance.root_node = this.root_node;        
+        modalRef.componentInstance.root_node = this.root_node;
     }
-    onFresh(){
+    onFresh() {
         this.getTree();
     }
 }

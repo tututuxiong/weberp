@@ -6,7 +6,7 @@ import { TreeService } from './../shared/tree/tree.service';
 import { Stock } from './stock';
 import { Leaf, Node } from './../shared/tree/tree';
 import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
-import { NgbdModalUpdateNodeContent } from './stock.update.comonent'
+import { NgbdModalUpdateNodeContent,NgbdModalUpdateNodeContent_Output } from './stock.update.comonent'
 import { NgbdModalAddNodeContent } from './stock.addNode.component'
 // Component definition
 @Component({
@@ -68,7 +68,19 @@ export class ProductStockComponent implements OnInit {
         const modalRef = this.modalService.open(NgbdModalUpdateNodeContent, this.modalOptions);
         modalRef.componentInstance.type = type;
         modalRef.componentInstance.node_type = 1;
+        modalRef.result.then(result => this.handleResult(result));
     }
+
+    private handleResult(result: NgbdModalUpdateNodeContent_Output): void {
+        let stockInfo = this.treeService.findNodeInTree(this.root_node, result.leafId);
+        if (result.type == 0) {
+            stockInfo.instockNum += result.num;
+        }
+        else {
+            stockInfo.instockNum -= result.num;
+        }
+    }
+    
     addNewNode(){
         const modalRef = this.modalService.open(NgbdModalAddNodeContent, this.modalOptions);
         modalRef.componentInstance.root_node = this.root_node;        

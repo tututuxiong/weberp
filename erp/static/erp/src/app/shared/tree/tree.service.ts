@@ -168,6 +168,21 @@ export class TreeService {
         return undefined;
     }
 
+    findNodeInTree(node: Node, id: Number): any {
+        for (let leaf of node.leafs) {
+            if (leaf.id == id) {
+                return leaf;
+            }
+        }
+
+        for (let subnode of node.subNodes) {
+            let tmp_node = this.findNodeInTree(subnode, id);
+            if (null != tmp_node) {
+                return tmp_node;
+            }
+        }
+        return null;
+    }
 
     getParentPathInfo(root_node: Node, targetLeaf: Leaf): string {
         let tmp_name = "";

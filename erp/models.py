@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import date
+from django.utils import timezone
 
 # Create your models here.
 
@@ -8,7 +8,7 @@ class SalesOrder(models.Model):
     status = models.CharField(max_length=50)  # NEW, FINISHED
     saler = models.CharField(max_length=50)
     total_price = models.DecimalField(max_digits=12, decimal_places=2)
-    act_date = models.DateTimeField(default=date.today)
+    act_date = models.DateTimeField(default=timezone.now)
     desc = models.TextField(default='')
     raw_mat_status = models.CharField(max_length=50,default="INIT") # INIT, BUYING, DONE
     mfr_status = models.CharField(max_length=50,default="INIT") # INIT, ONGOING, DONE
@@ -43,7 +43,7 @@ class RawMatRequirement(models.Model):
 
 class RawMatOrder(models.Model):
     salesOrder = models.ForeignKey(SalesOrder,null=True)
-    act_date = models.DateTimeField(default=date.today)
+    act_date = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=50,default="INIT") # INIT, BUYING, DONE
     comment = models.TextField(default='')
     name = models.CharField(max_length=200,default='')
@@ -58,8 +58,8 @@ class RawMatOrderItem(models.Model):
     status = models.CharField(max_length=50)
 
 class RawMatRepoRecord(models.Model):
-    reg_date = models.DateTimeField('when this was registered in this system')
-    act_date = models.DateTimeField('when this was actually happened')
+    reg_date = models.DateTimeField('when this was registered in this system',default=timezone.now)
+    act_date = models.DateTimeField('when this was actually happened',default=timezone.now)
     rawMaterial = models.ForeignKey(RawMat)
     batch_nr = models.CharField(max_length=200)
     num = models.IntegerField()
