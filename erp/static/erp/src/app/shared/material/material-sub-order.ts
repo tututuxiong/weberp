@@ -1,5 +1,16 @@
 const statusList: string[] = ["新订单", "进行中", "已关闭"];
 
+
+export class VendorInfo{
+    id: number;
+    name:string;
+
+    deserialize(jsonObj: VendorInfo) {
+        this.id = jsonObj.id;
+        this.name = jsonObj.name;
+    }
+}
+
 export class MaterialSubOrder {
     id: number;
     materialOrderId: number;
@@ -8,6 +19,7 @@ export class MaterialSubOrder {
     num: number;
     unit: string;
     unit_price: number;
+    vendor: VendorInfo;
     comment: string;
     status: number;
 
@@ -20,6 +32,9 @@ export class MaterialSubOrder {
         this.unit = '个';
         this.unit_price = 0;
         this.comment = '';
+        this.vendor = new VendorInfo();
+        this.vendor.id = 0;
+        this.vendor.name = '';
         this.status = this.getStatusList[0];
     }
 
@@ -32,6 +47,8 @@ export class MaterialSubOrder {
         this.unit_price = jsonObj.unit_price;
         this.comment = jsonObj.comment;
         this.status = jsonObj.status;
+        this.vendor.id = jsonObj.vendor.id;
+        this.vendor.name = jsonObj.vendor.name;
     }
 
     getStatusList() : string[] {

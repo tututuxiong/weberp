@@ -11,6 +11,8 @@ from .subProductInfo import *
 from .materialOrderInfo import *
 from .materialOrderInfoList import *
 
+from .vendor import *
+
 from .stockInfo import *
 from .tree import Leaf, Node
 
@@ -115,6 +117,12 @@ def materialStock(request, material_id):
         tmp_stockUpdateInfo.setJson2Class(dict_data)
         updateMaterialInfo(tmp_stockUpdateInfo)
         return HttpResponse(tmp_stockUpdateInfo.toJson())
+
+def materialStockVendors(request, material_id):
+    if request.method == 'GET':
+        vendorList = VendorList()
+        vendorList.genVendorsByMaterialId(int(material_id))
+        return  HttpResponse(vendorList.toJson())
 
 def productTree(request,product_id='0'):
     tree_name = "成品"

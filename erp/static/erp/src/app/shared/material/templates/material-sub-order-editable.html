@@ -1,39 +1,51 @@
 <table class="table">
-  <thead class="thead-inverse">
-    <tr>
-      <th></th>
-      <th >序号</th>
-      <th >类别</th>
-      <th >名称</th>
-      <th >数量</th>
-      <th >单位</th>
-      <th >单价</th>
-      <th >小计</th>
-      <th >备注</th>
-      <th >状态</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let material of materialSubOrderList; let i = index">
-      <th ><button type="button" class="btn btn-danger btn-sm" (click)="onDeleteMaterial(material)"><i class="fa fa-minus"></i></button></th>
-      <th scope="row">{{i+1}}</th>
-      <td>{{getParentPathInfo(material)}}</td>
-      <td>{{material.name}}</td>
-      <td>{{material.num}}</td>
-      <td>{{material.unit}}</td>
-      <td><input type="number" class="form-control user-input" [(ngModel)]="material.unit_price"></td>
-      <td>{{material.num * material.unit_price}}</td>
-      <td><input class="form-control user-input" [(ngModel)]="material.comment"></td>
-      <td><select class="custom-select" [(ngModel)]="material.status">
-            <option *ngFor="let status of material.getStatusList()">{{status}}</option>
-          </select>
-      </td>
-    </tr>
-    <tr>
-      <th></th>
-      <!--<th scope="row">{{materialSubOrderList.length + 1}}</th>-->
-      <th >{{materialSubOrderList.length + 1}}</th>
-      <td><button type="button" class="btn btn-success btn-sm" (click)="onAddMaterial()"><i class="fa fa-plus"></i></button></td>
-    </tr>
-  </tbody>
+    <thead class="thead-inverse">
+        <tr>
+            <th></th>
+            <th>序号</th>
+            <th>类别</th>
+            <th>名称</th>
+            <th>数量</th>
+            <th>单位</th>
+            <th>单价</th>
+            <th>小计</th>
+            <th>备注</th>
+            <th>供应商</th>
+            <th>状态</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let material of materialSubOrderList; let i = index">
+            <th><button type="button" class="btn btn-danger btn-sm" (click)="onDeleteMaterial(material)"><i class="fa fa-minus"></i></button></th>
+            <th scope="row">{{i+1}}</th>
+            <td>{{getParentPathInfo(material)}}</td>
+            <td>{{material.name}}</td>
+            <td>{{material.num}}</td>
+            <td>{{material.unit}}</td>
+            <td><input type="number" class="form-control user-input" [(ngModel)]="material.unit_price"></td>
+            <td>{{material.num * material.unit_price}}</td>
+            <td><input class="form-control user-input" [(ngModel)]="material.comment"></td>
+
+            <ng-container *ngIf="vendorList[i]?.length>0">
+                <td><select class="custom-select" [(ngModel)]="material.vendor" name={{material.vendor.name}}>
+                  <option *ngFor="let vendor of vendorList[i]" [ngValue]="vendor">{{vendor.name}}</option>
+                </select>
+                </td>
+            </ng-container>
+            <ng-container *ngIf="!vendorList[i]?.length>0">
+                <td>N/A</td>
+            </ng-container>
+
+            <td><select class="custom-select" [(ngModel)]="material.status">
+                  <option *ngFor="let status of material.getStatusList()">{{status}}</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th></th>
+            <!--<th scope="row">{{materialSubOrderList.length + 1}}</th>-->
+            <th>{{materialSubOrderList.length + 1}}</th>
+            <td><button type="button" class="btn btn-success btn-sm" (click)="onAddMaterial()"><i class="fa fa-plus"></i></button></td>
+        </tr>
+    </tbody>
 </table>

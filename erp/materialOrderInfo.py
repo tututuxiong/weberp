@@ -1,5 +1,6 @@
 import json
 from .models import *
+from .vendor import *
 
 
 class MaterialSubOrderInfo:
@@ -9,8 +10,7 @@ class MaterialSubOrderInfo:
         self.id = 0
         self.materialOrderId = 0
         self.materialId = 0
-        self.vendorId = 0
-        self.vendorName = 0
+        self.vendor = VendorInfo("")
         self.name = ''
         self.num = 0
         self.unit = ''
@@ -33,13 +33,15 @@ class MaterialSubOrderInfo:
         self.comment = comment
 
     def __repr__(self):
-        return repr((self.id, self.materialOrderId, self.materialId, self.name, self.num, self.unit, self.unit_price, self.comment,self.vendorName))
+        return repr((self.id, self.materialOrderId, self.materialId, self.name, self.num, self.unit, self.unit_price, self.comment,self.vendor.name))
 
     def setJson2Class(self, dict_data):
         for name, value in dict_data.items():
             if hasattr(self, name):
-                setattr(self, name, value)
-
+                if name == "vendor":
+                    self.vendor.setJson2Class(value)
+                else:
+                    setattr(self, name, value)
 
 class MaterialOrderInfo:
     count = 0
@@ -116,6 +118,15 @@ def initmaterialOrderFromSql(materialOrder, materialOrderSql_item):
             materialSubOrderInfo.unit_price = float(rawMatOrderItem.est_total_price/rawMatOrderItem.num)
             materialSubOrderInfo.comment = ''
             materialOrder.addMaterialSubOrder(materialSubOrderInfo)
+
+            if rawMatOrderItem.vendor_id != None:
+                print(rawMatOrderItem.vendor_id)
+                vendor_sql = Vendor.objects.get(pk=rawMatOrderItem.vendor_id)
+                materialSubOrderInfo.vendor.id = vendor_sql.id
+                materialSubOrderInfo.vendor.name = vendor_sql.name
+            else:
+                materialSubOrderInfo.vendor.id = 0
+                materialSubOrderInfo.vendor.name = ""
 
         except RawMat.DoesNotExist:
             print("addMaterialOrder2Sql Wront  rawMatOrderItem.rawMat_id !!!")
@@ -202,6 +213,9 @@ def updateMaterialOrder2Sql(material_order):
                     RawMatOrderItem_sql.num = materialSubOrderInfo_item.num
                     RawMatOrderItem_sql.est_total_price = materialSubOrderInfo_item.unit_price * materialSubOrderInfo_item.num
                     RawMatOrderItem_sql.status = materialSubOrderInfo_item.status
+                    if materialSubOrderInfo_item.vendor.id != 0:
+                        vendor_sql = Vendor.objects.get(pk=materialSubOrderInfo_item.vendor.id)
+                        RawMatOrderItem_sql.vendor = vendor_sql
                     RawMatOrderItem_sql.save()
                 else:
                     addNewmaterialSubOrderInfo2Sql(

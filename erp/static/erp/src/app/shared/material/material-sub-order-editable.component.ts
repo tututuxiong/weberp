@@ -1,12 +1,13 @@
 import { Component } from "@angular/core";
 import { Input, OnInit } from "@angular/core";
 
-import { MaterialSubOrder } from './material-sub-order';
+import { MaterialSubOrder, VendorInfo } from './material-sub-order';
 
 import { Leaf, Node } from '../tree/tree';
 import { TreeService } from '../tree/tree.service';
 import { NgbdModalChooseNodeContent, NgbdModalChooseNodeContent_Output } from './../../stock/stock.choose.component'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MaterialOrderService } from './material-order.service';
 
 @Component({
     selector: 'material-sub-order-editable',
@@ -21,14 +22,23 @@ export class MaterialSubOrderEditableComponent implements OnInit {
     @Input()
     materialOrderId: number;
 
+    vendorList: VendorInfo[][];
+
     material_root_node: Node;
     constructor(private ts: TreeService,
+        private moService: MaterialOrderService, 
         private modalService: NgbModal, ) {
 
     }
 
     ngOnInit() {
+        this.vendorList = [];
         this.material_root_node = this.ts.getMaterialRootTreeInMemory();
+
+        this.materialSubOrderList.forEach(material => {
+            let index = this.materialSubOrderList.indexOf(material);
+            this.getVendorInfo(material.materialId, index);
+        });
     }
 
     getParentPathInfo(material: any): string {
@@ -52,10 +62,26 @@ export class MaterialSubOrderEditableComponent implements OnInit {
         newMaterial.num = result.num;
         newMaterial.unit_price = 0;
         this.materialSubOrderList.push(newMaterial);
+        this.getVendorInfo(newMaterial.materialId, this.materialSubOrderList.length-1);
+    }
+
+    private getVendorInfo(materialId: number, index: number): void {
+        this.moService.getVendorListbyStockId(materialId).subscribe(
+            vendorinfoList=>{
+                console.log(vendorinfoList);
+                this.vendorList[index] = [];
+                vendorinfoList.forEach(vendorInfo => {
+                          let vendor = new VendorInfo();
+                          vendor.deserialize(vendorInfo);
+                          this.vendorList[index].push(vendor);
+            })
+        }
+        );
     }
 
     onDeleteMaterial(material: MaterialSubOrder): void {
         let index = this.materialSubOrderList.indexOf(material);
+        this.vendorList.splice(index,1);
         this.materialSubOrderList.splice(index, 1);
     }
 }
