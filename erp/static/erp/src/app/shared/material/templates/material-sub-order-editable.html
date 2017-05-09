@@ -36,7 +36,7 @@
                 <td>N/A</td>
             </ng-container>
 
-            <td><select class="custom-select" [(ngModel)]="material.status">
+            <td><select class="form-control" [(ngModel)]="material.status">
                   <option *ngFor="let status of material.getStatusList()">{{status}}</option>
                 </select>
             </td>

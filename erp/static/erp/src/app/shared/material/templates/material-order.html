@@ -24,16 +24,14 @@
         </div>
 
         <ng-container *ngIf="!materialOrder.modifyMode">
-          <div class="col-sm-6">
+          <div class="col-sm-3">
             状态: {{materialOrder.status}}
           </div>
         </ng-container>
         <ng-container *ngIf="materialOrder.modifyMode">
-          <div class="col-sm-6">
-            状态: <select class="custom-select">
-            <option *ngFor="let status of materialOrder.getStatusList()">
-              {{status}}
-            </option>
+          <div class="col-sm-3">
+            状态: <select class="form-control" [(ngModel)]="materialOrder.status">
+            <option *ngFor="let status of materialOrder.getStatusList()">{{status}}</option>
           </select>
           </div>
         </ng-container>
