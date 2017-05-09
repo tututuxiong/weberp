@@ -9,6 +9,8 @@ class MaterialSubOrderInfo:
         self.id = 0
         self.materialOrderId = 0
         self.materialId = 0
+        self.vendorId = 0
+        self.vendorName = 0
         self.name = ''
         self.num = 0
         self.unit = ''
@@ -31,7 +33,7 @@ class MaterialSubOrderInfo:
         self.comment = comment
 
     def __repr__(self):
-        return repr((self.id, self.materialOrderId, self.materialId, self.name, self.num, self.unit, self.unit_price, self.comment))
+        return repr((self.id, self.materialOrderId, self.materialId, self.name, self.num, self.unit, self.unit_price, self.comment,self.vendorName))
 
     def setJson2Class(self, dict_data):
         for name, value in dict_data.items():
@@ -229,7 +231,8 @@ def addNewmaterialSubOrderInfo2Sql(rawMatOrderSql, materialSubOrderInfo):
     try:
         material = RawMat.objects.get(pk=materialSubOrderInfo.materialId)
         rawmatorderitemSql = rawMatOrderSql.rawmatorderitem_set.create(
-            rawMat=material, num=materialSubOrderInfo.num, est_total_price=(materialSubOrderInfo.total_price*materialSubOrderInfo.num))
+            rawMat=material, num=materialSubOrderInfo.num,
+            est_total_price=(materialSubOrderInfo.unit_price*materialSubOrderInfo.num))
         materialSubOrderInfo.id = rawmatorderitemSql.id
     except RawMat.DoesNotExist:
         print("addNewmaterialSubOrderInfo2Sql Wront material_requiment_item.materialId !!!")

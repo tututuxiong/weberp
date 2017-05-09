@@ -50,9 +50,16 @@ class RawMatOrder(models.Model):
     def __str__(self):
         return self.name
         
+class Vendor(models.Model):
+    name = models.CharField(max_length=200)
+    rawMats = models.ManyToManyField(RawMat)
+    def __str__(self):
+        return self.name
+
 class RawMatOrderItem(models.Model):
     rawMatOrder = models.ForeignKey(RawMatOrder, on_delete=models.CASCADE)
     rawMat = models.ForeignKey(RawMat, on_delete=models.CASCADE)
+    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, default=None,null=True)
     num = models.IntegerField()
     est_total_price = models.DecimalField(max_digits=12, decimal_places=2)
     status = models.CharField(max_length=50)
