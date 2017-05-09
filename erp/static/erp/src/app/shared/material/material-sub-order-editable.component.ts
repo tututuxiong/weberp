@@ -68,12 +68,15 @@ export class MaterialSubOrderEditableComponent implements OnInit {
     private getVendorInfo(materialId: number, index: number): void {
         this.moService.getVendorListbyStockId(materialId).subscribe(
             vendorinfoList=>{
-                console.log(vendorinfoList);
                 this.vendorList[index] = [];
                 vendorinfoList.forEach(vendorInfo => {
                           let vendor = new VendorInfo();
                           vendor.deserialize(vendorInfo);
                           this.vendorList[index].push(vendor);
+
+                          if(vendor.id == this.materialSubOrderList[index].vendor.id){
+                                this.materialSubOrderList[index].vendor = vendor;
+                          }
             })
         }
         );

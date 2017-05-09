@@ -27,7 +27,7 @@
             <td><input class="form-control user-input" [(ngModel)]="material.comment"></td>
 
             <ng-container *ngIf="vendorList[i]?.length>0">
-                <td><select class="custom-select" [(ngModel)]="material.vendor" name={{material.vendor.name}}>
+                <td><select class="form-control" [(ngModel)]="material.vendor">
                   <option *ngFor="let vendor of vendorList[i]" [ngValue]="vendor">{{vendor.name}}</option>
                 </select>
                 </td>
