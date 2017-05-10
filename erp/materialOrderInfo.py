@@ -1,7 +1,7 @@
 import json
 from .models import *
 from .vendor import *
-
+import datetime as dt
 
 class MaterialSubOrderInfo:
     count = 0
@@ -11,6 +11,7 @@ class MaterialSubOrderInfo:
         self.materialOrderId = 0
         self.materialId = 0
         self.vendor = VendorInfo("")
+        self.date = ''
         self.name = ''
         self.num = 0
         self.unit = ''
@@ -115,6 +116,8 @@ def initmaterialOrderFromSql(materialOrder, materialOrderSql_item):
             materialSubOrderInfo.unit = material.unit
             materialSubOrderInfo.num = rawMatOrderItem.num
             materialSubOrderInfo.status = rawMatOrderItem.status
+            if rawMatOrderItem.reg_date != None:
+                materialSubOrderInfo.date = rawMatOrderItem.reg_date.strftime('%Y-%m-%d')
             materialSubOrderInfo.unit_price = float(rawMatOrderItem.est_total_price/rawMatOrderItem.num)
             materialSubOrderInfo.comment = ''
             materialOrder.addMaterialSubOrder(materialSubOrderInfo)
@@ -151,6 +154,8 @@ def addMaterialOrder2Sql(material_order):
                     pk=materialSubOrderInfo_item.materialId)
                 materialOrderSqlItem = materialOrderSql.rawmatorderitem_set.create(
                     rawMat=material, num=materialSubOrderInfo_item.num, est_total_price=(materialSubOrderInfo_item.unit_price * materialSubOrderInfo_item.num))
+                if materialSubOrderInfo_item.date != '':
+                    materialOrderSqlItem.reg_date = dt.datetime.strptime(materialSubOrderInfo_item.date,'%Y-%m-%d')
                 materialOrderSqlItem.status = materialSubOrderInfo_item.status
                 materialOrderSqlItem.save()
                 materialSubOrderInfo_item.id = materialOrderSqlItem.id
@@ -213,6 +218,10 @@ def updateMaterialOrder2Sql(material_order):
                     RawMatOrderItem_sql.num = materialSubOrderInfo_item.num
                     RawMatOrderItem_sql.est_total_price = materialSubOrderInfo_item.unit_price * materialSubOrderInfo_item.num
                     RawMatOrderItem_sql.status = materialSubOrderInfo_item.status
+                    if materialSubOrderInfo_item.date != '':
+                        expertTime = dt.datetime.strptime(materialSubOrderInfo_item.date,'%Y-%m-%d')
+                        RawMatOrderItem_sql.reg_date = expertTime
+
                     if materialSubOrderInfo_item.vendor.id != 0:
                         vendor_sql = Vendor.objects.get(pk=materialSubOrderInfo_item.vendor.id)
                         RawMatOrderItem_sql.vendor = vendor_sql
@@ -247,6 +256,10 @@ def addNewmaterialSubOrderInfo2Sql(rawMatOrderSql, materialSubOrderInfo):
         rawmatorderitemSql = rawMatOrderSql.rawmatorderitem_set.create(
             rawMat=material, num=materialSubOrderInfo.num,
             est_total_price=(materialSubOrderInfo.unit_price*materialSubOrderInfo.num))
+        if materialSubOrderInfo.date != '':
+            rawmatorderitemSql.reg_date = dt.datetime.strptime(materialSubOrderInfo.date,'%Y-%m-%d')
+            rawmatorderitemSql.save()
+                 
         materialSubOrderInfo.id = rawmatorderitemSql.id
     except RawMat.DoesNotExist:
         print("addNewmaterialSubOrderInfo2Sql Wront material_requiment_item.materialId !!!")

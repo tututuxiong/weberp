@@ -9,9 +9,10 @@
             <th>单位</th>
             <th>单价</th>
             <th>小计</th>
-            <th>备注</th>
+            <th>到货时间</th>
             <th>供应商</th>
             <th>状态</th>
+            <th>备注</th>
         </tr>
     </thead>
     <tbody>
@@ -24,8 +25,7 @@
             <td>{{material.unit}}</td>
             <td><input type="number" class="form-control user-input" [(ngModel)]="material.unit_price"></td>
             <td>{{material.num * material.unit_price}}</td>
-            <td><input class="form-control user-input" [(ngModel)]="material.comment"></td>
-
+            <td><input type="date" class="form-control user-input" [(ngModel)]="material.date"></td>
             <ng-container *ngIf="vendorList[i]?.length>0">
                 <td><select class="form-control" [(ngModel)]="material.vendor">
                   <option *ngFor="let vendor of vendorList[i]" [ngValue]="vendor">{{vendor.name}}</option>
@@ -40,6 +40,7 @@
                   <option *ngFor="let status of material.getStatusList()">{{status}}</option>
                 </select>
             </td>
+            <td><input class="form-control user-input" [(ngModel)]="material.comment"></td>
         </tr>
         <tr>
             <th></th>

@@ -20,6 +20,7 @@ export class MaterialSubOrder {
     unit: string;
     unit_price: number;
     vendor: VendorInfo;
+    date: string;
     comment: string;
     status: number;
 
@@ -35,6 +36,7 @@ export class MaterialSubOrder {
         this.vendor = new VendorInfo();
         this.vendor.id = 0;
         this.vendor.name = '';
+        this.date = '';
         this.status = this.getStatusList[0];
     }
 
@@ -47,6 +49,7 @@ export class MaterialSubOrder {
         this.unit_price = jsonObj.unit_price;
         this.comment = jsonObj.comment;
         this.status = jsonObj.status;
+        this.date = jsonObj.date;
         this.vendor.id = jsonObj.vendor.id;
         this.vendor.name = jsonObj.vendor.name;
     }

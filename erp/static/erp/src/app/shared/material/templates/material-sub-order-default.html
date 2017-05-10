@@ -8,6 +8,7 @@
             <th scope="col">单位</th>
             <th scope="col">单价</th>
             <th scope="col">小计</th>
+            <th scope="col">到货时间</th>
             <th scope="col">供应商</th>
             <th scope="col">备注</th>
             <th>状态</th>
@@ -22,9 +23,10 @@
             <td>{{material.unit}}</td>
             <td>{{material.unit_price}}</td>
             <td>{{material.unit_price * material.num}}</td>
-            <td>{{material.comment}}</td>
+            <td>{{material.date}}</td>
             <td>{{material.vendor.name}}</td>
             <td>{{material.status}}</td>
+            <td>{{material.comment}}</td>
         </tr>
     </tbody>
 </table>
