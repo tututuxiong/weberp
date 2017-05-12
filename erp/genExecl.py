@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from .models import *
+import datetime as dt
 
 title = ["时间",'订单','产品', '物料', '批次', '数量', '金额']
 titleWithoutMoney = ["时间",'订单','产品', '物料', '批次', '数量']
@@ -81,26 +82,37 @@ def genDatafromSqlbyOrderId(orderId):
 
 def gencheckInExecl():
     records = genCheckInInfoFromSql()
+    today = dt.date.today()
+    filename = '物料入库记录-%s.xlsx' % today.strftime("%Y-%m-%d")
     df = pd.DataFrame(records,columns=titleCheckIn)
-    writer = pd.ExcelWriter('物料入库记录.xlsx', engine='xlsxwriter')
+    writer = pd.ExcelWriter(filename, engine='xlsxwriter')
     df.to_excel(writer, 'Sheet1')
     writer.save()
+    today = dt.date.today()
+    return filename
 
 
 def gencheckoutExecl():
     records = gencheckoutfromSql()
+    today = dt.date.today()
     df = pd.DataFrame(records,columns=titleWithoutMoney)
-    writer = pd.ExcelWriter('物料出库记录.xlsx', engine='xlsxwriter')
+    filename = '物料出库记录-%s.xlsx' % today.strftime("%Y-%m-%d")
+    writer = pd.ExcelWriter(filename, engine='xlsxwriter')
     df.to_excel(writer, 'Sheet1')
     writer.save()
+    return filename
+
 
 def genExeclByOrderId(orderId):
     records = genDatafromSqlbyOrderId(1)
     order = SalesOrder.objects.get(pk=orderId)
     df = pd.DataFrame(records,columns=title)
-    writer = pd.ExcelWriter(order.name + '.xlsx', engine='xlsxwriter')
+    today = dt.date.today()
+    filename = order.name + '-%s.xlsx' % today.strftime("%Y-%m-%d")
+    writer = pd.ExcelWriter(filename, engine='xlsxwriter')
     df.to_excel(writer, 'Sheet1')
     writer.save()
+    return filename
 
 def genJsonByOrderId(orderId):
     records = genDatafromSqlbyOrderId(1)

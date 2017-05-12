@@ -15,6 +15,7 @@ from .vendor import *
 
 from .stockInfo import *
 from .tree import Leaf, Node
+from .genExecl import *
 
 import json
 # Create your views here.
@@ -156,4 +157,32 @@ def LeafInfo(request, leaf_id):
         dict_data = json.loads(request.body.decode())['leaf']
         tmp_materialStock = StockInfo()
         tmp_materialStock.setJson2Class(dict_data)
-        return HttpResponse(addNewMaterialLeaf(tmp_materialStock).toJson())        
+        return HttpResponse(addNewMaterialLeaf(tmp_materialStock).toJson())
+
+def checkInInfo(request):
+    filename = gencheckInExecl()
+    response = HttpResponse(readFile(filename), content_type='APPLICATION/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename='+ filename
+    return response
+
+def checkOutInfo(request):
+    filename = gencheckoutExecl()
+    response = HttpResponse(readFile(filename), content_type='APPLICATION/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename='+ filename
+    return response
+
+def salerOrderCheckOutInfo(request,order_id):
+    filename = genExeclByOrderId(int(order_id))
+    response = HttpResponse(readFile(filename), content_type='APPLICATION/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename='+ filename
+    return response
+
+def readFile(fn, buf_size=262144):#大文件下载，设定缓存大小  
+    f = open(fn, "rb")  
+    while True:#循环读取  
+        c = f.read(buf_size)  
+        if c:
+            yield c  
+        else:  
+            break  
+    f.close()  

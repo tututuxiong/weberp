@@ -27,4 +27,7 @@ urlpatterns = [
     url(r'app/ProductTree$', views.productTree),
     url(r'app/node/(?P<node_id>[0-9]+)$', views.NodeInfo),
     url(r'app/leaf/(?P<leaf_id>[0-9]+)$', views.LeafInfo),
+    url(r'app/checkInInfo$', views.checkInInfo),
+    url(r'app/checkOutInfo$', views.checkOutInfo),
+    url(r'app/orders/(?P<order_id>[0-9]+)/checkOutInfo$', views.salerOrderCheckOutInfo),
 ]
