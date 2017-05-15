@@ -1,0 +1,28 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{title}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+</div>
+<div class="modal-body">
+    <div>
+        <ng-container *ngIf="root_node?.id">
+            <dropdown-tree-view [root_node]="root_node" (choose_leaf)="onChooseLeaf($event)"></dropdown-tree-view>
+        </ng-container>
+    </div>
+    <div>
+        <ng-container *ngIf="return_value.choosed_leaf?.unit">
+            <div class="row title-l2">
+                <h5>数量</h5>
+                <div class="col-md-2">
+                    <input type="number" class="form-control user-input" [(ngModel)]="return_value.num">
+                </div>
+                <h5>单位:{{return_value.choosed_leaf.unit + " "}} &nbsp;</h5>
+            </div>
+        </ng-container>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="onSubmit()">确定</button>
+</div>

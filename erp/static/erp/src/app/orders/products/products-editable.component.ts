@@ -1,10 +1,12 @@
 import { Component } from "@angular/core";
 import { Input, Output, OnInit } from "@angular/core";
 import { EventEmitter } from "@angular/core";
-import { TreeService } from './../../shared/tree/tree.service'
-import { Node, Leaf } from './../../shared/tree/tree'
+import { TreeService } from './../../shared/tree/tree.service';
+import { Node, Leaf } from './../../shared/tree/tree';
 
-import {MaterialRequriment, Product } from './product';
+import { MaterialRequriment, Product } from './product';
+import { NgbdModalChooseNodeContent, NgbdModalChooseNodeContent_Output } from './../../stock/stock.choose.component'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 const NEWPRODUCT: Product = {
     id: 0,
@@ -18,13 +20,15 @@ const NEWPRODUCT: Product = {
     materialRequrimentList: [],
 };
 
+
+
 @Component({
     selector: 'products-editable',
     moduleId: module.id,
     templateUrl: './templates/products-editable.html'
-}) 
+})
 
-export class ProductsEditableComponent implements OnInit{
+export class ProductsEditableComponent implements OnInit {
     @Input()
     productList: Product[];
 
@@ -40,30 +44,40 @@ export class ProductsEditableComponent implements OnInit{
     @Output()
     onCancelEditProducts = new EventEmitter<void>();
 
-    productStockList: Leaf[];
+    product_root_node: Node;
 
     constructor(
         private tree_service: TreeService,
-    ){}
+        private modalService: NgbModal,
+    ) { }
 
     ngOnInit(): void {
-        this.productStockList = [];
-        
-        this.tree_service.getProductRootTree().subscribe(productTree =>{
-            productTree.leafs.forEach( product =>{
-                this.productStockList.push(product);
-            });
-            
-        });
+        this.product_root_node = this.tree_service.getProductRootTreeInMemory();
     }
 
-    newProduct: Product = Object.assign({}, NEWPRODUCT);
+    getParentPathInfo(product: Product): string {
+        let leaf = new Leaf();
+        leaf.id = product.stockId;
+        return this.tree_service.getParentPathInfo(this.product_root_node, leaf);
+    }
 
     onAddProduct(): void {
-        let addedProduct: Product = Object.assign({}, this.newProduct);
-        this.productList.push(addedProduct);
-        this.addedProductList.push(addedProduct);
-        this.newProduct = Object.assign({}, NEWPRODUCT);
+        const modalRef = this.modalService.open(NgbdModalChooseNodeContent);
+        modalRef.componentInstance.root_node = this.product_root_node;
+
+        modalRef.result.then(result => this.handleResult(result));
+    }
+
+    private handleResult(result: NgbdModalChooseNodeContent_Output): void {
+        console.log(result);
+        let newProduct = Object.assign({}, NEWPRODUCT);
+        newProduct.stockId = result.choosed_leaf.id;
+        newProduct.unit = result.choosed_leaf.unit;
+        newProduct.name = result.choosed_leaf.name;
+        newProduct.count = result.num;
+
+        this.productList.push(newProduct);
+        this.addedProductList.push(newProduct);
     }
 
     onDeleteProduct(product: Product): void {
@@ -72,17 +86,11 @@ export class ProductsEditableComponent implements OnInit{
         this.productList.splice(index, 1);
     }
 
-    onSubmitEdit() : void {
+    onSubmitEdit(): void {
         this.onSubmitEditProducts.emit();
     }
 
-    onCancelEdit() : void {
+    onCancelEdit(): void {
         this.onCancelEditProducts.emit();
-    }
-
-    onChange(leaf: Leaf){
-        this.newProduct.stockId = leaf.id;
-        this.newProduct.unit = leaf.unit;
-        this.newProduct.name = leaf.name;
     }
 }

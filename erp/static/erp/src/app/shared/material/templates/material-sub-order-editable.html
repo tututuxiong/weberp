@@ -1,72 +1,52 @@
 <table class="table">
-  <thead class="thead-inverse">
-    <tr>
-      <th></th>
-      <!--<th scope="col">序号</th>
-      <th scope="col">名称</th>
-      <th scope="col">数量</th>
-      <th scope="col">单位</th>
-      <th scope="col">单价</th>
-      <th scope="col">小计</th>
-      <th scope="col">备注</th>-->
-      <th >序号</th>
-      <th >一级</th>
-      <th >二级</th>
-      <th >数量</th>
-      <th >单位</th>
-      <th >单价</th>
-      <th >小计</th>
-      <th >备注</th>
-      <th >状态</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let material of materialSubOrderList; let i = index">
-      <th ><button type="button" class="btn btn-danger btn-sm" (click)="onDeleteMaterial(material)"><i class="fa fa-minus"></i></button></th>
-      <th scope="row">{{i+1}}</th>
-      <td>{{getParentName(material.materialId)}}</td>
-      <td>{{material.name}}</td>
-      <td>{{material.num}}</td>
-      <td>{{material.unit}}</td>
-      <td>{{material.unit_price}}</td>
-      <td>{{material.total_price}}</td>
-      <td>{{material.comment}}</td>
-      <td>{{material.status}}</td>
-    </tr>
-    <tr>
-      <th></th>
-      <!--<th scope="row">{{materialSubOrderList.length + 1}}</th>-->
-      <th >{{materialSubOrderList.length + 1}}</th>
-      
-      <td><select class="custom-select" [ngModel]="material_level1" (ngModelChange)="onChangeLevel1($event)">
-        <ng-container *ngIf="material_level1">
-          <option [ngValue]="l1" *ngFor="let l1 of material_level1">{{l1.name}}</option>
-        </ng-container>
-        </select></td>
-      
-      
-      <td><select class="custom-select" [ngModel]="material_level2" (ngModelChange)="onChangeLevel2($event)">
-        <ng-container *ngIf="material_level2">
-          <option selected [ngValue]="l2" *ngFor="let l2 of material_level2">{{l2.name}}</option>
-        </ng-container>
-        </select></td>
-      
+    <thead class="thead-inverse">
+        <tr>
+            <th></th>
+            <th>序号</th>
+            <th>类别</th>
+            <th>名称</th>
+            <th>数量</th>
+            <th>单位</th>
+            <th>单价</th>
+            <th>小计</th>
+            <th>到货时间</th>
+            <th>供应商</th>
+            <th>状态</th>
+            <th>备注</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let material of materialSubOrderList; let i = index">
+            <th><button type="button" class="btn btn-danger btn-sm" (click)="onDeleteMaterial(material)"><i class="fa fa-minus"></i></button></th>
+            <th scope="row">{{i+1}}</th>
+            <td>{{getParentPathInfo(material)}}</td>
+            <td>{{material.name}}</td>
+            <td>{{material.num}}</td>
+            <td>{{material.unit}}</td>
+            <td><input type="number" class="form-control user-input" [(ngModel)]="material.unit_price"></td>
+            <td>{{material.num * material.unit_price}}</td>
+            <td><input type="date" class="form-control user-input" [(ngModel)]="material.date"></td>
+            <ng-container *ngIf="vendorList[i]?.length>0">
+                <td><select class="form-control" [(ngModel)]="material.vendor">
+                  <option *ngFor="let vendor of vendorList[i]" [ngValue]="vendor">{{vendor.name}}</option>
+                </select>
+                </td>
+            </ng-container>
+            <ng-container *ngIf="!vendorList[i]?.length>0">
+                <td>N/A</td>
+            </ng-container>
 
-      <td><input class="form-control" [(ngModel)]="newMaterial.num"></td>
-      <!--<td><input class="form-control" [(ngModel)]="newMaterial.unit"></td>-->
-      <ng-container *ngIf="selected_material != undefined">
-        <td>{{selected_material.unit}}</td>
-      </ng-container>
-      <ng-container *ngIf="selected_material == undefined">
-        <td>N/A</td>
-      </ng-container>
-      <td><input class="form-control" [(ngModel)]="newMaterial.unit_price"></td>
-      <td><input class="form-control" [(ngModel)]="newMaterial.total_price"></td>
-      <td><input class="form-control" [(ngModel)]="newMaterial.comment"></td>
-      <td><select class="custom-select" [(ngModel)]="newMaterial.status">
-        <option *ngFor="let status of newMaterial.getStatusList()">{{status}}</option>
-        </select></td>
-      <td><button type="button" class="btn btn-success btn-sm" (click)="onAddMaterial()"><i class="fa fa-plus"></i></button></td>
-    </tr>
-  </tbody>
+            <td><select class="form-control" [(ngModel)]="material.status">
+                  <option *ngFor="let status of material.getStatusList()">{{status}}</option>
+                </select>
+            </td>
+            <td><input class="form-control user-input" [(ngModel)]="material.comment"></td>
+        </tr>
+        <tr>
+            <th></th>
+            <!--<th scope="row">{{materialSubOrderList.length + 1}}</th>-->
+            <th>{{materialSubOrderList.length + 1}}</th>
+            <td><button type="button" class="btn btn-success btn-sm" (click)="onAddMaterial()"><i class="fa fa-plus"></i></button></td>
+        </tr>
+    </tbody>
 </table>

@@ -1,10 +1,13 @@
 import { Component } from "@angular/core";
 import { Input, OnInit } from "@angular/core";
 
-import { MaterialSubOrder } from './material-sub-order';
+import { MaterialSubOrder, VendorInfo } from './material-sub-order';
 
 import { Leaf, Node } from '../tree/tree';
 import { TreeService } from '../tree/tree.service';
+import { NgbdModalChooseNodeContent, NgbdModalChooseNodeContent_Output } from './../../stock/stock.choose.component'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MaterialOrderService } from './material-order.service';
 
 @Component({
     selector: 'material-sub-order-editable',
@@ -19,71 +22,69 @@ export class MaterialSubOrderEditableComponent implements OnInit {
     @Input()
     materialOrderId: number;
 
-    newMaterial: MaterialSubOrder;
+    vendorList: VendorInfo[][];
 
-    material_level1: Node[];
-    material_level2: Leaf[];
-
-    // material_level1_name: string[];
-
-    selected_material: Leaf;
-
-    constructor (private ts: TreeService) {
+    material_root_node: Node;
+    constructor(private ts: TreeService,
+        private moService: MaterialOrderService, 
+        private modalService: NgbModal, ) {
 
     }
 
-    ngOnInit () {
+    ngOnInit() {
+        this.vendorList = [];
+        this.material_root_node = this.ts.getMaterialRootTreeInMemory();
 
-        // this.material_level1_name = [];
-
-        this.selected_material = undefined;
-
-        // this.materialSubOrderList.forEach(mso => {
-        //     let level1 = this.ts.getParentByLeafId(mso.materialId, undefined);
-        //     this.material_level1_name.push(level1.name);
-        // });
-
-        // this.material_level1_name.forEach(level1_name => {
-        //  })
-
-        this.newMaterial = new MaterialSubOrder(this.materialOrderId);
-        this.material_level1 = [];
-
-        this.ts.getChildrenNodes(undefined).forEach(node => {
-            this.material_level1.push(node);
-        })
+        this.materialSubOrderList.forEach(material => {
+            let index = this.materialSubOrderList.indexOf(material);
+            this.getVendorInfo(material.materialId, index);
+        });
     }
 
-
-    private getParentName(materialId: number) : string {
-        let parent = this.ts.getParentByLeafId(materialId, undefined);
-        return parent.name;
+    getParentPathInfo(material: any): string {
+        let leaf = new Leaf();
+        leaf.id = material.materialId;
+        return this.ts.getParentPathInfo(this.material_root_node, leaf);
     }
-    
+
     onAddMaterial() {
+        const modalRef = this.modalService.open(NgbdModalChooseNodeContent);
+        modalRef.componentInstance.root_node = this.material_root_node;
 
-        this.newMaterial.materialId = this.selected_material.id;
-        this.newMaterial.name = this.selected_material.name;
-        this.newMaterial.unit = this.selected_material.unit;
-
-        this.materialSubOrderList.push(this.newMaterial);
-        this.newMaterial = new MaterialSubOrder(this.materialOrderId);
+        modalRef.result.then(result => this.handleResult(result));
     }
 
-    onDeleteMaterial(material: MaterialSubOrder) : void {
+    private handleResult(result: NgbdModalChooseNodeContent_Output): void {
+        let newMaterial = new MaterialSubOrder(this.materialOrderId);
+        newMaterial.materialId = result.choosed_leaf.id;
+        newMaterial.name = result.choosed_leaf.name;
+        newMaterial.unit = result.choosed_leaf.unit;
+        newMaterial.num = result.num;
+        newMaterial.unit_price = 0;
+        this.materialSubOrderList.push(newMaterial);
+        this.getVendorInfo(newMaterial.materialId, this.materialSubOrderList.length-1);
+    }
+
+    private getVendorInfo(materialId: number, index: number): void {
+        this.moService.getVendorListbyStockId(materialId).subscribe(
+            vendorinfoList=>{
+                this.vendorList[index] = [];
+                vendorinfoList.forEach(vendorInfo => {
+                          let vendor = new VendorInfo();
+                          vendor.deserialize(vendorInfo);
+                          this.vendorList[index].push(vendor);
+
+                          if(vendor.id == this.materialSubOrderList[index].vendor.id){
+                                this.materialSubOrderList[index].vendor = vendor;
+                          }
+            })
+        }
+        );
+    }
+
+    onDeleteMaterial(material: MaterialSubOrder): void {
         let index = this.materialSubOrderList.indexOf(material);
+        this.vendorList.splice(index,1);
         this.materialSubOrderList.splice(index, 1);
-    }
-
-    onChangeLevel1(level1: Node) {
-        this.material_level2 = [];
-
-        this.ts.getChildrenLeafs(level1).forEach(leaf => {
-            this.material_level2.push(leaf);
-        })
-    }
-
-    onChangeLevel2(level2: Leaf) {
-        this.selected_material = level2;
     }
 }

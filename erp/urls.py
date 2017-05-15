@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'app/Orders$', views.orderList),
     url(r'app/materialStocks$', views.materialStockList),
     url(r'app/materialStocks/(?P<material_id>[0-9]+)$', views.materialStock),
+    url(r'app/materialStocks/(?P<material_id>[0-9]+)/vendors$', views.materialStockVendors),
     url(r'app/Orders/(?P<order_id>[0-9]+)$', views.order),
     url(r'app/procurementOrders$', views.materialOrderList),
     url(r'app/orders/(?P<order_id>[0-9]+)/subProducts$', views.subProductList),
@@ -26,4 +27,7 @@ urlpatterns = [
     url(r'app/ProductTree$', views.productTree),
     url(r'app/node/(?P<node_id>[0-9]+)$', views.NodeInfo),
     url(r'app/leaf/(?P<leaf_id>[0-9]+)$', views.LeafInfo),
+    url(r'app/checkInInfo$', views.checkInInfo),
+    url(r'app/checkOutInfo$', views.checkOutInfo),
+    url(r'app/orders/(?P<order_id>[0-9]+)/checkOutInfo$', views.salerOrderCheckOutInfo),
 ]

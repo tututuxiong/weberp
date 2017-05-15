@@ -17,7 +17,7 @@ export class MaterialOrder {
     constructor(parentOrderId: number) {
         this.id = -1;
         this.orderId = parentOrderId;
-        this.name = 'New Material Order';
+        this.name = '请输入采购单名称...';
         this.date = '';
         this.price = 100;
         this.comment = '';

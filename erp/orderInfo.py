@@ -70,7 +70,7 @@ def fetchOrderFromSqlById(id):
 def addSalerOrder2Sql(tmp_orderInfo):
     if tmp_orderInfo.id == -1:
         newSalesOrder_sql = SalesOrder(
-            name=tmp_orderInfo.name, status="INIT", saler=tmp_orderInfo.sales, total_price=tmp_orderInfo.price, desc=tmp_orderInfo.desc, comment=tmp_orderInfo.desc)
+            name=tmp_orderInfo.name, status=tmp_orderInfo.status, saler=tmp_orderInfo.sales, total_price=tmp_orderInfo.price, desc=tmp_orderInfo.desc, comment=tmp_orderInfo.desc)
         newSalesOrder_sql.save()
         tmp_orderInfo.id = newSalesOrder_sql.id
         tmp_orderInfo.date = newSalesOrder_sql.act_date.strftime('%Y-%m-%d %H:%M')
@@ -101,5 +101,3 @@ def updateSalerOrder2Sql(tmp_orderInfo):
          return tmp_orderInfo
      except SalesOrder.DoesNotExist:
          return errorMessage
-
-                

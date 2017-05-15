@@ -9,6 +9,7 @@ import { MaterialStockComponent} from './materialStock.component'
 import { ProductStockComponent} from './productStock.component'
 import { NgbdModalUpdateNodeContent } from './stock.update.comonent'
 import { NgbdModalAddNodeContent } from './stock.addNode.component'
+import { NgbdModalChooseNodeContent } from './stock.choose.component'
 import { StockService} from './stock.service'
 
 import { StockRoutingModule } from './stock-routing.module'
@@ -29,14 +30,16 @@ import {TreeModule} from './../shared/tree/tree.module'
         MaterialStockComponent,
         ProductStockComponent,
         NgbdModalUpdateNodeContent,
-        NgbdModalAddNodeContent
+        NgbdModalAddNodeContent,
+        NgbdModalChooseNodeContent
     ],
     providers: [
         StockService
     ],
     entryComponents: [
         NgbdModalUpdateNodeContent,
-        NgbdModalAddNodeContent
+        NgbdModalAddNodeContent,
+        NgbdModalChooseNodeContent,
     ],
 
 })

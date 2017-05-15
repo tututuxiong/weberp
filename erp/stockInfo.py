@@ -39,6 +39,7 @@ class StockInfo(Leaf):
         self.parentId = ''
         self.name = ''
         self.shoppingNum = 0
+        self.patchInfos = []
 
     def setValue(self, name, internalId, instockNum, unit, shoppingNum):
         self.name = name
@@ -93,6 +94,9 @@ def initMaterialLeafFromSqlData(materialStock, subNode_sql):
 
     for CheckInRawMatItem_sql in CheckInRawMatRepoRecord.objects.filter(rawMaterial=subNode_sql):
         materialStock.instockNum += CheckInRawMatItem_sql.num
+        if CheckInRawMatItem_sql.batch_nr != "":
+            materialStock.patchInfos.append(CheckInRawMatItem_sql.batch_nr)
+
     for CheckOutRawMatItem_sql in CheckOutRawMatRepoRecord.objects.filter(rawMaterial=subNode_sql):
         materialStock.instockNum -= CheckOutRawMatItem_sql.num
 
@@ -100,7 +104,7 @@ def initMaterialLeafFromSqlData(materialStock, subNode_sql):
         materialStock.instockNum += CheckInProductItem_sql.num
 
     for CheckOutProductItem_sql in CheckOutProductRepoRecord.objects.filter(rawMaterial=subNode_sql):
-        materialStock.instockNum -= CheckOutProductItem_sql.num  
+        materialStock.instockNum -= CheckOutProductItem_sql.num
 
     for RawMatOrderItem_sql in RawMatOrderItem.objects.filter(rawMat=subNode_sql):
         if RawMatOrderItem_sql.status == "BUYING":
@@ -184,7 +188,7 @@ def getNodeInfo(node_id):
                     node.addSubNode(tmp_node)
                 else:
                     tmp_leaf = Leaf(subNode_sql.name)
-                    initNodeBySqlInfo(tmp_leaf,subNode_sql)
+                    initNodeBySqlInfo(tmp_leaf, subNode_sql)
                     tmp_leaf.parentId = node.id
                     node.addLeaf(tmp_leaf)
 
@@ -200,19 +204,20 @@ def getNodeInfo(node_id):
         print("no root node yet")
         return None
 
-def getProductTreeBysubProductId(id,tree_name):
+
+def getProductTreeBysubProductId(id, tree_name):
     materialLeafList = findoutMaterialBysubProductId(id)
-    return generateTreeByLeafs(materialLeafList,tree_name)
+    return generateTreeByLeafs(materialLeafList, tree_name)
 
 
-def getMaterialTreeBysubProductId(id,tree_name):
+def getMaterialTreeBysubProductId(id, tree_name):
     materialLeafList = findoutMaterialBysubProductId(id)
-    return generateTreeByLeafs(materialLeafList,tree_name)
+    return generateTreeByLeafs(materialLeafList, tree_name)
 
 
-def getTreeByMaterialOrderId(id,tree_name):
+def getTreeByMaterialOrderId(id, tree_name):
     materialLeafList = findoutMaterialByMaterialOrderId(id)
-    return generateTreeByLeafs(materialLeafList,tree_name)
+    return generateTreeByLeafs(materialLeafList, tree_name)
 
 
 def findoutMaterialBysubProductId(id):
@@ -242,8 +247,8 @@ def findoutMaterialByMaterialOrderId(id):
     return materialLeafList
 
 
-def generateTreeByLeafs(materialLeafList,tree_name):
-    rootTreeSql = RawMat.objects.get(parent=None,name=tree_name)
+def generateTreeByLeafs(materialLeafList, tree_name):
+    rootTreeSql = RawMat.objects.get(parent=None, name=tree_name)
     rootTree = Node("")
     rootTree.id = rootTreeSql.id
     rootTree.name = rootTreeSql.name
@@ -293,30 +298,27 @@ def updateMaterialInfo(materialUpdateInfo):
         newRecode = CheckInRawMatRepoRecord(
             rawMaterial=material_sql, rawMatOrderItem=rawMatOrder_sql,
             batch_nr=materialUpdateInfo.additionalInfo, num=materialUpdateInfo.num,
-            act_date=timezone.now(), reg_date=timezone.now(), act_total_price=materialUpdateInfo.price)
+            act_total_price=materialUpdateInfo.price)
         newRecode.save()
 
     elif materialUpdateInfo.typeId == 1 and materialUpdateInfo.productType == 0:
         salesItem_sql = SalesItem.objects.get(
             pk=materialUpdateInfo.saleOrderItemId)
         newRecode = CheckOutRawMatRepoRecord(salesItem=salesItem_sql, rawMaterial=material_sql,
-                                             batch_nr=materialUpdateInfo.additionalInfo, num=materialUpdateInfo.num,
-                                             act_date=timezone.now(), reg_date=timezone.now())
+                                             batch_nr=materialUpdateInfo.additionalInfo, num=materialUpdateInfo.num)
         newRecode.save()
-    elif materialUpdateInfo.productType ==1 and materialUpdateInfo.typeId == 0:
+    elif materialUpdateInfo.productType == 1 and materialUpdateInfo.typeId == 0:
         salesItem_sql = SalesItem.objects.get(
             pk=materialUpdateInfo.saleOrderItemId)
-        newRecode = CheckInProductRepoRecord(salesItem=salesItem_sql,rawMaterial=material_sql,
-                                             batch_nr=materialUpdateInfo.additionalInfo, num=materialUpdateInfo.num,
-                                             act_date=timezone.now(), reg_date=timezone.now())
+        newRecode = CheckInProductRepoRecord(salesItem=salesItem_sql, rawMaterial=material_sql,
+                                             batch_nr=materialUpdateInfo.additionalInfo, num=materialUpdateInfo.num)
         newRecode.save()
 
-    elif materialUpdateInfo.productType ==1 and materialUpdateInfo.typeId == 1:                 
+    elif materialUpdateInfo.productType == 1 and materialUpdateInfo.typeId == 1:
         salesItem_sql = SalesItem.objects.get(
             pk=materialUpdateInfo.saleOrderItemId)
-        newRecode = CheckOutProductRepoRecord(salesItem=salesItem_sql,rawMaterial=material_sql,
-                                             batch_nr=materialUpdateInfo.additionalInfo, num=materialUpdateInfo.num,
-                                             act_date=timezone.now(), reg_date=timezone.now())
+        newRecode = CheckOutProductRepoRecord(salesItem=salesItem_sql, rawMaterial=material_sql,
+                                              batch_nr=materialUpdateInfo.additionalInfo, num=materialUpdateInfo.num)
         newRecode.save()
 
     materialUpdateInfo.result = 0

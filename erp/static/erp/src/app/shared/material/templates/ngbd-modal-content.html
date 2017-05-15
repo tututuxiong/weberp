@@ -8,8 +8,14 @@
   <div class="card col-xs-12">
     <div class="card-header">
       <div class="row">
-        <div class="col-sm-6">
-          编号：{{materialOrder.id}}
+        <div class="col-sm-4">
+          <!--编号：{{materialOrder.id}}-->
+          <ng-container *ngIf="materialOrder.modifyMode">
+            名称：<span><input class="form-control user-input" [(ngModel)]="materialOrder.name"></span>
+          </ng-container>
+          <ng-container *ngIf="!materialOrder.modifyMode">
+            名称：{{materialOrder.name + ' ' + materialOrder.id}}
+          </ng-container>
         </div>
         <div class="col-sm-6">
           创建日期：{{materialOrder.date | date:'short'}}
