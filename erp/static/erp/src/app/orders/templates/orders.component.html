@@ -28,8 +28,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let order of orderList" (click)="onSelect(order)">
-      <th>{{order.id}}</th>
+    <tr *ngFor="let order of orderList;let i = index" (click)="onSelect(order)">
+      <th>{{i+1}}</th>
       <td>{{order.name}}</td>
       <td>{{order.date}}</td>
       <td>{{order.desc}}</td>

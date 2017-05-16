@@ -60,7 +60,7 @@ def getMaterialOrderListFromSqlByOrderId(id):
         except SalesOrder.DoesNotExist:
             print("Wront  sales order Id !!!")
     else:
-        for materialOrderSql_item in RawMatOrder.objects.all():
+        for materialOrderSql_item in RawMatOrder.objects.order_by('-act_date'):
             tmp_materialOrder = MaterialOrderInfo()
             initmaterialOrderFromSql(tmp_materialOrder,materialOrderSql_item)
             MaterialOrderList.addMaterialOrderInfo(tmp_materialOrder)
