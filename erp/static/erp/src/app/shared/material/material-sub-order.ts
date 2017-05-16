@@ -40,6 +40,20 @@ export class MaterialSubOrder {
         this.status = this.getStatusList[0];
     }
 
+    copy(src: MaterialSubOrder) {
+        this.id = src.id;
+        this.comment = src.comment;
+        this.date = src.date;
+        this.materialId = src.materialId;
+        this.materialOrderId = src.materialOrderId;
+        this.name = src.name;
+        this.num = src.num;
+        this.status = src.status;
+        this.unit = src.unit;
+        this.unit_price = src.unit_price;
+        this.vendor = src.vendor;
+    }
+
     deserialize(jsonObj: MaterialSubOrder) {
         this.id = jsonObj.id;
         this.materialId = jsonObj.materialId;
