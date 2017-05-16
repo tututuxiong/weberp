@@ -11,8 +11,8 @@ import { OrderService } from './order.service';
     //selector is not needed here because we use routing.
     //selector: "my-orders",
     moduleId: module.id,
-    templateUrl: "./templates/orders.component.html",
-    styleUrls: ["./styles/orders.component.css"]
+    templateUrl: "static/erp/src/app/orders/templates/orders.component.html",
+    styleUrls: ["static/erp/src/app/orders/styles/orders.component.css"]
 })
 
 export class OrdersComponent implements OnInit {

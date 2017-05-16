@@ -13,7 +13,7 @@ import { NgbdModalAddNodeContent } from './stock.addNode.component'
     //selector is not needed here because we use routing.
     //selector: "my-orders",
     moduleId: module.id,
-    templateUrl: "./templates/materialStock.component.html",
+    templateUrl: "static/erp/src/app/stock/templates/materialStock.component.html",
     //styleUrls: ["./styles/orders.component.css"]
 })
 

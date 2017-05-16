@@ -7,7 +7,7 @@ import { OnInit } from "@angular/core";
     //selector is not needed here because we use routing.
     selector: "dropdown-tree-view",
     moduleId: module.id,
-    templateUrl: "./templates/dropdown-tree.component.html",
+    templateUrl: "static/erp/src/app/shared/tree/templates/dropdown-tree.component.html",
     //styleUrls: ["./styles/orders.component.css"]
 })
 

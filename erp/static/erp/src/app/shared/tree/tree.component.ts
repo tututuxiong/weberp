@@ -7,7 +7,7 @@ import { OnInit } from "@angular/core";
     //selector is not needed here because we use routing.
     selector: "tree-view",
     moduleId: module.id,
-    templateUrl: "./templates/tree.component.html",
+    templateUrl: "static/erp/src/app/shared/tree/templates/tree.component.html",
     //styleUrls: ["./styles/orders.component.css"]
 })
 

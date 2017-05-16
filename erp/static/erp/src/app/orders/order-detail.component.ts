@@ -23,7 +23,7 @@ import { TreeService } from '../shared/tree/tree.service';
     //selector is not needed here because we use routing.
     //selector: 'order-detail',
     moduleId: module.id,
-    templateUrl: "./templates/order-detail.component.html"
+    templateUrl: "static/erp/src/app/orders/templates/order-detail.component.html"
 })
 
 export class OrderDetailComponent implements OnInit {

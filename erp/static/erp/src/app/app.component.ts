@@ -4,7 +4,7 @@ import { TreeService } from "./shared/tree/tree.service";
 @Component({
   selector: 'my-app',
   moduleId: module.id,
-  templateUrl: "./app.component.html" 
+  templateUrl: "static/erp/src/app/app.component.html" 
 })
 
 export class AppComponent implements OnInit  {

@@ -12,7 +12,7 @@ import { MaterialOrderService } from './material-order.service';
 @Component({
     selector: 'material-sub-order-editable',
     moduleId: module.id,
-    templateUrl: './templates/material-sub-order-editable.html'
+    templateUrl: 'static/erp/src/app/shared/material/templates/material-sub-order-editable.html'
 })
 
 export class MaterialSubOrderEditableComponent implements OnInit {

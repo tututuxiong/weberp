@@ -8,7 +8,7 @@ import { TreeService } from "./tree.service"
     //selector is not needed here because we use routing.
     selector: "expandTree-view",
     moduleId: module.id,
-    templateUrl: "./templates/expandTree.component.html",
+    templateUrl: "static/erp/src/app/shared/tree/templates/expandTree.component.html",
     //styleUrls: ["./styles/orders.component.css"]
 })
 

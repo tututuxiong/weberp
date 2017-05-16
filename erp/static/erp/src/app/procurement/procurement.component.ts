@@ -11,7 +11,7 @@ import { TreeService } from '../shared/tree/tree.service';
 
 @Component({
     moduleId: module.id,
-    templateUrl: './templates/procurement.html'
+    templateUrl: 'static/erp/src/app/procurement/templates/procurement.html'
 })
 
 export class ProcurementComponent implements OnInit {

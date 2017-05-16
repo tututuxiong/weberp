@@ -10,7 +10,7 @@ import { TreeService } from '../tree/tree.service';
 @Component({
     selector: 'material-order',
     moduleId: module.id,
-    templateUrl: './templates/material-order.html'
+    templateUrl: 'static/erp/src/app/shared/material/templates/material-order.html'
 })
 
 export class MaterialOrderComponent implements OnInit {
