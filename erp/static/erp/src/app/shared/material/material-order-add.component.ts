@@ -112,7 +112,7 @@ export class MaterialOrderAddComponent {
     this.newMaterialOrder.modifyMode = true;
     modalRef.componentInstance.materialOrder = this.newMaterialOrder;
 
-    modalRef.result.then(result => this.handleResult(result));
+    modalRef.result.then((result) => this.handleResult(result), (reason) => console.log("Dismissed!"));
   }
 
   private handleResult(result: string) : void {
