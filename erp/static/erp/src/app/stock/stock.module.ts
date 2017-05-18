@@ -11,7 +11,7 @@ import { NgbdModalUpdateNodeContent } from './stock.update.comonent'
 import { NgbdModalAddNodeContent } from './stock.addNode.component'
 import { NgbdModalChooseNodeContent } from './stock.choose.component'
 import { StockService} from './stock.service'
-
+import { NgbdModalStockRecord } from './stock.record.component'
 import { StockRoutingModule } from './stock-routing.module'
 import {TreeModule} from './../shared/tree/tree.module'
 
@@ -31,7 +31,8 @@ import {TreeModule} from './../shared/tree/tree.module'
         ProductStockComponent,
         NgbdModalUpdateNodeContent,
         NgbdModalAddNodeContent,
-        NgbdModalChooseNodeContent
+        NgbdModalChooseNodeContent,
+        NgbdModalStockRecord
     ],
     providers: [
         StockService
@@ -40,6 +41,7 @@ import {TreeModule} from './../shared/tree/tree.module'
         NgbdModalUpdateNodeContent,
         NgbdModalAddNodeContent,
         NgbdModalChooseNodeContent,
+        NgbdModalStockRecord
     ],
 
 })

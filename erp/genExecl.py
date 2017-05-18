@@ -2,10 +2,20 @@ import pandas as pd
 import numpy as np
 from .models import *
 import datetime as dt
+import json,os
 
 title = ["时间",'订单','产品', '物料', '批次', '数量', '金额']
 titleWithoutMoney = ["时间",'订单','产品', '物料', '批次', '数量']
 titleCheckIn = ["时间",'采购订单', '物料', '批次', '数量','单价','总价','供应商']
+targetDir = 'erp/static/erp/download/'
+path = 'static/erp/download/'
+
+class checkInOutInfo:
+    def __init__(self):
+        filename = ''
+        pathInfo = ''
+    def toJson(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
 def genCheckInInfoFromSql():
     allRecords = []
@@ -88,9 +98,11 @@ def gencheckInExecl():
     writer = pd.ExcelWriter(filename, engine='xlsxwriter')
     df.to_excel(writer, 'Sheet1')
     writer.save()
-    today = dt.date.today()
-    return filename
-
+    os.system('mv -f ' + filename + ' ' + targetDir+filename)
+    infos = checkInOutInfo()
+    infos.fileName = filename
+    infos.pathInfo = path
+    return infos.toJson()
 
 def gencheckoutExecl():
     records = gencheckoutfromSql()
@@ -100,11 +112,15 @@ def gencheckoutExecl():
     writer = pd.ExcelWriter(filename, engine='xlsxwriter')
     df.to_excel(writer, 'Sheet1')
     writer.save()
-    return filename
-
+    linuxCommand = 'mv -f ' + filename + ' ' + targetDir+filename
+    os.system(linuxCommand)
+    infos = checkInOutInfo()
+    infos.fileName = filename  
+    infos.pathInfo = path
+    return infos.toJson()
 
 def genExeclByOrderId(orderId):
-    records = genDatafromSqlbyOrderId(1)
+    records = genDatafromSqlbyOrderId(orderId)
     order = SalesOrder.objects.get(pk=orderId)
     df = pd.DataFrame(records,columns=title)
     today = dt.date.today()
@@ -112,7 +128,11 @@ def genExeclByOrderId(orderId):
     writer = pd.ExcelWriter(filename, engine='xlsxwriter')
     df.to_excel(writer, 'Sheet1')
     writer.save()
-    return filename
+    os.system('mv -f ' + filename + ' ' + targetDir+filename)
+    infos = checkInOutInfo()
+    infos.fileName = filename
+    infos.pathInfo = path
+    return infos.toJson()
 
 def genJsonByOrderId(orderId):
     records = genDatafromSqlbyOrderId(1)

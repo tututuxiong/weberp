@@ -1,70 +1,70 @@
 <ng-container *ngIf="serviceReady">
-<div *ngIf="orderDetail">
-  <div class="row title-l1">
-    <!--<h3>{{title}}</h3>-->
-    <div class="col-sm-3">
-      <h3>订单信息</h3>
-    </div>
-    <div class="col-sm-3">
-      <a routerLink='/orders' class="btn btn-primary" role="button">返回</a>
-    </div>
-  </div>
+    <div *ngIf="orderDetail">
+        <div class="row title-l1">
+            <!--<h3>{{title}}</h3>-->
+            <div class="col-sm-3">
+                <h3>订单信息</h3>
+            </div>
+            <div class="col-sm-3">
+                <button class="btn btn-primary btn-outline-primary" (click)="onFetchCheckOut()">领料记录</button>
+            </div>
+            <div class="col-sm-3">
+                <a routerLink='/orders' class="btn btn-primary" role="button">返回</a>
+            </div>
+        </div>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th>名称</th>
-        <th>日期</th>
-        <th>描述</th>
-        <th>金额</th>
-        <th>销售</th>
-        <th>备注</th>
-        <th>状态</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{orderDetail.name}}</td>
-        <td>{{orderDetail.date}}</td>
-        <td>{{orderDetail.desc}}</td>
-        <td>{{orderDetail.price}}</td>
-        <td>{{orderDetail.sales}}</td>
-        <td>{{orderDetail.comment}}</td>
-        <td>{{orderDetail.status}}</td>
-      </tr>
-    </tbody>
-  </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>日期</th>
+                    <th>描述</th>
+                    <th>金额</th>
+                    <th>销售</th>
+                    <th>备注</th>
+                    <th>状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{orderDetail.name}}</td>
+                    <td>{{orderDetail.date}}</td>
+                    <td>{{orderDetail.desc}}</td>
+                    <td>{{orderDetail.price}}</td>
+                    <td>{{orderDetail.sales}}</td>
+                    <td>{{orderDetail.comment}}</td>
+                    <td>{{orderDetail.status}}</td>
+                </tr>
+            </tbody>
+        </table>
 
-  <ng-container *ngIf="productListEditable">
-    <products-editable [productList]="productList" [addedProductList]="addedProductList" [deletedProductList]="deletedProductList"
-      (onSubmitEditProducts)="onSubmitEdit()" (onCancelEditProducts)="onCancelEdit()"></products-editable>
-  </ng-container>
-  <ng-container *ngIf="!productListEditable">
-    <products [productList]="productList" (onEditProducts)="onEditProducts()"></products>
-  </ng-container>
+        <ng-container *ngIf="productListEditable">
+            <products-editable [productList]="productList" [addedProductList]="addedProductList" [deletedProductList]="deletedProductList" (onSubmitEditProducts)="onSubmitEdit()" (onCancelEditProducts)="onCancelEdit()"></products-editable>
+        </ng-container>
+        <ng-container *ngIf="!productListEditable">
+            <products [productList]="productList" (onEditProducts)="onEditProducts()"></products>
+        </ng-container>
 
-  <div class="row title-l2">
-    <div class="col-sm-3">
-      <h4>原料清单</h4>
-    </div>
-  </div>
-  <detail-material [productList]="productList" [materialItemList]="materialItemList"></detail-material>
+        <div class="row title-l2">
+            <div class="col-sm-3">
+                <h4>原料清单</h4>
+            </div>
+        </div>
+        <detail-material [productList]="productList" [materialItemList]="materialItemList"></detail-material>
 
-  <div class="row title-l2">
-    <div class="col-sm-4">
-      <h4>原料采购订单</h4>
+        <div class="row title-l2">
+            <div class="col-sm-4">
+                <h4>原料采购订单</h4>
+            </div>
+            <div class="col-sm-2">
+                <!--<button class="btn btn-primary" (click)="open(content)">添加订单</button>-->
+                <new-material-order [materialOrderList]="materialOrderList" [orderId]="orderDetail.id"></new-material-order>
+            </div>
+        </div>
+        <material-order [materialOrderList]="materialOrderList"></material-order>
     </div>
-    <div class="col-sm-2">
-      <!--<button class="btn btn-primary" (click)="open(content)">添加订单</button>-->
-      <new-material-order [materialOrderList]="materialOrderList" [orderId]="orderDetail.id"></new-material-order>
-    </div>
-  </div>
-  <material-order [materialOrderList]="materialOrderList"></material-order>
-</div>
 
 </ng-container>
 <ng-container *ngIf="!serviceReady">
-  <p>Loading...</p>
+    <p>Loading...</p>
 </ng-container>
-
-
