@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from .models import *
 import datetime as dt
-import json,os
+import json,os,shutil
 
 title = ["时间",'订单','产品', '物料', '批次', '数量', '金额']
 titleWithoutMoney = ["时间",'订单','产品', '物料', '批次', '数量']
@@ -98,7 +98,8 @@ def gencheckInExecl():
     writer = pd.ExcelWriter(filename, engine='xlsxwriter')
     df.to_excel(writer, 'Sheet1')
     writer.save()
-    os.system('mv -f ' + filename + ' ' + targetDir+filename)
+    # shutil.move('cp -f ' + filename + ' ' + targetDir+filename)
+    shutil.move(filename, targetDir+filename)
     infos = checkInOutInfo()
     infos.fileName = filename
     infos.pathInfo = path
@@ -112,8 +113,9 @@ def gencheckoutExecl():
     writer = pd.ExcelWriter(filename, engine='xlsxwriter')
     df.to_excel(writer, 'Sheet1')
     writer.save()
-    linuxCommand = 'mv -f ' + filename + ' ' + targetDir+filename
-    os.system(linuxCommand)
+    # linuxCommand = 'cp -f ' + filename + ' ' + targetDir+filename
+    # os.system(linuxCommand)
+    shutil.move(filename, targetDir+filename)
     infos = checkInOutInfo()
     infos.fileName = filename  
     infos.pathInfo = path
@@ -128,7 +130,8 @@ def genExeclByOrderId(orderId):
     writer = pd.ExcelWriter(filename, engine='xlsxwriter')
     df.to_excel(writer, 'Sheet1')
     writer.save()
-    os.system('mv -f ' + filename + ' ' + targetDir+filename)
+    # os.system('cp -f ' + filename + ' ' + targetDir+filename)
+    shutil.move(filename, targetDir+filename)
     infos = checkInOutInfo()
     infos.fileName = filename
     infos.pathInfo = path
