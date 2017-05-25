@@ -12,7 +12,7 @@ from .materialOrderInfo import *
 from .materialOrderInfoList import *
 
 from .vendor import *
-
+from .users import *
 from .stockInfo import *
 from .tree import Leaf, Node
 from .genExecl import *
@@ -27,12 +27,9 @@ def index(request):
     return render(request, 'erp/index.html')
 
 def users(request):
-    user_list = [
-        {'name': "Frank", 'password': '123456'},
-        {'name': "Alan", 'password': '123456'}
-    ]
-
-    return HttpResponse(json.dumps(user_list))
+    userList = UserList()
+    userList.getAllUserInfo()
+    return HttpResponse(userList.toJson())
 
 def order(request, order_id):
     if request.method == 'GET':

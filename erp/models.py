@@ -3,6 +3,30 @@ from django.utils import timezone
 
 # Create your models here.
 
+
+class LocalUser(models.Model):
+    MANGER = 'Manger'
+    SALER = 'Saler'
+    STOCKMAN = 'Stockman'
+
+    USER_TYPE_CHOICES = (
+        (MANGER,'Manger'),
+        (SALER,'Saler'),
+        (STOCKMAN,'Stockman')
+    )
+
+    userType = models.CharField(
+        max_length=30,
+        choices = USER_TYPE_CHOICES,
+        default = MANGER
+    )
+
+    name = models.CharField(max_length=200, default='')
+    password = models.CharField(max_length=200, default='')
+
+    def __str__(self):
+        return self.name
+
 class SalesOrder(models.Model):
     name = models.CharField(max_length=200, default='')
     status = models.CharField(max_length=50)  # NEW, FINISHED

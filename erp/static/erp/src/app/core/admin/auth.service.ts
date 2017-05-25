@@ -97,7 +97,7 @@ export class AuthService {
     private extractData(res: Response) {
         let body = res.json();
         console.log(body);
-        return body;
+        return body.userList;
     }
 
     private getUsers() : Observable<User[]> {
