@@ -7,8 +7,8 @@ import { AuthService } from './auth.service';
 @Component({
     selector: 'login-form',
     moduleId: module.id,
-    styleUrls: ['./style/login.css'],
-    templateUrl: './template/login.component.html'
+    styleUrls: ['static/erp/src/app/core/admin/style/login.css'],
+    templateUrl: 'static/erp/src/app/core/admin/template/login.component.html'
 })
 
 export class LoginComponent implements OnInit {
