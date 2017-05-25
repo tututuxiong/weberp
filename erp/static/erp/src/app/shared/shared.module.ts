@@ -37,11 +37,11 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
          MaterialOrderComponent,
          MaterialOrderAddComponent,
          MaterialSubOrderComponent,
-         MaterialSubOrderEditableComponent
+         MaterialSubOrderEditableComponent,
     ],
 
     providers: [
-        MaterialOrderService
+        MaterialOrderService,
     ]
 })
 

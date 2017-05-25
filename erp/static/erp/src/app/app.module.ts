@@ -10,6 +10,7 @@ import { OrdersModule } from './orders/orders.module';
 import { ProcurementModule } from './procurement/procurement.module';
 
 import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core/core.module';
 
 import { InventoryComponent } from './inventory/inventory.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -25,6 +26,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     SharedModule,
     ProcurementModule,
     StockModule,
+    CoreModule,
     AppRoutingModule
   ],
 

@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-sm-3"></div>
+
+  <div class="col-sm-6">
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="form-group">
+        <label for="name">用户名</label>
+        <input type="text" class="form-control" id="name" required [(ngModel)]="model.name" 
+        name="name" #name="ngModel">
+        <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+          用户名不能为空
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">密码</label>
+        <input type="text" class="form-control" id="password" required [(ngModel)]="model.password" 
+        name="password" #password="ngModel">
+        <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
+          密码不能为空
+        </div>
+      </div>
+
+      <!--<div class="form-group">-->
+        <button class="btn btn-success" [disabled]="!loginForm.form.valid">登录</button>
+      <!--</div>-->
+    </form>
+  </div>
+
+  <div class="col-sm-3"></div>
+</div>
+
+<ng-container *ngIf="error">
+  <div class="row">
+    <p>用户名或密码错误！</p>
+  </div>
+</ng-container>
+

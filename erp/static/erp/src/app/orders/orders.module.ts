@@ -15,6 +15,7 @@ import { DetailMaterialComponent } from "./detail-material/detail-material.compo
 import { OrderService } from "./order.service";
 import { ProductService } from "./products/product.service";
 import { StockService } from './../stock/stock.service';
+// import { AuthGuard } from '../shared/admin/auth-guard.service';
 
 /* Routing */
 import { OrderRoutingModule } from "./orders-routing.module";
@@ -49,6 +50,7 @@ import { TreeModule } from '../shared/tree/tree.module'
         OrderService,
         ProductService,
         StockService,
+        // AuthGuard
     ]
 })
 

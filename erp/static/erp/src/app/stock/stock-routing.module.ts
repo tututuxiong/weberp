@@ -4,12 +4,14 @@ import { RouterModule, Routes } from "@angular/router";
 import { MaterialStockComponent } from './materialStock.component'
 import { ProductStockComponent } from './productStock.component'
 
+import { AuthGuard } from "../core/admin/auth-guard.service";
+
 const materialStockRoutes: Routes = [
-    {path: 'materialsStock', component: MaterialStockComponent},
+    {path: 'materialsStock', component: MaterialStockComponent, canActivate: [AuthGuard]},
 ];
 
 const productStockRoutes: Routes = [
-    {path: 'productsStock', component: ProductStockComponent},
+    {path: 'productsStock', component: ProductStockComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({
