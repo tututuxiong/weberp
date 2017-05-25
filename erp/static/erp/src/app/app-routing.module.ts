@@ -5,19 +5,28 @@ import {DashboardComponent} from "./dashboard/dashboard.component";
 import {OrdersComponent} from "./orders/orders.component";
 import {ProcurementComponent} from "./procurement/procurement.component";
 import {InventoryComponent} from "./inventory/inventory.component";
+import {LoginComponent} from "./core/admin/login.component";
+
+import { AuthGuard } from "./core/admin/auth-guard.service";
 
 const appRoutes : Routes = [
     {
         path: 'dashboard',
         component: DashboardComponent,
-    }, {
+    },
+    {
+        path: 'login',
+        component: LoginComponent
+    },
+    {
         path: '',
-        redirectTo: '/dashboard',
+        redirectTo: '/login',
         pathMatch: 'full'
     }, {
         path: 'inventory',
-        component: InventoryComponent
-    }
+        component: InventoryComponent,
+        canActivate: [AuthGuard]
+    }, 
 ];
 
 @NgModule({

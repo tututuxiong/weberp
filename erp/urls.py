@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'login$', views.index, name='index'),
     url(r'dashboard$', views.index, name='index'),
     url(r'orders$', views.index, name='index'),
     url(r'materialsStock$', views.index, name='index'),
@@ -30,4 +31,5 @@ urlpatterns = [
     url(r'app/checkInInfo$', views.checkInInfo),
     url(r'app/checkOutInfo$', views.checkOutInfo),
     url(r'app/orders/(?P<order_id>[0-9]+)/checkOutInfo$', views.salerOrderCheckOutInfo),
+    url(r'app/users$', views.users)
 ]

@@ -26,6 +26,14 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     return render(request, 'erp/index.html')
 
+def users(request):
+    user_list = [
+        {'name': "Frank", 'password': '123456'},
+        {'name': "Alan", 'password': '123456'}
+    ]
+
+    return HttpResponse(json.dumps(user_list))
+
 def order(request, order_id):
     if request.method == 'GET':
         return HttpResponse(fetchOrderFromSqlById(int(order_id)).toJson())
