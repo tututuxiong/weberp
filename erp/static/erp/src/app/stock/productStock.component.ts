@@ -3,7 +3,7 @@ import { OnInit, Input } from "@angular/core";
 
 import { StockService } from './stock.service';
 import { TreeService } from './../shared/tree/tree.service';
-import { Stock } from './stock';
+import { Stock,infoData } from './stock';
 import { Leaf, Node } from './../shared/tree/tree';
 import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalUpdateNodeContent,NgbdModalUpdateNodeContent_Output } from './stock.update.comonent'
@@ -13,7 +13,7 @@ import { NgbdModalAddNodeContent } from './stock.addNode.component'
     //selector is not needed here because we use routing.
     //selector: "my-orders",
     moduleId: module.id,
-    templateUrl: "./templates/materialStock.component.html",
+    templateUrl: "static/erp/src/app/stock/templates/materialStock.component.html",
     //styleUrls: ["./styles/orders.component.css"]
 })
 

@@ -10,7 +10,7 @@ import { MaterialOrderService } from './material-order.service';
 @Component({
   selector: 'ngbd-modal-content',
   moduleId: module.id,
-  templateUrl: './templates/ngbd-modal-content.html'
+  templateUrl: 'static/erp/src/app/shared/material/templates/ngbd-modal-content.html'
 })
 
 export class NgbdModalContent implements OnInit {
@@ -87,7 +87,7 @@ export class NgbdModalContent implements OnInit {
 @Component({
   selector: 'new-material-order',
   moduleId: module.id,
-  templateUrl: './templates/material-order-add.html'
+  templateUrl: 'static/erp/src/app/shared/material/templates/material-order-add.html'
 })
 
 export class MaterialOrderAddComponent {

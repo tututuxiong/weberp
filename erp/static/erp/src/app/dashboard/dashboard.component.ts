@@ -15,7 +15,7 @@ import { Component } from "@angular/core";
     // <router-outlet></router-outlet>
     // <router-outlet></router-outlet>
     // `
-    templateUrl: './templates/dashboard.component.html'
+    templateUrl: 'static/erp/src/app/dashboard/templates/dashboard.component.html'
 
 })
 

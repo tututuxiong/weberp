@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Http, Response, Headers, RequestOptions} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Stock, StockUpdateInfo } from './stock'
+import { Stock, StockUpdateInfo, infoData } from './stock'
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
@@ -11,6 +11,10 @@ export class StockService {
     
     private materialsStockUrl = 'app/materialStocks';  // URL to web api
     private productsStockUrl = 'app/productStocks';  // URL to web api  
+    private checkInUrl = 'app/checkInInfo';
+    private checkOutUrl = 'app/checkOutInfo';
+    private saleOrder = 'app/orders';
+    private checkOut = 'checkOutInfo';
 
     private extractMaterialsStockInfoData(res: Response) {
         let body = res.json();
@@ -22,6 +26,11 @@ export class StockService {
         return body || {};
     }
 
+    private extractFileInfoData(res: Response) {
+        let body = res.json();
+        return body || {};
+    }
+    
     private extractStockInfoData(res: Response) {
         let body = res.json();
         return body;
@@ -68,4 +77,22 @@ export class StockService {
             .map(this.extractStockInfoData)
             .catch(this.handleError);
     }
+
+    getCheckInInfo(): Observable<infoData> {
+        return this.http.get(this.checkInUrl)
+            .map(this.extractFileInfoData)
+            .catch(this.handleError);        
+    }
+    getCheckOutInfo(): Observable<infoData> {
+        return this.http.get(this.checkOutUrl)
+            .map(this.extractFileInfoData)
+            .catch(this.handleError);        
+    }
+    
+    getSalerOrderCheckOutInfo(id:number): Observable<infoData> {
+        const url = `${this.saleOrder}/${id}/${this.checkOut}`;
+        return this.http.get(url)
+            .map(this.extractFileInfoData)
+            .catch(this.handleError);        
+    }          
 }

@@ -10,6 +10,7 @@ import { ProductService } from './products/product.service';
 import { MaterialOrder } from '../shared/material/material-order';
 import { MaterialOrderService } from '../shared/material/material-order.service';
 // import { MaterialOrderComponent } from '../shared/material/material-order.component';
+import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 import { DetailMaterialRequriment } from './detail-material/detail-material'
 import { StockService } from './../stock/stock.service';
@@ -18,12 +19,13 @@ import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
 
 import { TreeService } from '../shared/tree/tree.service';
+import { NgbdModalStockRecord } from './../stock/stock.record.component'
 
 @Component({
     //selector is not needed here because we use routing.
     //selector: 'order-detail',
     moduleId: module.id,
-    templateUrl: "./templates/order-detail.component.html"
+    templateUrl: "static/erp/src/app/orders/templates/order-detail.component.html"
 })
 
 export class OrderDetailComponent implements OnInit {
@@ -48,6 +50,7 @@ export class OrderDetailComponent implements OnInit {
     closeResult: string;
 
     serviceReady: Boolean;
+    modalOptions: NgbModalOptions = { size: "lg" }
 
     /* Constructor */
     constructor(
@@ -57,7 +60,8 @@ export class OrderDetailComponent implements OnInit {
         private product_service: ProductService,
         private material_order_service: MaterialOrderService,
         private material_stock_service: StockService,
-        private ts: TreeService
+        private ts: TreeService,
+        private modalService: NgbModal,
     ) {
 
         this.orderDetail = new Order();
@@ -100,16 +104,16 @@ export class OrderDetailComponent implements OnInit {
                 );
             });
 
-            if (!this.ts.readyForServe()){
-                let that = this;
-                this.ts.regCallBack(function() {
-                    console.log("Callback function is called!");
-                    that.serviceReady = true;
-                })
-            }
-            else {
-                this.serviceReady = true;
-            }
+        if (!this.ts.readyForServe()) {
+            let that = this;
+            this.ts.regCallBack(function () {
+                console.log("Callback function is called!");
+                that.serviceReady = true;
+            })
+        }
+        else {
+            this.serviceReady = true;
+        }
     }
 
     private onEditProducts(): void {
@@ -229,5 +233,12 @@ export class OrderDetailComponent implements OnInit {
             }
 
         })
+    }
+
+    onFetchCheckOut() {
+        this.material_stock_service.getSalerOrderCheckOutInfo(this.orderDetail.id).subscribe(info => {
+            const modalRef = this.modalService.open(NgbdModalStockRecord, this.modalOptions);
+            modalRef.componentInstance.info = info;
+        });
     }
 }

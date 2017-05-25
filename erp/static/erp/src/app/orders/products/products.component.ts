@@ -10,7 +10,7 @@ import { Product } from './product';
 @Component({
     selector: 'products',
     moduleId: module.id,
-    templateUrl: './templates/products-default.html'
+    templateUrl: 'static/erp/src/app/orders/products/templates/products-default.html'
 })
 
 

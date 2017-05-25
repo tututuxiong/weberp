@@ -22,3 +22,18 @@
 </div>
 
 <tree-view [root_node]="root_node" [tree_type]="tree_type"></tree-view>
+<!-- FOOTER -->
+<footer>
+    <div class="container-fluid">
+        <div class="row title-l1">
+            <ng-container *ngIf="titleName == '原料信息'">
+                <div class="col-sm-6">
+                    <button class="btn btn-primary btn-outline-primary" (click)="onFetchCheckIn()">原料入库记录</button>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn btn-primary btn-outline-primary" (click)="onFetchCheckOut()">原料出库记录</button>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</footer>

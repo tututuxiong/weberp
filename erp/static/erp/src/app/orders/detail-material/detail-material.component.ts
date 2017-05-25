@@ -13,7 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'detail-material',
     moduleId: module.id,
-    templateUrl: './templates/detail-material.html'
+    templateUrl: 'static/erp/src/app/orders/detail-material/templates/detail-material.html'
 })
 
 export class DetailMaterialComponent implements OnInit {

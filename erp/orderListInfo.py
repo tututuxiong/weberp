@@ -25,7 +25,7 @@ class OrderListInfo:
 
 def fetchOrderListFromSql():
     orderList = OrderListInfo()
-    for order in SalesOrder.objects.all():
+    for order in SalesOrder.objects.order_by('-act_date'):
         tmp_orderInfo = OrderInfo()
         initOrderInfoFromSqlData(tmp_orderInfo,order)
         orderList.addOrderInfo(tmp_orderInfo)

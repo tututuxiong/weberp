@@ -12,7 +12,7 @@ import { Router } from "@angular/router";
 
 @Component({
     moduleId: module.id,
-    templateUrl: './templates/order-detail-add.component.html'
+    templateUrl: 'static/erp/src/app/orders/templates/order-detail-add.component.html'
 })
 
 export class OrderDetailAddComponent {

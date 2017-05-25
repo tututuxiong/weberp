@@ -17,7 +17,7 @@ import { ProductService } from './../orders/products/product.service';
 @Component({
     selector: 'ngbd-modal-content',
     moduleId: module.id,
-    templateUrl: "./templates/stock.updatenode.html",
+    templateUrl: "static/erp/src/app/stock/templates/stock.updatenode.html",
 })
 export class NgbdModalUpdateNodeContent implements OnInit {
     @Input() type: number;

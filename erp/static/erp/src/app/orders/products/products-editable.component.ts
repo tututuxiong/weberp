@@ -25,7 +25,7 @@ const NEWPRODUCT: Product = {
 @Component({
     selector: 'products-editable',
     moduleId: module.id,
-    templateUrl: './templates/products-editable.html'
+    templateUrl: 'static/erp/src/app/orders/products/templates/products-editable.html'
 })
 
 export class ProductsEditableComponent implements OnInit {

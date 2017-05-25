@@ -3,17 +3,19 @@ import { OnInit, Input } from "@angular/core";
 
 import { StockService } from './stock.service';
 import { TreeService } from './../shared/tree/tree.service';
-import { Stock } from './stock';
+import { Stock,infoData } from './stock';
 import { Leaf, Node } from './../shared/tree/tree';
 import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalUpdateNodeContent, NgbdModalUpdateNodeContent_Output } from './stock.update.comonent'
 import { NgbdModalAddNodeContent } from './stock.addNode.component'
+import { NgbdModalStockRecord } from './stock.record.component'
+
 // Component definition
 @Component({
     //selector is not needed here because we use routing.
     //selector: "my-orders",
     moduleId: module.id,
-    templateUrl: "./templates/materialStock.component.html",
+    templateUrl: "static/erp/src/app/stock/templates/materialStock.component.html",
     //styleUrls: ["./styles/orders.component.css"]
 })
 
@@ -90,4 +92,19 @@ export class MaterialStockComponent implements OnInit {
     onFresh() {
         this.getTree();
     }
+
+    onFetchCheckIn(){
+        this.materialStockService.getCheckInInfo().subscribe(info=>
+        {
+            const modalRef = this.modalService.open(NgbdModalStockRecord, this.modalOptions);
+            modalRef.componentInstance.info = info;
+        });
+    }
+    onFetchCheckOut(){
+        this.materialStockService.getCheckOutInfo().subscribe(info=>
+        {
+            const modalRef = this.modalService.open(NgbdModalStockRecord, this.modalOptions);
+            modalRef.componentInstance.info = info;
+        });
+    }    
 }

@@ -20,7 +20,8 @@
 
     <script src="{% static "erp/src/systemjs.config.js" %}"></script>
     <script>
-       System.import("{% static 'erp/src/main.js' %}").catch(function(err){ console.error(err); });
+       //System.import("{% static 'erp/src/main.js' %}").catch(function(err){ console.error(err); });
+       System.import("{% static 'erp/src/bundle.min.js' %}").catch(function(err){ console.error(err); });
     </script>
   </head>
 

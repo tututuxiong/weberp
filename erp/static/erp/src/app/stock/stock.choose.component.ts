@@ -15,7 +15,7 @@ export class  NgbdModalChooseNodeContent_Output{
 @Component({
     selector: 'ngbd-modal-content',
     moduleId: module.id,
-    templateUrl: "./templates/stock.choose.html",
+    templateUrl: "static/erp/src/app/stock/templates/stock.choose.html",
 })
 export class NgbdModalChooseNodeContent implements OnInit {
     @Input() root_node: Node;

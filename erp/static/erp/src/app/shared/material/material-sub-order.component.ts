@@ -8,7 +8,7 @@ import { Leaf, Node } from '../tree/tree';
 @Component({
     selector: 'material-sub-order',
     moduleId: module.id,
-    templateUrl: './templates/material-sub-order-default.html'
+    templateUrl: 'static/erp/src/app/shared/material/templates/material-sub-order-default.html'
 })
 
 export class MaterialSubOrderComponent implements OnInit {

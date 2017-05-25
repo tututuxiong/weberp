@@ -9,13 +9,18 @@ export class Stock {
 }
 
 export class StockUpdateInfo {
-    stockId: number
-    procurementOrderId: number
-    saleOrderItemId: number
+    stockId: number;
+    procurementOrderId: number;
+    saleOrderItemId: number;
     additionalInfo: string;
-    typeId: number
-    productType: number
-    price: number
-    result: number
-    num: number
+    typeId: number;
+    productType: number;
+    price: number;
+    result: number;
+    num: number;
+}
+
+export class infoData{
+    fileName: string;
+    pathInfo: string;
 }
