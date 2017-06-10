@@ -5,10 +5,10 @@ import { OrdersComponent } from "./orders.component";
 import { OrderDetailComponent } from "./order-detail.component";
 import { OrderDetailAddComponent } from "./order-detail-add.component";
 
-import { AuthGuard } from "../core/admin/auth-guard.service";
+import { AuthGuardSuper } from "../core/admin/auth-guard-super.service";
 
 const ordersRoutes: Routes = [
-    {path: 'orders', component: OrdersComponent, canActivate: [AuthGuard]},
+    {path: 'orders', component: OrdersComponent, canActivate: [AuthGuardSuper]},
     {path: 'order/:id', component: OrderDetailComponent},
     {path: 'order_add', component: OrderDetailAddComponent}
 ];

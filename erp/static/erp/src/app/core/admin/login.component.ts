@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
     error: boolean;
 
     constructor(private authService: AuthService, private router: Router) {
-        this.model = new User("请输入用户名", "请输入密码");
+        this.model = new User("请输入用户名", "请输入密码", "none");
         this.error = false;
     }
 
