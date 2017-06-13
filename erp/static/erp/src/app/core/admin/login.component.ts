@@ -40,4 +40,8 @@ export class LoginComponent implements OnInit {
         })
 
     }
+
+    onFocus($event: any) {
+        $event.target.select();
+    }
 }
