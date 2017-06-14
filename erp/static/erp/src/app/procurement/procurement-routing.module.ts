@@ -3,13 +3,13 @@ import { RouterModule, Routes } from "@angular/router";
 
 import { ProcurementComponent } from './procurement.component';
 
-import { AuthGuard } from "../core/admin/auth-guard.service";
+import { AuthGuardSuper } from "../core/admin/auth-guard-super.service";
 
 const procurementRoutes: Routes = [
     {
         path: 'procurement',
         component: ProcurementComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuardSuper],
         children: [
 
         ]

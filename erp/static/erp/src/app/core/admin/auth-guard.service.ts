@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
     }
 
     checkPermission(url: string) : boolean {
-        if (this.authService.isLoggedIn()) { return true; }
+        if (this.authService.isPermitted(1)) { return true; }
 
         this.authService.redirectUrl = url;
 
