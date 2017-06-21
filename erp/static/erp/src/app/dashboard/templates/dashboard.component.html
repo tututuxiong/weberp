@@ -27,6 +27,13 @@
         <a routerLink="/materialsStock">库存管理</a>
     </div>
 </div>
-<router-outlet></router-outlet>
-<router-outlet></router-outlet>
+
+<ng-container *ngIf="promotion">
+    <p style="margin-top: 20px">
+        <ngb-alert [dismissible]="false">
+            <strong>抱歉，您没有权限访问该页面，如需继续，请<a routerLink="/login" style="text-decoration: underline">重新登录</a></strong>
+        </ngb-alert>
+    </p>
+</ng-container>
+
 <router-outlet></router-outlet>

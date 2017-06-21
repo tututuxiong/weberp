@@ -7,6 +7,7 @@ import { LoginComponent } from './admin/login.component';
 
 import { AuthService } from './admin/auth.service';
 import { AuthGuard } from './admin/auth-guard.service';
+import { AuthGuardSuper } from './admin/auth-guard-super.service';
 
 @NgModule({
     imports: [
@@ -25,7 +26,8 @@ import { AuthGuard } from './admin/auth-guard.service';
 
     providers: [
         AuthService,
-        AuthGuard
+        AuthGuard,
+        AuthGuardSuper
     ]
 })
 

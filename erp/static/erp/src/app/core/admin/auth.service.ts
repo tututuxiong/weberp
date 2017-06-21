@@ -42,8 +42,12 @@ export class AuthService {
         return Observable.throw(errMsg);
     }
 
+    isLoggedIn(): boolean {
+        return this.is_logged_in;
+    }
+
     isPermitted(required_permission_level: number): boolean {
-        if (!this.is_logged_in || this.permission_level == undefined)
+        if (this.permission_level == undefined)
             return false;
 
         if (this.permission_level <= required_permission_level) {
@@ -107,7 +111,7 @@ export class AuthService {
         let level: number = undefined;
 
         switch(role) {
-            case "Manageer":
+            case "Manager":
                 level = 0;
                 break;
 
