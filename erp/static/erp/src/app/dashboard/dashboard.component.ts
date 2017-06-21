@@ -1,4 +1,10 @@
 import { Component } from "@angular/core";
+import { OnInit } from '@angular/core';
+
+import { ActivatedRoute, Params } from '@angular/router';
+
+import 'rxjs/add/operator/switchMap';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     // selector: 'erp-dashboard',
@@ -19,6 +25,22 @@ import { Component } from "@angular/core";
 
 })
 
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
     private title: string = 'ERP Dashboard';
+    private promotion: boolean;
+
+    constructor(
+        private route: ActivatedRoute
+    ) {
+        this.promotion = false;
+    }
+
+    ngOnInit() {
+        this.route.params.subscribe((params: Params) => {
+            if (params['auth_res'] == 'false') {
+                this.promotion = true;
+                console.log("User is not permitted to visit target.");
+            }
+        });
+    }
 }

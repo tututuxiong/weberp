@@ -5,12 +5,12 @@ from django.utils import timezone
 
 
 class LocalUser(models.Model):
-    MANGER = 'Manger'
+    MANGER = 'Manager'
     SALER = 'Saler'
     STOCKMAN = 'Stockman'
 
     USER_TYPE_CHOICES = (
-        (MANGER,'Manger'),
+        (MANGER,'Manager'),
         (SALER,'Saler'),
         (STOCKMAN,'Stockman')
     )

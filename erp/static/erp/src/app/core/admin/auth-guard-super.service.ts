@@ -10,15 +10,31 @@ export class AuthGuardSuper implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         let url = state.url;
 
-        return this.checkLogin(url);
+        console.log("auth-guard-super is called.");
+
+        return this.checkPermission(url);
     }
 
-    checkLogin(url: string) : boolean {
-        if (this.authService.isPermitted(0)) { return true; }
+    checkPermission(url: string) : boolean {
 
-        this.authService.redirectUrl = url;
+        if (this.authService.isLoggedIn()) {
+            console.log("user is logged in.")
+            if (this.authService.isPermitted(0)) {
+                console.log("user is permitted.");
+                return true; 
+            } else {
+                console.log("user is not permitted.");
+                this.router.navigate(['/dashboard', {auth_res: false}]);
+                return false;
+            }
+        }
 
-        this.router.navigate(['/login']);
-        return false;
+        else {
+            this.authService.redirectUrl = url;
+
+            this.router.navigate(['/login']);
+            return false;
+        }
+
     }
 }
