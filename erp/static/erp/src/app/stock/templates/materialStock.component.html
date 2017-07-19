@@ -1,39 +1,50 @@
-<div class="row title-l1">
+<div class="row">
+  <nav class="navbar navbar-light navbar-toggleable-md col-sm-9">
     <!--<h3>{{title}}</h3>-->
-    <div class="col-sm-2">
-        <h3>{{titleName}}</h3>
-    </div>
-    <div class="col-sm-2">
-        <button class="btn btn-primary btn-outline-primary" (click)="addNewNode()">{{buttonAddName}}</button>
-    </div>
-    <div class="col-sm-2">
-        <button class="btn btn-primary btn-outline-primary" (click)="updateNode(0)">{{buttonInName}}</button>
-    </div>
-    <div class="col-sm-2">
-        <button class="btn btn-primary btn-outline-primary" (click)="updateNode(1)">{{buttonOutName}}</button>
-    </div>
-    <div class="col-sm-2">
-        <button class="btn btn-primary btn-outline-primary" (click)="onFresh()">刷新</button>
+
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#menu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <h4 class="navbar-brand">{{titleName}}</h4>
+
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" (click)="addNewNode()">{{buttonAddName}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="updateNode(0)">{{buttonInName}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="updateNode(1)">{{buttonOutName}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="onFresh()">刷新</a>
+        </li>
+      </ul>
     </div>
 
-    <div class="col-sm-2">
-        <a routerLink='/dashboard' class="btn btn-primary" role="button">返回</a>
-    </div>
+  </nav>
+
+  <div class="col-sm-3" style="padding: 8px 16px 8px 16px">
+    <button routerLink='/dashboard' class="btn btn-primary">返回</button>
+  </div>
 </div>
 
 <tree-view [root_node]="root_node" [tree_type]="tree_type"></tree-view>
 <!-- FOOTER -->
 <footer>
-    <div class="container-fluid">
-        <div class="row title-l1">
-            <ng-container *ngIf="titleName == '原料信息'">
-                <div class="col-sm-6">
-                    <button class="btn btn-primary btn-outline-primary" (click)="onFetchCheckIn()">原料入库记录</button>
-                </div>
-                <div class="col-sm-6">
-                    <button class="btn btn-primary btn-outline-primary" (click)="onFetchCheckOut()">原料出库记录</button>
-                </div>
-            </ng-container>
+  <div class="container-fluid">
+    <div class="row title-l1">
+      <ng-container *ngIf="titleName == '原料信息'">
+        <div class="col-sm-6">
+          <button class="btn btn-primary btn-outline-primary" (click)="onFetchCheckIn()">原料入库记录</button>
         </div>
+        <div class="col-sm-6">
+          <button class="btn btn-primary btn-outline-primary" (click)="onFetchCheckOut()">原料出库记录</button>
+        </div>
+      </ng-container>
     </div>
+  </div>
 </footer>

@@ -2,23 +2,27 @@
   <ngb-tab title="总计需求">
     <template ngbTabContent>
       <table class="table">
-        <tr>
-          <th scope="col"></th>
-          <!--<th>名称/单位</th>-->
-          <th>分类</th>
-          <th>名称</th>
-          <th>总计需求</th>
-          <th>在库数量</th>
-          <th>未入库(采购中)</th>
-        </tr>
-        <tr *ngFor="let material of materialItemList; let i = index">
-          <th>{{i+1}}</th>
-          <td>{{getParentPathInfo(material)}}</td>
-          <td>{{material.name}}</td>
-          <td>{{material.requrimentNum}}</td>
-          <td>{{material.instockNum}}</td>
-          <td>{{material.shoppingNum}}</td>
-        </tr>
+        <thead class="thead-inverse">
+          <tr>
+            <th scope="col"></th>
+            <!--<th>名称/单位</th>-->
+            <th>分类</th>
+            <th>名称</th>
+            <th>总计需求</th>
+            <th>在库数量</th>
+            <th>未入库(采购中)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let material of materialItemList; let i = index">
+            <th>{{i+1}}</th>
+            <td>{{getParentPathInfo(material)}}</td>
+            <td>{{material.name}}</td>
+            <td>{{material.requrimentNum}}</td>
+            <td>{{material.instockNum}}</td>
+            <td>{{material.shoppingNum}}</td>
+          </tr>
+        </tbody>
       </table>
     </template>
   </ngb-tab>
@@ -37,49 +41,53 @@
       </div>
 
       <table class="table">
-        <tr>
-          <ng-container *ngIf="!materialItemtEditable">
-            <th scope="col"></th>
-            <th>分类</th>
-            <th>名称</th>
-            <th>单位</th>
-            <th>数量</th>
-          </ng-container>
-
-          <ng-container *ngIf="materialItemtEditable">
-            <th scope="col"></th>
-            <th></th>
-            <th>分类</th>
-            <th>名称</th>
-            <th>单位</th>
-            <th>数量</th>
-            <th></th>
-          </ng-container>
-        </tr>
-        <ng-container *ngIf="!materialItemtEditable">
-          <tr *ngFor="let material of product.materialRequrimentList; let j = index">
-            <th>{{j+1}}</th>
-            <td>{{getParentPathInfo(material)}}</td>
-            <td>{{material.name}}</td>
-            <td>{{material.unit}}</td>
-            <td>{{material.count}}</td>
-          </tr>
-        </ng-container>
-        <ng-container *ngIf="materialItemtEditable">
-          <tr *ngFor="let material of product.materialRequrimentList; let j = index">
-            <th><button type="button" class="btn btn-danger btn-sm" (click)="onDelete(i,j)"><i class="fa fa-minus"></i></button></th>
-            <th>{{j+1}}</th>
-            <td>{{getParentPathInfo(material)}}</td>
-            <td>{{material.name}}</td>
-            <td>{{material.unit}}</td>
-            <td><input class="form-control user-input" [(ngModel)]="material.count"></td>
-          </tr>
+        <thead class="thead-inverse">
           <tr>
-            <th></th>
-            <th>{{product.materialRequrimentList.length + 1}}</th>
-            <td><button type="button" class="btn btn-success btn-sm" (click)="onAdd(i)"><i class="fa fa-plus"></i></button></td>
+            <ng-container *ngIf="!materialItemtEditable">
+              <th scope="col"></th>
+              <th>分类</th>
+              <th>名称</th>
+              <th>单位</th>
+              <th>数量</th>
+            </ng-container>
+
+            <ng-container *ngIf="materialItemtEditable">
+              <th scope="col"></th>
+              <th></th>
+              <th>分类</th>
+              <th>名称</th>
+              <th>单位</th>
+              <th>数量</th>
+              <th></th>
+            </ng-container>
           </tr>
-        </ng-container>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="!materialItemtEditable">
+            <tr *ngFor="let material of product.materialRequrimentList; let j = index">
+              <th>{{j+1}}</th>
+              <td>{{getParentPathInfo(material)}}</td>
+              <td>{{material.name}}</td>
+              <td>{{material.unit}}</td>
+              <td>{{material.count}}</td>
+            </tr>
+          </ng-container>
+          <ng-container *ngIf="materialItemtEditable">
+            <tr *ngFor="let material of product.materialRequrimentList; let j = index">
+              <th><button type="button" class="btn btn-danger btn-sm" (click)="onDelete(i,j)"><i class="fa fa-minus"></i></button></th>
+              <th>{{j+1}}</th>
+              <td>{{getParentPathInfo(material)}}</td>
+              <td>{{material.name}}</td>
+              <td>{{material.unit}}</td>
+              <td><input class="form-control user-input" [(ngModel)]="material.count"></td>
+            </tr>
+            <tr>
+              <th></th>
+              <th>{{product.materialRequrimentList.length + 1}}</th>
+              <td><button type="button" class="btn btn-success btn-sm" (click)="onAdd(i)"><i class="fa fa-plus"></i></button></td>
+            </tr>
+          </ng-container>
+        </tbody>
       </table>
     </template>
   </ngb-tab>

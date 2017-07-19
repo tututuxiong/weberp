@@ -4,18 +4,18 @@
     <h3>订单信息</h3>
   </div>
 
-  <div class="col-sm-3">
-    <a class="btn btn-primary" role="button" (click)="onAdd()">新增</a>
-  </div>
+<div class="col-sm-3">
+  <button class="btn btn-primary btn-small" role="button" (click)="onAdd()">新增</button>
+</div>
 
   <div class="col-sm-3">
-    <a routerLink='/dashboard' class="btn btn-primary" role="button">返回</a>
+    <a routerLink='/dashboard' class="btn btn-primary btn-small" role="button">返回</a>
   </div>
 </div>
 
 
 <table class="table table-hover">
-  <thead>
+  <thead class="thead-inverse">
     <tr>
       <th>编号</th>
       <th>名称</th>
