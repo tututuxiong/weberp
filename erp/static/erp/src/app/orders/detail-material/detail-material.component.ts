@@ -100,7 +100,7 @@ export class DetailMaterialComponent implements OnInit {
 
     private handleResult(result: NgbdModalChooseNodeContent_Output,index: number): void {
         for (var i = 0; i < this.productList[index].materialRequrimentList.length; i++) {
-            if (this.productList[index].materialRequrimentList[i].name == result.choosed_leaf.name) {
+            if (this.productList[index].materialRequrimentList[i].id == result.choosed_leaf.id) {
                 return;
             }
         }
