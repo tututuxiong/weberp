@@ -13,6 +13,7 @@ export class StockService {
     private productsStockUrl = 'app/productStocks';  // URL to web api  
     private checkInUrl = 'app/checkInInfo';
     private checkOutUrl = 'app/checkOutInfo';
+    private checkMaterialStockUrl = 'app/checkMaterialStock';
     private saleOrder = 'app/orders';
     private checkOut = 'checkOutInfo';
 
@@ -89,6 +90,11 @@ export class StockService {
             .catch(this.handleError);        
     }
     
+    getMaterialStockExeclInfo(): Observable<infoData> {
+        return this.http.get(this.checkMaterialStockUrl)
+            .map(this.extractFileInfoData)
+            .catch(this.handleError);        
+    }    
     getSalerOrderCheckOutInfo(id:number): Observable<infoData> {
         const url = `${this.saleOrder}/${id}/${this.checkOut}`;
         return this.http.get(url)

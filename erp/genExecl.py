@@ -1,12 +1,14 @@
 import pandas as pd
 import numpy as np
 from .models import *
+from .stockInfo import *
 import datetime as dt
 import json,os,shutil
 
 title = ["时间",'订单','产品', '物料', '批次', '数量', '金额']
 titleWithoutMoney = ["时间",'订单','产品', '物料', '批次', '数量']
 titleCheckIn = ["时间",'采购订单', '物料', '批次', '数量','单价','总价','供应商']
+stockTitleInfo = ["物料分类/名称",'数量','单位']
 targetDir = 'erp/static/erp/download/'
 path = 'static/erp/download/'
 
@@ -89,6 +91,40 @@ def genDatafromSqlbyOrderId(orderId):
             allRecords.append(oneRecord)
 
     return allRecords
+
+
+def loopTree(rootNode,pathInfo,allRecordsInfo):
+    oneRecord = []
+    for leaf in rootNode.leafs:
+        oneRecord.append(pathInfo + rootNode.name +leaf.name)
+        oneRecord.append(leaf.instockNum)
+        oneRecord.append(leaf.unit)
+        allRecordsInfo.append(oneRecord)
+        oneRecord = []
+
+    for node in rootNode.subNodes:
+        detla = ''
+        if pathInfo != '':
+            detla = '-'
+
+        loopTree(node, pathInfo + detla + rootNode.name, allRecordsInfo)
+
+def genStockExecl(name):
+    today = dt.date.today()
+    filename = '物料库存-%s.xlsx' % today.strftime("%Y-%m-%d")
+    allRecords = []
+    allMaterialInfo = getTree(name)
+    loopTree(allMaterialInfo, '', allRecords)
+    print(allRecords)
+    df = pd.DataFrame(allRecords,columns=stockTitleInfo)
+    writer = pd.ExcelWriter(filename, engine='xlsxwriter')
+    df.to_excel(writer, 'Sheet1')
+    writer.save()
+    shutil.move(filename, targetDir+filename)
+    infos = checkInOutInfo()
+    infos.fileName = filename
+    infos.pathInfo = path
+    return infos.toJson()    
 
 def gencheckInExecl():
     records = genCheckInInfoFromSql()

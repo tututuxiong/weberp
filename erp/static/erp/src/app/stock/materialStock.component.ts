@@ -106,5 +106,12 @@ export class MaterialStockComponent implements OnInit {
             const modalRef = this.modalService.open(NgbdModalStockRecord, this.modalOptions);
             modalRef.componentInstance.info = info;
         });
-    }    
+    }
+    onFetchMaterialStock(){
+        this.materialStockService.getMaterialStockExeclInfo().subscribe(info=>
+        {
+            const modalRef = this.modalService.open(NgbdModalStockRecord, this.modalOptions);
+            modalRef.componentInstance.info = info;
+        });
+    }
 }

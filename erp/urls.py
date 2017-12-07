@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'app/leaf/(?P<leaf_id>[0-9]+)$', views.LeafInfo),
     url(r'app/checkInInfo$', views.checkInInfo),
     url(r'app/checkOutInfo$', views.checkOutInfo),
+    url(r'app/checkMaterialStock/$', views.genMaterialStockExecl),
     url(r'app/orders/(?P<order_id>[0-9]+)/checkOutInfo$', views.salerOrderCheckOutInfo),
     url(r'app/users$', views.users)
 ]

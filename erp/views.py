@@ -173,6 +173,9 @@ def checkOutInfo(request):
 def salerOrderCheckOutInfo(request,order_id):
     return HttpResponse(genExeclByOrderId(int(order_id)))
 
+def genMaterialStockExecl(request):
+    return HttpResponse(genStockExecl('原材料'))
+
 # def readFile(fn, buf_size=262144):#大文件下载，设定缓存大小  
 #     f = open(fn, "rb")  
 #     while True:#循环读取  
