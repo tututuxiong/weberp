@@ -22,7 +22,7 @@
                 <h5>请选择具体产品</h5>
             </div>
             <select class="form-control" [ngModel]="productList" (ngModelChange)="onChangeSubProductOrder($event)">
-        <option [ngValue]="i" *ngFor="let i of productList">{{i.name}}</option>
+        <option [ngValue]="i" *ngFor="let i of productList">{{i.pathInfo}}</option>
     </select>
         </ng-container>
         <ng-container *ngIf="productList">

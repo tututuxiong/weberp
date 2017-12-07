@@ -32,6 +32,7 @@ export class NgbdModalUpdateNodeContent implements OnInit {
     materialOrderList: MaterialOrder[];
     orderList: Order[];
     productList: Product[];
+    // productNameList: string[];
     errorMessage: string;
     materialUpdateInfo: StockUpdateInfo;
     orderId: number;
@@ -107,9 +108,22 @@ export class NgbdModalUpdateNodeContent implements OnInit {
             this.product_service.getProducts(this.orderId)
                 .subscribe(products => {
                     this.productList = this.copyProductList(products);
+                    let i =  0
+                    for (let product of this.productList){
+                        this.productList[i].pathInfo=this.getProductName(product)
+                        i++
+                    }
                 },
                 error => this.errorMessage = <any>error);
         }
+    }
+
+    getProductName(product: Product){
+        let productRootNode = this.treeService.getProductRootTreeInMemory()
+        let leaf = new Leaf()
+        leaf.id = product.stockId
+        let totalName = this.treeService.getParentPathInfo(productRootNode,leaf)
+        return totalName + '-' + product.name
     }
 
     onChangeSubProductOrder(product: Product) {

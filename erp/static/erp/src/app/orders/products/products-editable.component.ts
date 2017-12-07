@@ -17,6 +17,7 @@ const NEWPRODUCT: Product = {
     unit: 'N/A',
     price: 0,
     comment: '',
+    pathInfo: '',
     materialRequrimentList: [],
 };
 
