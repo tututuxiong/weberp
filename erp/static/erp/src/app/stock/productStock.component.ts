@@ -8,6 +8,7 @@ import { Leaf, Node } from './../shared/tree/tree';
 import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalUpdateNodeContent,NgbdModalUpdateNodeContent_Output } from './stock.update.comonent'
 import { NgbdModalAddNodeContent } from './stock.addNode.component'
+import { NgbdModalStockRecord } from './stock.record.component'
 // Component definition
 @Component({
     //selector is not needed here because we use routing.
@@ -32,7 +33,10 @@ export class ProductStockComponent implements OnInit {
         this.titleName = "产品信息";
         this.buttonAddName = "新增产品/分类";
         this.buttonInName = "产品入库"; 
-        this.buttonOutName = "产品发货";        
+        this.buttonOutName = "产品发货";
+        this.checkInName = "产品发货记录";
+        this.checkOutName = "产品发货记录";
+        this.stockName = "产品库存";
     }
     materialStockList: Stock[];
     root_node: Node;
@@ -43,6 +47,9 @@ export class ProductStockComponent implements OnInit {
     buttonAddName: string;
     buttonInName: string;
     buttonOutName: string;
+    checkInName: string;
+    checkOutName: string;
+    stockName: string;
 
     modalOptions: NgbModalOptions = { size: "lg" }
 
@@ -88,4 +95,25 @@ export class ProductStockComponent implements OnInit {
     onFresh(){
         this.getTree();
     }
+    onFetchCheckIn(){
+        this.materialStockService.getProductCheckInInfo().subscribe(info=>
+        {
+            const modalRef = this.modalService.open(NgbdModalStockRecord, this.modalOptions);
+            modalRef.componentInstance.info = info;
+        });
+    }
+    onFetchCheckOut(){
+        this.materialStockService.getProductCheckOutInfo().subscribe(info=>
+        {
+            const modalRef = this.modalService.open(NgbdModalStockRecord, this.modalOptions);
+            modalRef.componentInstance.info = info;
+        });
+    }
+    onFetchMaterialStock(){
+        this.materialStockService.getProductStockExeclInfo().subscribe(info=>
+        {
+            const modalRef = this.modalService.open(NgbdModalStockRecord, this.modalOptions);
+            modalRef.componentInstance.info = info;
+        });
+    }    
 }

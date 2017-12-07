@@ -37,17 +37,17 @@
 <footer>
     <div class="container-fluid">
         <div class="row title-l1">
-            <ng-container *ngIf="titleName == '原料信息'">
-                <div class="col-sm-4">
-                    <button class="btn btn-primary btn-outline-primary" (click)="onFetchCheckIn()">原料入库记录</button>
-                </div>
-                <div class="col-sm-4">
-                    <button class="btn btn-primary btn-outline-primary" (click)="onFetchCheckOut()">原料出库记录</button>
-                </div>
-                <div class="col-sm-4">
-                    <button class="btn btn-primary btn-outline-primary" (click)="onFetchMaterialStock()">原料库存</button>
-                </div>
-            </ng-container>
+
+            <div class="col-sm-4">
+                <button class="btn btn-primary btn-outline-primary" (click)="onFetchCheckIn()">{{checkInName}}</button>
+            </div>
+            <div class="col-sm-4">
+                <button class="btn btn-primary btn-outline-primary" (click)="onFetchCheckOut()">{{checkOutName}}</button>
+            </div>
+            <div class="col-sm-4">
+                <button class="btn btn-primary btn-outline-primary" (click)="onFetchMaterialStock()">{{stockName}}</button>
+            </div>
+
         </div>
     </div>
 </footer>

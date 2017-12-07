@@ -31,6 +31,9 @@ urlpatterns = [
     url(r'app/checkInInfo$', views.checkInInfo),
     url(r'app/checkOutInfo$', views.checkOutInfo),
     url(r'app/checkMaterialStock/$', views.genMaterialStockExecl),
+    url(r'app/productCheckInInfo$', views.checkInProductInfo),
+    url(r'app/productCheckOutInfo$', views.checkOutProductInfo),
+    url(r'app/checkProductStock/$', views.genProductStockExecl),    
     url(r'app/orders/(?P<order_id>[0-9]+)/checkOutInfo$', views.salerOrderCheckOutInfo),
     url(r'app/users$', views.users)
 ]

@@ -165,10 +165,16 @@ def LeafInfo(request, leaf_id):
         return HttpResponse(addNewMaterialLeaf(tmp_materialStock).toJson())
 
 def checkInInfo(request):
-    return HttpResponse(gencheckInExecl())
+    return HttpResponse(gencheckInExecl('原材料'))
+
+def checkInProductInfo(request):
+    return HttpResponse(gencheckInExecl('成品'))
 
 def checkOutInfo(request):
-    return HttpResponse(gencheckoutExecl())
+    return HttpResponse(gencheckoutExecl('原材料'))
+
+def checkOutProductInfo(request):
+    return HttpResponse(gencheckoutExecl('成品'))
 
 def salerOrderCheckOutInfo(request,order_id):
     return HttpResponse(genExeclByOrderId(int(order_id)))
@@ -176,12 +182,5 @@ def salerOrderCheckOutInfo(request,order_id):
 def genMaterialStockExecl(request):
     return HttpResponse(genStockExecl('原材料'))
 
-# def readFile(fn, buf_size=262144):#大文件下载，设定缓存大小  
-#     f = open(fn, "rb")  
-#     while True:#循环读取  
-#         c = f.read(buf_size)  
-#         if c:
-#             yield c  
-#         else:  
-#             break  
-#     f.close()  
+def genProductStockExecl(request):
+    return HttpResponse(genStockExecl('成品'))

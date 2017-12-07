@@ -110,7 +110,6 @@ def initMaterialLeafFromSqlData(materialStock, subNode_sql):
         if RawMatOrderItem_sql.status == "BUYING":
             materialStock.shoppingNum += RawMatOrderItem_sql.num
 
-
 def genarateTree(root_sql):
     root = Node(root_sql.name)
     root.id = root_sql.id

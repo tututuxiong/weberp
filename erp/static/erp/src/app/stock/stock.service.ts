@@ -14,6 +14,9 @@ export class StockService {
     private checkInUrl = 'app/checkInInfo';
     private checkOutUrl = 'app/checkOutInfo';
     private checkMaterialStockUrl = 'app/checkMaterialStock';
+    private checkInProductUrl = 'app/productCheckInInfo';
+    private checkOutProducttUrl = 'app/productCheckOutInfo';
+    private checkProductStockUrl = 'app/checkProductStock';    
     private saleOrder = 'app/orders';
     private checkOut = 'checkOutInfo';
 
@@ -94,7 +97,23 @@ export class StockService {
         return this.http.get(this.checkMaterialStockUrl)
             .map(this.extractFileInfoData)
             .catch(this.handleError);        
-    }    
+    }
+    getProductCheckInInfo(): Observable<infoData> {
+        return this.http.get(this.checkInProductUrl)
+            .map(this.extractFileInfoData)
+            .catch(this.handleError);        
+    }
+    getProductCheckOutInfo(): Observable<infoData> {
+        return this.http.get(this.checkOutProducttUrl)
+            .map(this.extractFileInfoData)
+            .catch(this.handleError);        
+    }
+    
+    getProductStockExeclInfo(): Observable<infoData> {
+        return this.http.get(this.checkProductStockUrl)
+            .map(this.extractFileInfoData)
+            .catch(this.handleError);        
+    }      
     getSalerOrderCheckOutInfo(id:number): Observable<infoData> {
         const url = `${this.saleOrder}/${id}/${this.checkOut}`;
         return this.http.get(url)

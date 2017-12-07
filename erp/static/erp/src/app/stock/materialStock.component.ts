@@ -35,6 +35,9 @@ export class MaterialStockComponent implements OnInit {
     buttonAddName: string;
     buttonInName: string;
     buttonOutName: string;
+    checkInName: string;
+    checkOutName: string;
+    stockName: string;
 
     modalOptions: NgbModalOptions = { size: "lg" }
 
@@ -47,6 +50,9 @@ export class MaterialStockComponent implements OnInit {
         this.buttonAddName = "新增原料/分类";
         this.buttonInName = "入库";
         this.buttonOutName = "领料";
+        this.checkInName = "原料发货记录";
+        this.checkOutName = "原料发货记录";
+        this.stockName = "原料库存";        
     }
     getMaterialStocks(): void {
         this.materialStockService.getMaterialStocks()
