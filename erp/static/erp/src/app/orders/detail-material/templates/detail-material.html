@@ -1,6 +1,6 @@
 <ngb-tabset>
-  <ngb-tab title="总计需求">
-    <template ngbTabContent>
+    <ngb-tab title="总计需求">
+        <template ngbTabContent>
       <table class="table">
         <thead class="thead-inverse">
           <tr>
@@ -25,10 +25,10 @@
         </tbody>
       </table>
     </template>
-  </ngb-tab>
+    </ngb-tab>
 
-  <ngb-tab *ngFor="let product of productList; let i = index" title={{product.name}}>
-    <template ngbTabContent>
+    <ngb-tab *ngFor="let product of productList; let i = index" title={{i+1}}--{{product.name}}>
+        <template ngbTabContent>
       <div class="row">
         <div class="col-sm-8"></div>
         <div class="col-sm-4" *ngIf="materialItemtEditable">
@@ -90,5 +90,5 @@
         </tbody>
       </table>
     </template>
-  </ngb-tab>
+    </ngb-tab>
 </ngb-tabset>

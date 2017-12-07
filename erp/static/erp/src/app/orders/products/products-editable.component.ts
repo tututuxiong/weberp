@@ -75,6 +75,7 @@ export class ProductsEditableComponent implements OnInit {
         newProduct.unit = result.choosed_leaf.unit;
         newProduct.name = result.choosed_leaf.name;
         newProduct.count = result.num;
+        newProduct.materialRequrimentList = [];
 
         this.productList.push(newProduct);
         this.addedProductList.push(newProduct);
