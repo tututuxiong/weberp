@@ -59,11 +59,16 @@ class SalesItem(models.Model):
     est_num = models.IntegerField()
     est_total_price = models.DecimalField(max_digits=12, decimal_places=2)
 
+    def __str__(self):
+        return self.salesOrder.name + ' - ' + self.product.name
+
 class RawMatRequirement(models.Model):
     salesItem = models.ForeignKey(SalesItem, on_delete=models.CASCADE)
     rawMaterial = models.ForeignKey(RawMat, on_delete=models.CASCADE)
     num = models.IntegerField()
 
+    def __str__(self):
+        return self.salesItem.name + ' - ' + self.rawMaterial.name
 
 class RawMatOrder(models.Model):
     salesOrder = models.ForeignKey(SalesOrder,null=True)
@@ -89,6 +94,10 @@ class RawMatOrderItem(models.Model):
     est_total_price = models.DecimalField(max_digits=12, decimal_places=2)
     status = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.rawMatOrder.name + ' - ' + self.rawMat.name 
+
+
 class RawMatRepoRecord(models.Model):
     reg_date = models.DateTimeField('when this was registered in this system',default=timezone.now)
     act_date = models.DateTimeField('when this was actually happened',default=timezone.now)
@@ -97,15 +106,28 @@ class RawMatRepoRecord(models.Model):
     num = models.IntegerField()
 
 
+
 class CheckInRawMatRepoRecord(RawMatRepoRecord):
     act_total_price = models.DecimalField(max_digits=12, decimal_places=2)
     rawMatOrderItem = models.ForeignKey(RawMatOrder, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.rawMaterial.name + ' - ' + str(self.act_date)
 
 class CheckOutRawMatRepoRecord(RawMatRepoRecord):
     salesItem = models.ForeignKey(SalesItem, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.rawMaterial.name + ' - ' + str(self.act_date)
+
 class CheckInProductRepoRecord(RawMatRepoRecord):
     salesItem = models.ForeignKey(SalesItem, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.rawMaterial.name + ' - ' + str(self.act_date)
 
 class CheckOutProductRepoRecord(RawMatRepoRecord):
     salesItem = models.ForeignKey(SalesItem, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.rawMaterial.name + ' - ' + str(self.act_date)

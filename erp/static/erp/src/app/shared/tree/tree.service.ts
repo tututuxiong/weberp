@@ -98,7 +98,10 @@ export class TreeService {
     }
     getMaterialRootTree(): Observable<Node> {
         return this.http.get(this.materialRootTreeUrl)
-            .map(res => { return res.json() })
+            .map(res => { 
+                this.materialTree = res.json()
+                return res.json() 
+            })
             .catch(this.handleError);
     }
 
